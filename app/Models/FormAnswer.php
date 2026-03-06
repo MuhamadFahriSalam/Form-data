@@ -22,4 +22,8 @@ class FormAnswer extends Model
     {
         return $this->belongsTo(FormQuestion::class, 'form_question_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

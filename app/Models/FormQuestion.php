@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+// use App\Models\Form;
+use App\Models\FormAnswer;
 
 class FormQuestion extends Model
 {
@@ -31,5 +33,9 @@ class FormQuestion extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(FormAnswer::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
