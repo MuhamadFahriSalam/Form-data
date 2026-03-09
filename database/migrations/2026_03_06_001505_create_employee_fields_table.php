@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('employee_fields', function (Blueprint $table) {
             $table->id();
-
             $table->string('key')->unique(); // contoh: bpjs_kesehatan
             $table->string('label');         // contoh: Nomor BPJS Kesehatan
             $table->string('type');          // text, textarea, number, date, select, radio, checkbox, file
