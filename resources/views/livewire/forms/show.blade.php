@@ -47,19 +47,20 @@
                             placeholder="Tulis jawaban di sini..."
                         ></textarea>
 
-                    @elseif ($question->type === 'radio')
-                        <div class="space-y-2">
-                            @foreach ($question->options ?? [] as $option)
-                                <label class="flex items-center gap-2">
-                                    <input
-                                        type="radio"
-                                        wire:model.defer="{{ $field }}"
-                                        value="{{ $option }}"
-                                    >
-                                    <span>{{ $option }}</span>
-                                </label>
-                            @endforeach
-                        </div>
+@elseif ($question->type === 'radio')
+    <div class="space-y-2">
+        @foreach ($question->options ?? [] as $option)
+            <label class="flex items-center gap-2">
+                <input
+                    type="radio"
+                    name="question_{{ $question->id }}"
+                    wire:model.defer="{{ $field }}"
+                    value="{{ $option }}"
+                >
+                <span>{{ $option }}</span>
+            </label>
+        @endforeach
+    </div>
 
                     @elseif ($question->type === 'checkbox')
                         <div class="space-y-2">
