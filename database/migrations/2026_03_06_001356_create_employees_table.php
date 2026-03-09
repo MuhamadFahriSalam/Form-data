@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('npk')->unique();
+            $table->string('npk', 6)->unique();
             $table->string('nama');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->unique();
             $table->string('no_hp')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('departemen')->nullable();
-            $table->date('tanggal_masuk')->nullable();
+            $table->enum('status_emp', ['Aktif', 'Non-Aktif'])->default('Aktif');
             $table->enum('status', ['Tetap', 'Kontrak', 'Magang'])->default('Kontrak');
-            $table->text('alamat')->nullable();
             $table->timestamps();
         });
     }

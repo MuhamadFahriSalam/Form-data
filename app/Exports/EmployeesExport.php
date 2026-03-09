@@ -17,7 +17,7 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'NIK',
+            'npk',
             'Nama',
             'Email',
             'No HP',
@@ -25,14 +25,13 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping
             'Departemen',
             'Tanggal Masuk',
             'Status',
-            'Alamat',
         ];
     }
 
     public function map($employee): array
     {
         return [
-            $employee->nik,
+            $employee->npk,
             $employee->nama,
             $employee->email,
             $employee->no_hp,
@@ -40,7 +39,6 @@ class EmployeesExport implements FromCollection, WithHeadings, WithMapping
             $employee->departemen,
             $employee->tanggal_masuk,
             $employee->status,
-            $employee->alamat,
         ];
     }
 }

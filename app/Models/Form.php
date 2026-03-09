@@ -24,4 +24,8 @@ class Form extends Model
     {
         return $this->hasMany(FormSubmission::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
