@@ -11,6 +11,8 @@ class Create extends Component
 {
     public string $title = '';
     public string $description = '';
+    public ?string $start_at = null;
+    public ?string $end_at = null;
 
     public array $questions = [];
 
@@ -51,6 +53,9 @@ class Create extends Component
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'start_at' => ['nullable', 'date'],
+            'end_at' => ['nullable', 'date', 'after:start_at'],
+
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
             'questions.*.type' => ['required', Rule::in(['text', 'textarea', 'radio', 'checkbox', 'select', 'date'])],
@@ -70,6 +75,8 @@ class Create extends Component
                 'title' => $this->title,
                 'description' => $this->description,
                 'is_active' => true,
+                'opens_at' => $this->start_at ?: null,
+                'closes_at' => $this->end_at ?: null,
             ]);
 
             foreach ($this->questions as $index => $q) {
@@ -91,6 +98,8 @@ class Create extends Component
 
         $this->title = '';
         $this->description = '';
+        $this->start_at = null;
+        $this->end_at = null;
         $this->questions = [];
         $this->addQuestion();
     }
