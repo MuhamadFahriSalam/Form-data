@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Form extends Model
 {
-    protected $fillable = [
-        'title',
-        'description',
-        'is_active',
-    ];
+    protected $guarded = ['id'];
+
 
     // Relasi untuk pertanyaan-pertanyaan dalam form
     public function questions(): HasMany
@@ -28,4 +25,6 @@ class Form extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }
+

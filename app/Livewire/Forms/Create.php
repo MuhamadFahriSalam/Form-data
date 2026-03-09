@@ -66,6 +66,7 @@ class Create extends Component
 
         DB::transaction(function () {
             $form = Form::create([
+                'user_id' => auth()->id(),
                 'title' => $this->title,
                 'description' => $this->description,
                 'is_active' => true,
