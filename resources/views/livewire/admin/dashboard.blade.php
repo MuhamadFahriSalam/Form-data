@@ -152,7 +152,7 @@
                     Formulir terbaru
                 </h2>
                 <p class="mt-2 text-sm text-slate-500">
-                    Semua form yang baru dibuat akan tampil di sini
+                    Form yang baru dibuat
                 </p>
             </div>
 
