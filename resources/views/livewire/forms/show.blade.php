@@ -5,6 +5,7 @@
         </div>
     @endif
 
+     <!-- Form Card -->
     <div class="max-w-3xl mx-auto p-6 space-y-6">
         @if (session('success'))
             <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
@@ -24,6 +25,7 @@
             </div>
         </div>
 
+         <!-- Questions Form -->
         <form wire:submit.prevent="submit" class="space-y-6">
             @foreach ($form->questions as $question)
                 @php
