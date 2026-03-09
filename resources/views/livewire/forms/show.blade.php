@@ -1,5 +1,3 @@
-
-
 <div class="max-w-3xl mx-auto p-6 space-y-6">
     {{-- Success --}}
     @if (session('success'))
@@ -7,11 +5,7 @@
             {{ session('success') }}
         </div>
     @endif
-     <!-- Form Card -->
-    <div class="max-w-3xl mx-auto p-6 space-y-6">
-        @if (session('success'))
-            <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
-                {{ session('success') }}
+
     {{-- Error --}}
     @if (session('error'))
         <div class="rounded-lg bg-red-100 px-4 py-3 text-red-800">
@@ -25,17 +19,12 @@
             Anda sudah mengisi form ini.
         </div>
     @endif
-<div class="max-w-3xl mx-auto p-6 space-y-6">
-    @if (session('success'))
-        <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
-            {{ session('success') }}
-        </div>
-    @endif
 
-    <div class="rounded-xl bg-white shadow border border-gray-200 overflow-hidden">
+    {{-- Form Card --}}
+    <div class="rounded-xl overflow-hidden border border-gray-200 bg-white shadow">
         <div class="h-3 bg-indigo-600"></div>
 
-        <div class="p-6 space-y-3">
+        <div class="space-y-3 p-6">
             <h1 class="text-3xl font-bold text-gray-900">{{ $form->title }}</h1>
 
             @if ($form->description)
@@ -44,216 +33,104 @@
         </div>
     </div>
 
+    {{-- Questions Form --}}
     <form wire:submit.prevent="submit" class="space-y-6">
         @foreach ($form->questions as $question)
             @php
                 $field = 'answers.' . $question->id;
             @endphp
 
-            <div class="rounded-xl bg-white shadow border border-gray-200 p-6 space-y-4">
-                <div>
-                    <label class="block text-lg font-medium text-gray-900 mb-2">
-                        {{ $question->question }}
+            <div class="rounded-xl border border-gray-200 bg-white p-6 shadow">
+                <label class="mb-2 block text-lg font-medium text-gray-900">
+                    {{ $question->question }}
 
-                        @if ($question->is_required)
-                            <span class="text-red-500">*</span>
-                            <span class="text-sm font-normal text-red-600">(wajib diisi)</span>
-                        @endif
-                    </label>
-
-                    @if ($question->type === 'text')
-                        <input
-                            type="text"
-                            wire:model.defer="{{ $field }}"
-                            class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Jawaban singkat"
-                        >
-
-                    @elseif ($question->type === 'textarea')
-                        <textarea
-                            wire:model.defer="{{ $field }}"
-                            rows="4"
-                            class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Tulis jawaban di sini..."
-                        ></textarea>
-
-                    @elseif ($question->type === 'radio')
-                        <div class="space-y-2">
-                            @foreach ($question->options ?? [] as $option)
-                                <label class="flex items-center gap-2 text-gray-700">
-                                    <input
-                                        type="radio"
-                                        name="question_{{ $question->id }}"
-                                        wire:model.defer="{{ $field }}"
-                                        value="{{ $option }}"
-                                        class="text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                                    >
-                                    <span>{{ $option }}</span>
-                                </label>
-                            @endforeach
-                        </div>
-
-                    @elseif ($question->type === 'checkbox')
-                        <div class="space-y-2">
-                            @foreach ($question->options ?? [] as $option)
-                                <label class="flex items-center gap-2 text-gray-700">
-                                    <input
-                                        type="checkbox"
-                                        name="question_{{ $question->id }}[]"
-                                        wire:model.defer="{{ $field }}"
-                                        value="{{ $option }}"
-                                        class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    >
-                                    <span>{{ $option }}</span>
-                                </label>
-                            @endforeach
-                        </div>
-
-                    @elseif ($question->type === 'select')
-                        <select
-                            wire:model.defer="{{ $field }}"
-                            class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        >
-                            <option value="">Pilih jawaban</option>
-                            @foreach ($question->options ?? [] as $option)
-                                <option value="{{ $option }}">{{ $option }}</option>
-                            @endforeach
-                        </select>
-
-                    @elseif ($question->type === 'date')
-                        <input
-                            type="date"
-                            wire:model.defer="{{ $field }}"
-                            class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        >
+                    @if ($question->is_required)
+                        <span class="text-red-500">*</span>
+                        <span class="text-sm font-normal text-red-600">(wajib diisi)</span>
                     @endif
+                </label>
 
-                    @error($field)
-                        <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        @endif
-        <div class="rounded-xl bg-white shadow border border-gray-200 overflow-hidden">
-            <div class="h-3 bg-indigo-600"></div>
+                @if ($question->type === 'text')
+                    <input
+                        type="text"
+                        wire:model.defer="{{ $field }}"
+                        class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Jawaban singkat"
+                    >
 
-            <div class="p-6 space-y-3">
-                <h1 class="text-3xl font-bold text-gray-900">{{ $form->title }}</h1>
+                @elseif ($question->type === 'textarea')
+                    <textarea
+                        wire:model.defer="{{ $field }}"
+                        rows="4"
+                        class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Tulis jawaban di sini..."
+                    ></textarea>
 
-                @if ($form->description)
-                    <p class="text-gray-600">{{ $form->description }}</p>
-                @endif
-            </div>
-        <div>
-<button
-    type="submit"
-    @disabled($alreadySubmitted)
-    class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
->
-    Kirim Jawaban
-</button>
-        </div>
-
-         <!-- Questions Form -->
-        <form wire:submit.prevent="submit" class="space-y-6">
-            @foreach ($form->questions as $question)
-                @php
-                    $field = 'answers.' . $question->id;
-                @endphp
-
-                <div class="rounded-xl bg-white shadow border border-gray-200 p-6 space-y-4">
-                    <div>
-                        <label class="block text-lg font-medium text-gray-900 mb-2">
-                            {{ $question->question }}
-
-                            @if ($question->is_required)
-                                <span class="text-red-500">*</span>
-                                <span class="text-sm font-normal text-red-600">(wajib diisi)</span>
-                            @endif
-                        </label>
-
-                        @if ($question->type === 'text')
-                            <input
-                                type="text"
-                                wire:model.defer="{{ $field }}"
-                                class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                placeholder="Jawaban singkat"
-                            >
-
-                        @elseif ($question->type === 'textarea')
-                            <textarea
-                                wire:model.defer="{{ $field }}"
-                                rows="4"
-                                class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                placeholder="Tulis jawaban di sini..."
-                            ></textarea>
-
-                        @elseif ($question->type === 'radio')
-                            <div class="space-y-2">
-                                @foreach ($question->options ?? [] as $option)
-                                    <label class="flex items-center gap-2 text-gray-700">
-                                        <input
-                                            type="radio"
-                                            name="question_{{ $question->id }}"
-                                            wire:model.defer="{{ $field }}"
-                                            value="{{ $option }}"
-                                            class="text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                                        >
-                                        <span>{{ $option }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-
-                        @elseif ($question->type === 'checkbox')
-                            <div class="space-y-2">
-                                @foreach ($question->options ?? [] as $option)
-                                    <label class="flex items-center gap-2 text-gray-700">
-                                        <input
-                                            type="checkbox"
-                                            name="question_{{ $question->id }}[]"
-                                            wire:model.defer="{{ $field }}"
-                                            value="{{ $option }}"
-                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                        >
-                                        <span>{{ $option }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-
-                        @elseif ($question->type === 'select')
-                            <select
-                                wire:model.defer="{{ $field }}"
-                                class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                                <option value="">Pilih jawaban</option>
-                                @foreach ($question->options ?? [] as $option)
-                                    <option value="{{ $option }}">{{ $option }}</option>
-                                @endforeach
-                            </select>
-
-                        @elseif ($question->type === 'date')
-                            <input
-                                type="date"
-                                wire:model.defer="{{ $field }}"
-                                class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                        @endif
-
-                        @error($field)
-                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                        @enderror
+                @elseif ($question->type === 'radio')
+                    <div class="space-y-2">
+                        @foreach ($question->options ?? [] as $option)
+                            <label class="flex items-center gap-2 text-gray-700">
+                                <input
+                                    type="radio"
+                                    name="question_{{ $question->id }}"
+                                    wire:model.defer="{{ $field }}"
+                                    value="{{ $option }}"
+                                    class="border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                >
+                                <span>{{ $option }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                </div>
-            @endforeach
 
-            <div>
-                <button
-                    type="submit"
-                    class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500"
-                >
-                    Kirim Jawaban
-                </button>
+                @elseif ($question->type === 'checkbox')
+                    <div class="space-y-2">
+                        @foreach ($question->options ?? [] as $option)
+                            <label class="flex items-center gap-2 text-gray-700">
+                                <input
+                                    type="checkbox"
+                                    name="question_{{ $question->id }}[]"
+                                    wire:model.defer="{{ $field }}"
+                                    value="{{ $option }}"
+                                    class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                >
+                                <span>{{ $option }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+
+                @elseif ($question->type === 'select')
+                    <select
+                        wire:model.defer="{{ $field }}"
+                        class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="">Pilih jawaban</option>
+                        @foreach ($question->options ?? [] as $option)
+                            <option value="{{ $option }}">{{ $option }}</option>
+                        @endforeach
+                    </select>
+
+                @elseif ($question->type === 'date')
+                    <input
+                        type="date"
+                        wire:model.defer="{{ $field }}"
+                        class="w-full rounded-lg border px-4 py-2 @error($field) border-red-500 @else border-gray-300 @enderror focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                @endif
+
+                @error($field)
+                    <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                @enderror
             </div>
-        </form>
-    </div>
+        @endforeach
+
+        <div>
+            <button
+                type="submit"
+                @disabled($alreadySubmitted)
+                class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-gray-400"
+            >
+                Kirim Jawaban
+            </button>
+        </div>
+    </form>
 </div>
