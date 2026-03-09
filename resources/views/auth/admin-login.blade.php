@@ -6,17 +6,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center">
 
 <div class="w-full max-w-md">
 
     <!-- Card -->
-    <div class="bg-white shadow-xl rounded-2xl border border-slate-200 overflow-hidden">
+    <div class="bg-white shadow-2xl rounded-2xl border border-blue-100 overflow-hidden">
 
         <!-- Header -->
-        <div class="bg-gradient-to-r from-indigo-600 to-blue-600 px-6 py-5 text-white">
-            <h1 class="text-xl font-semibold">Login Admin</h1>
-            <p class="text-sm opacity-90">Masuk sebagai administrator</p>
+        <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-6 text-white text-center">
+            <h1 class="text-2xl font-semibold tracking-wide">Login Admin</h1>
+            <p class="text-sm opacity-90">Masuk menggunakan NPK dan password</p>
         </div>
 
         <!-- Form -->
@@ -45,7 +45,7 @@
                         inputmode="numeric"
                         pattern="[0-9]{1,6}"
                         oninput="this.value = this.value.replace(/[^0-9]/g,'').slice(0,6)"
-                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         placeholder="Masukkan NPK"
                     >
                 </div>
@@ -59,7 +59,7 @@
                     <input
                         type="password"
                         name="password"
-                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         placeholder="Masukkan password"
                     >
                 </div>
@@ -70,7 +70,7 @@
                         <input
                             type="checkbox"
                             name="remember"
-                            class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                            class="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                         >
                         Remember me
                     </label>
@@ -79,9 +79,9 @@
                 <!-- Button -->
                 <button
                     type="submit"
-                    class="w-full rounded-xl bg-indigo-600 text-white py-2.5 font-semibold hover:bg-indigo-700 transition shadow-md"
+                    class="w-full rounded-xl bg-blue-600 text-white py-2.5 font-semibold hover:bg-blue-700 transition shadow-md"
                 >
-                    Login Admin
+                    Login
                 </button>
 
             </form>
@@ -89,9 +89,9 @@
     </div>
 
     <!-- Footer -->
-    <p class="text-center text-xs text-slate-400 mt-6">
+    {{-- <p class="text-center text-xs text-slate-400 mt-6">
         © {{ date('Y') }} Sistem Form
-    </p>
+    </p> --}}
 
 </div>
 
