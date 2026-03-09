@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Dashboard;
 use App\Livewire\Employees\Index as EmployeesIndex;
 use App\Livewire\Forms\Create as FormsCreate;
 use App\Livewire\Forms\Show as FormsShow;
@@ -36,10 +37,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
+    // Route::get('/admin/dashboard', function () {
+    //     return view('admin.dashboard');
+    // })->name('admin.dashboard');
+    Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
     Route::get('/employees', EmployeesIndex::class)->name('employees.index');
     Route::get('/forms/create', FormsCreate::class)->name('forms.create');
 });
