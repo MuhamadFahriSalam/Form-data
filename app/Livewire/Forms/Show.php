@@ -11,18 +11,21 @@ class Show extends Component
 {
     public Form $form;
     public array $answers = [];
-
+    public bool $alreadySubmitted = false;
     public function mount(Form $form): void
     {
         $this->form = $form->load(['questions' => function ($q) {
             $q->orderBy('sort_order');
         }]);
 
+        $this->alreadySubmitted = FormSubmission::where('form_id', $form->id)
+            ->where('user_id', auth()->id())
+            ->exists();
+
         foreach ($this->form->questions as $question) {
             $this->answers[$question->id] = $question->type === 'checkbox' ? [] : '';
         }
     }
-
     protected function rules(): array
     {
         $rules = [];
@@ -66,11 +69,21 @@ class Show extends Component
 
     public function submit(): void
     {
+        if (! $this->form->is_active || $this->form->status !== 'open') {
+            abort(403, 'Form tidak tersedia.');
+        }
+
+        if ($this->alreadySubmitted) {
+            session()->flash('error', 'Anda sudah mengisi form ini.');
+            return;
+        }
+
         $this->validate();
 
         DB::transaction(function () {
             $submission = FormSubmission::create([
                 'form_id' => $this->form->id,
+                'user_id' => auth()->id(),
             ]);
 
             foreach ($this->form->questions as $question) {
@@ -86,6 +99,8 @@ class Show extends Component
                 ]);
             }
         });
+
+        $this->alreadySubmitted = true;
 
         session()->flash('success', 'Jawaban berhasil dikirim.');
 

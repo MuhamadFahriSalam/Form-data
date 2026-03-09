@@ -1,21 +1,26 @@
+
+
 <div class="max-w-3xl mx-auto p-6 space-y-6">
+    {{-- Success --}}
     @if (session('success'))
         <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="rounded-xl bg-white shadow border border-gray-200 overflow-hidden">
-        <div class="h-3 bg-indigo-600"></div>
-
-        <div class="p-6 space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900">{{ $form->title }}</h1>
-            @if ($form->description)
-                <p class="text-gray-600">{{ $form->description }}</p>
-            @endif
+    {{-- Error --}}
+    @if (session('error'))
+        <div class="rounded-lg bg-red-100 px-4 py-3 text-red-800">
+            {{ session('error') }}
         </div>
-    </div>
+    @endif
 
+    {{-- Sudah mengisi --}}
+    @if ($alreadySubmitted)
+        <div class="rounded-lg bg-yellow-100 px-4 py-3 text-yellow-800">
+            Anda sudah mengisi form ini.
+        </div>
+    @endif
 <div class="max-w-3xl mx-auto p-6 space-y-6">
     @if (session('success'))
         <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
@@ -127,12 +132,13 @@
         @endforeach
 
         <div>
-            <button
-                type="submit"
-                class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500"
-            >
-                Kirim Jawaban
-            </button>
+<button
+    type="submit"
+    @disabled($alreadySubmitted)
+    class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+>
+    Kirim Jawaban
+</button>
         </div>
     </form>
 </div>
