@@ -1,3 +1,5 @@
+
+
 <div class="max-w-3xl mx-auto p-6 space-y-6">
     {{-- Success --}}
     @if (session('success'))
@@ -19,6 +21,21 @@
             Anda sudah mengisi form ini.
         </div>
     @endif
+<div class="max-w-3xl mx-auto p-6 space-y-6">
+    @if (session('success'))
+        <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
+            {{ session('success') }}
+        </div>
+    @endif
+     <!-- Form Card -->
+    <div class="max-w-3xl mx-auto p-6 space-y-6">
+        @if (session('success'))
+            <div class="rounded-lg bg-green-100 px-4 py-3 text-green-800">
+                {{ session('success') }}
+            </div>
+        @endif
+        <div class="rounded-xl bg-white shadow border border-gray-200 overflow-hidden">
+            <div class="h-3 bg-indigo-600"></div>
 
     {{-- Form Card --}}
     <div class="rounded-xl overflow-hidden border border-gray-200 bg-white shadow">
@@ -133,4 +150,17 @@
             </button>
         </div>
     </form>
+</div>
+<button
+    type="submit"
+    @disabled($alreadySubmitted)
+    class="rounded-lg bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+>
+    Kirim Jawaban
+</button>
+        </div>
+    </form>
+</div>
+        </form>
+    </div>
 </div>
