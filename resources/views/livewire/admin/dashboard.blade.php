@@ -183,18 +183,14 @@
                             </div>
                         </div>
 
-                        <p class="min-h-[48px] text-sm leading-6 text-slate-500 line-clamp-2">
-                            {{ $form->description ?: 'Tidak ada deskripsi.' }}
-                        </p>
-
                         <div class="mt-5 flex flex-wrap items-center gap-2">
                             <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
                                 Dibuat {{ $form->created_at->format('d M Y') }}
                             </span>
 
-                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-600">
+                            {{-- <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-600">
                                 {{ $form->created_at->format('H:i') }}
-                            </span>
+                            </span> --}}
                         </div>
 
                         <div class="mt-6 flex items-center gap-3">
