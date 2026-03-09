@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
         return view('user.dashboard');
     })->name('user.dashboard');
 
-    Route::get('/forms/{form}', FormsShow::class)->name('forms.show');
+    Route::get('/form/{form}', FormsShow::class)->name('forms.show');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
