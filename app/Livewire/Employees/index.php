@@ -37,10 +37,6 @@ class Index extends Component
 
     public $importFile;
 
-    public function mount(): void
-    {
-        $this->loadDynamicFields();
-    }
 
     // Reset pagination when search term changes
     public function updatedSearch(): void
@@ -48,22 +44,7 @@ class Index extends Component
         $this->resetPage();
     }
 
-    // Load active dynamic fields and initialize values
-    private function loadDynamicFields(): void
-    {
-        $this->dynamicFields = EmployeeField::query()
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->get()
-            ->toArray();
 
-        foreach ($this->dynamicFields as $f) {
-            $fid = $f['id'];
-            if (!array_key_exists($fid, $this->dynamicValues)) {
-                $this->dynamicValues[$fid] = ($f['type'] === 'checkbox') ? [] : null;
-            }
-        }
-    }
 
     // Validation rules for employee form
     protected function rules(): array

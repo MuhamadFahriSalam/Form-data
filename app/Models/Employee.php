@@ -7,17 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
-    protected $fillable = [
-        'npk','nama','email','no_hp','jabatan','departemen',
-        'tanggal_masuk','status','alamat'
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'tanggal_masuk' => 'date',
     ];
 
-    public function fieldValues(): HasMany
-    {
-        return $this->hasMany(EmployeeFieldValue::class);
-    }
 }
