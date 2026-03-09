@@ -34,7 +34,7 @@ class Show extends Component
                 $rules[$key] = match ($question->type) {
                     'checkbox' => ['required', 'array', 'min:1'],
                     'date' => ['required', 'date'],
-                    default => ['required', 'string'],
+                    default => ['required'],
                 };
             } else {
                 $rules[$key] = match ($question->type) {
@@ -46,6 +46,22 @@ class Show extends Component
         }
 
         return $rules;
+    }
+
+    protected function messages(): array
+    {
+        $messages = [];
+
+        foreach ($this->form->questions as $question) {
+            $key = "answers.{$question->id}";
+
+            $messages["{$key}.required"] = 'Harus diisi.';
+            $messages["{$key}.min"] = 'Harus diisi.';
+            $messages["{$key}.array"] = 'Harus diisi.';
+            $messages["{$key}.date"] = 'Format tanggal tidak valid.';
+        }
+
+        return $messages;
     }
 
     public function submit(): void

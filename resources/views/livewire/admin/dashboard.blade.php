@@ -177,9 +177,6 @@
                                     <h3 class="text-lg font-semibold text-slate-900 transition group-hover:text-violet-700">
                                         {{ $form->title }}
                                     </h3>
-                                    <p class="mt-1 text-xs text-slate-400">
-                                        ID Form #{{ $form->id }}
-                                    </p>
                                 </div>
                             </div>
                         </div>
