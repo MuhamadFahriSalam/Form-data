@@ -10,6 +10,7 @@ class FormSubmission extends Model
 {
     protected $fillable = [
         'form_id',
+        'user_id',
     ];
 
     public function form(): BelongsTo

@@ -6,54 +6,92 @@
             </div>
         @endif
 
-        {{-- Header Form --}}
-        <div class="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_40px_rgba(15,23,42,0.06)]">
-            <div class="h-2 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500"></div>
+{{-- Header Form --}}
+<div class="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_40px_rgba(15,23,42,0.06)]">
+    <div class="h-2 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500"></div>
 
-            <div class="space-y-6 p-6 sm:p-8">
-                <div>
-                    <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-                        Buat Form
-                    </h1>
-                    <p class="mt-2 text-sm text-slate-500">
-                        Susun pertanyaan form dengan tampilan yang rapi dan mudah dipahami.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-5">
-                    <div>
-                        <label class="mb-2 block text-sm font-semibold text-slate-700">
-                            Judul Form
-                        </label>
-                        <input
-                            type="text"
-                            wire:model.defer="title"
-                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                            placeholder="Masukkan judul form"
-                        >
-                        @error('title')
-                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="mb-2 block text-sm font-semibold text-slate-700">
-                            Deskripsi
-                        </label>
-                        <textarea
-                            wire:model.defer="description"
-                            rows="4"
-                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                            placeholder="Masukkan deskripsi form"
-                        ></textarea>
-                        @error('description')
-                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-            </div>
+    <div class="space-y-6 p-6 sm:p-8">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                Buat Form
+            </h1>
+            <p class="mt-2 text-sm text-slate-500">
+                Susun pertanyaan form dengan tampilan yang rapi dan mudah dipahami.
+            </p>
         </div>
 
+        <div class="grid grid-cols-1 gap-5">
+
+            {{-- Judul --}}
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                    Judul Form
+                </label>
+                <input
+                    type="text"
+                    wire:model.defer="title"
+                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                    placeholder="Masukkan judul form"
+                >
+                @error('title')
+                    <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Deskripsi --}}
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                    Deskripsi
+                </label>
+                <textarea
+                    wire:model.defer="description"
+                    rows="4"
+                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                    placeholder="Masukkan deskripsi form"
+                ></textarea>
+                @error('description')
+                    <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Waktu Form --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                {{-- Waktu Mulai --}}
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">
+                        Waktu Mulai
+                    </label>
+                    <input
+                        type="datetime-local"
+                        wire:model.defer="start_at"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                    >
+                    @error('start_at')
+                        <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Batas Akhir --}}
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">
+                        Batas Akhir Pengisian
+                    </label>
+                    <input
+                        type="datetime-local"
+                        wire:model.defer="end_at"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                    >
+                    @error('end_at')
+                        <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                    @enderror
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
         {{-- Daftar Pertanyaan --}}
         <div class="space-y-6">
             @foreach ($questions as $index => $item)

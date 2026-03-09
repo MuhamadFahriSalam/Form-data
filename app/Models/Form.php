@@ -9,7 +9,6 @@ class Form extends Model
 {
     protected $guarded = ['id'];
 
-
     // Relasi untuk pertanyaan-pertanyaan dalam form
     public function questions(): HasMany
     {
@@ -25,6 +24,25 @@ class Form extends Model
     {
         return $this->belongsTo(User::class);
     }
+    protected $casts = [
+        'is_active' => 'boolean',
+        'opens_at' => 'datetime',
+        'closes_at' => 'datetime',
+    ];
 
+    public function getStatusAttribute(): string
+    {
+        $now = now();
+
+        if ($this->opens_at && $now < $this->opens_at) {
+            return 'upcoming';
+        }
+
+        if ($this->closes_at && $now > $this->closes_at) {
+            return 'closed';
+        }
+
+        return 'open';
+    }
 }
 
