@@ -13,7 +13,7 @@ class EmployeesImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $row)
     {
         return Employee::updateOrCreate(
-            ['nik' => $row['nik']],
+            ['npk' => $row['npk']],
             [
                 'nama' => $row['nama'] ?? null,
                 'email' => $row['email'] ?? null,
@@ -30,7 +30,7 @@ class EmployeesImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            '*.nik' => ['required', 'max:50'],
+            '*.npk' => ['required', 'max:50'],
             '*.nama' => ['required', 'max:255'],
             '*.email' => ['nullable', 'email'],
             '*.status' => ['nullable', Rule::in(['Tetap', 'Kontrak', 'Magang'])],

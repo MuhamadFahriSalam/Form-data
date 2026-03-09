@@ -79,7 +79,7 @@
             <thead class="text-sm bg-gray-100 border-b border-gray-200">
                 <tr>
                     <th class="px-6 py-3 font-medium">No</th>
-                    <th class="px-6 py-3 font-medium">NIK</th>
+                    <th class="px-6 py-3 font-medium">NPK</th>
                     <th class="px-6 py-3 font-medium">Nama</th>
                     <th class="px-6 py-3 font-medium">Email</th>
                     <th class="px-6 py-3 font-medium">No HP</th>
@@ -94,7 +94,7 @@
                 @forelse($employees as $index => $e)
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">{{ $employees->firstItem() + $index }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $e->nik }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $e->npk }}</td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{{ $e->nama }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->no_hp }}</td>
