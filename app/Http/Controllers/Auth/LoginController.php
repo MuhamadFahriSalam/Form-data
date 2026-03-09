@@ -21,7 +21,7 @@ class LoginController extends Controller
     public function userLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'npk' => ['required', 'numeric'],
             'password' => ['required'],
         ]);
 
@@ -29,18 +29,18 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'Login user gagal.',
-        ])->onlyInput('email');
+            'npk' => 'Login user gagal.',
+        ])->onlyInput('npk');
     }
 
     public function adminLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'npk' => ['required', 'numeric'],
             'password' => ['required'],
         ]);
 
@@ -48,12 +48,12 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'Login admin gagal.',
-        ])->onlyInput('email');
+            'npk' => 'Login admin gagal.',
+        ])->onlyInput('npk');
     }
 
     public function logout(Request $request)

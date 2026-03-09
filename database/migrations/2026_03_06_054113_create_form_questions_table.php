@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('form_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('form_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('question');
             $table->string('type'); // text, textarea, radio, checkbox, select, date
             $table->boolean('is_required')->default(false);

@@ -15,8 +15,8 @@
     <form method="POST" action="{{ route('user.login') }}">
         @csrf
         <div>
-            <label>Email</label>
-            <input type="email" name="email" value="{{ old('email') }}">
+            <label>NPK</label>
+            <input type="number" name="npk" value="{{ old('npk') }}">
         </div>
 
         <div>

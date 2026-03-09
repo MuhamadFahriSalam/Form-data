@@ -22,18 +22,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
         $user = auth()->user();
+
         if ($user->role === 'admin') {
-            return redirect('/admin');
+            return redirect()->route('admin.dashboard');
         }
-        return redirect('/user');
+
+        return view('user.dashboard');
     })->name('dashboard');
 
-    Route::get('Dashboard', function () {
-        return view('user.dashboard');
-    })->name('user.dashboard');
-
     Route::get('/form/{form}', FormsShow::class)->name('forms.show');
-
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
