@@ -265,27 +265,16 @@
                                 Lihat Form
                             </a>
 
-                            <button
-                                type="button"
-                                @click='showUsers(
-                                    @js($form->title),
-                                    @js(
-                                        ($form->submissions ?? collect())->map(function ($submission) {
-                                            return [
-                                                "name" => $submission->user->name ?? "User",
-                                                "email" => $submission->user->email ?? "-",
-                                                "submitted_at" => optional($submission->created_at)->format("d M Y H:i"),
-                                            ];
-                                        })->values()
-                                    )
-                                )'
-                                class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100 focus:outline-none focus:ring-4 focus:ring-sky-100"
+                            <a
+                                href="{{ route('forms.respondents', $form->id) }}"
+                                class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5V4H2v16h5m10 0v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5m10 0H7m8-12h.01M9 8h.01" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M17 20h5V4H2v16h5m10 0v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5m10 0H7" />
                                 </svg>
                                 Lihat Pengisi
-                            </button>
+                            </a>
                         </div>
                     </div>
                 @endforeach

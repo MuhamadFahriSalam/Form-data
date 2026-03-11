@@ -13,6 +13,8 @@ class FormSubmission extends Model
         'user_id',
     ];
 
+    protected $guarded = ['id'];
+
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class);
@@ -21,5 +23,10 @@ class FormSubmission extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(FormAnswer::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

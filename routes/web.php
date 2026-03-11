@@ -6,6 +6,8 @@ use App\Livewire\Admin\Dashboard;
 use App\Livewire\Employees\Index as EmployeesIndex;
 use App\Livewire\Forms\Create as FormsCreate;
 use App\Livewire\Forms\Show as FormsShow;
+use App\Livewire\Forms\Respondents;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,3 +46,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/employees', EmployeesIndex::class)->name('employees.index');
     Route::get('/forms/create', FormsCreate::class)->name('forms.create');
 });
+
+
+Route::get('/forms/{form}/respondents', Respondents::class)
+    ->name('forms.respondents');
