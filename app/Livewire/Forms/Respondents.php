@@ -12,19 +12,23 @@ class Respondents extends Component
     public function mount(Form $form)
     {
         $this->form = $form->load([
-            'submissions.user'
+            'questions',
         ]);
     }
 
     public function render()
     {
         $respondents = $this->form->submissions()
-            ->with('user')
+            ->with([
+                'user',
+                'answers.question',
+            ])
             ->latest()
             ->get();
 
         return view('livewire.forms.respondents', [
-            'respondents' => $respondents
+            'respondents' => $respondents,
+            'questions' => $this->form->questions,
         ]);
     }
 }

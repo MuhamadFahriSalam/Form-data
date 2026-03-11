@@ -22,45 +22,94 @@
 
         <div class="bg-white rounded-2xl shadow border overflow-hidden">
 
-            <table class="w-full text-sm">
-                <thead class="bg-slate-100 text-slate-600">
-                    <tr>
-                        <th class="px-6 py-4 text-left">No</th>
-                        <th class="px-6 py-4 text-left">Nama</th>
-                        <th class="px-6 py-4 text-left">Email</th>
-                        <th class="px-6 py-4 text-left">Waktu Isi</th>
-                    </tr>
-                </thead>
+                                        <table class="w-full text-sm">
+                                            <thead class="bg-slate-100 text-slate-600">
+                                                <tr>
+                                                    <th class="px-6 py-4 text-left">No</th>
+                                                    <th class="px-6 py-4 text-left">Nama</th>
+                                                    <th class="px-6 py-4 text-left">Email</th>
 
-                <tbody>
-                    @forelse ($respondents as $index => $submission)
-                        <tr class="border-t hover:bg-slate-50">
-                            <td class="px-6 py-4">
-                                {{ $index + 1 }}
-                            </td>
+                                                    {{-- Header pertanyaan --}}
+                                                    @foreach ($questions as $question)
+                                                        <th class="px-6 py-4 text-left min-w-[160px]">
+                                                            {{ $question->question }}
+                                                        </th>
+                                                    @endforeach
 
-                            <td class="px-6 py-4 font-medium">
-                                {{ $submission->user->name ?? 'User' }}
-                            </td>
+                                                    <th class="px-6 py-4 text-left">Waktu Isi</th>
+                                                </tr>
+                                            </thead>
 
-                            <td class="px-6 py-4 text-slate-600">
-                                {{ $submission->user->email ?? '-' }}
-                            </td>
+                                            <tbody>
+                                                @forelse ($respondents as $index => $submission)
+                                                    <tr class="border-t hover:bg-slate-50">
 
-                            <td class="px-6 py-4 text-slate-600">
-                                {{ $submission->created_at->format('d M Y H:i') }}
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-10 text-slate-500">
-                                Belum ada user yang mengisi form
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                                                        {{-- No --}}
+                                                        <td class="px-6 py-4">
+                                                            {{ $index + 1 }}
+                                                        </td>
 
-            </table>
+                                                        {{-- Nama --}}
+                                                        <td class="px-6 py-4 font-medium">
+                                                            {{ $submission->user->name ?? 'User' }}
+                                                        </td>
+
+                                                        {{-- Email --}}
+                                                        <td class="px-6 py-4 text-slate-600">
+                                                            {{ $submission->user->email ?? '-' }}
+                                                        </td>
+
+                                                        {{-- Jawaban --}}
+                                                        @foreach ($questions as $question)
+
+                                                            @php
+                                                                $answer = $submission->answers->firstWhere('form_question_id', $question->id);
+                                                                $value = $answer->answer ?? null;
+                                                                $decoded = json_decode($value, true);
+                                                            @endphp
+
+                                                            <td class="px-6 py-4 text-slate-600 whitespace-pre-line">
+
+                                                                {{-- Checkbox --}}
+                                                                @if ($question->type === 'checkbox' && is_array($decoded))
+                                                                    {{ implode(', ', $decoded) }}
+
+                                                                {{-- Date --}}
+                                                                @elseif ($question->type === 'date' && !empty($value))
+                                                                    {{ \Carbon\Carbon::parse($value)->format('d M Y') }}
+
+                                                                {{-- Select / Radio --}}
+                                                                @elseif ($question->type === 'select' || $question->type === 'radio')
+                                                                    {{ $value }}
+
+                                                                {{-- Text / Textarea --}}
+                                                                @elseif (!empty($value))
+                                                                    {{ $value }}
+
+                                                                @else
+                                                                    -
+                                                                @endif
+
+                                                            </td>
+
+                                                        @endforeach
+
+                                                        {{-- Waktu isi --}}
+                                                        <td class="px-6 py-4 text-slate-600">
+                                                            {{ $submission->created_at->format('d M Y H:i') }}
+                                                        </td>
+
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="{{ 4 + $questions->count() }}" class="text-center py-10 text-slate-500">
+                                                            Belum ada user yang mengisi form
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+
 
         </div>
 
