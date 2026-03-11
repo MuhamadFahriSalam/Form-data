@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login User</title>
+    <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -15,7 +15,7 @@
 
         <!-- Header -->
         <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-6 text-white text-center">
-            <h1 class="text-2xl font-semibold tracking-wide">Login User</h1>
+            <h1 class="text-2xl font-semibold tracking-wide">Login</h1>
             <p class="text-sm opacity-90">Masuk menggunakan NPK dan password</p>
         </div>
 
@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.login') }}" class="space-y-4">
+            <form method="POST" action="{{ route('website.login') }}" class="space-y-4">
                 @csrf
 
                 <!-- NPK -->
