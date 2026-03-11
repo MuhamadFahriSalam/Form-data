@@ -10,6 +10,7 @@ class Dashboard extends Component
     public function render()
     {
         $forms = Form::where('user_id', auth()->id())
+            ->withCount('submissions')
             ->latest()
             ->get();
 

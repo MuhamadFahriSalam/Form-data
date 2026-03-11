@@ -220,40 +220,6 @@
                                 </p>
                             </div>
                         </div>
-
-                        <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
-                            <div class="mb-3 flex items-center justify-between">
-                                <h4 class="text-sm font-semibold text-slate-800">
-                                    User yang sudah mengisi
-                                </h4>
-                                <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-                                    {{ $form->submissions_count ?? 0 }} orang
-                                </span>
-                            </div>
-
-                            <div class="space-y-2">
-                                @forelse (($form->submissions ?? collect())->take(3) as $submission)
-                                    <div class="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
-                                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-sm font-semibold text-violet-700">
-                                            {{ strtoupper(substr($submission->user->name ?? 'U', 0, 1)) }}
-                                        </div>
-                                        <div class="min-w-0">
-                                            <p class="truncate text-sm font-medium text-slate-800">
-                                                {{ $submission->user->name ?? 'User' }}
-                                            </p>
-                                            <p class="text-xs text-slate-500">
-                                                Sudah mengisi formulir
-                                            </p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm text-slate-500">
-                                        Belum ada user yang mengisi form ini.
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-
                         <div class="mt-6 flex flex-wrap items-center gap-3">
                             <a
                                 href="#"
