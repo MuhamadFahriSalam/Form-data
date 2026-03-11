@@ -14,7 +14,10 @@ class Form extends Model
     {
         return $this->hasMany(FormQuestion::class);
     }
-
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
     // Tambahkan relasi untuk submissions
     public function submissions(): HasMany
     {
