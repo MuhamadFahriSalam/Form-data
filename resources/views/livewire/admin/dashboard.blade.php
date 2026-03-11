@@ -1,5 +1,22 @@
-<div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100">
-    <!-- Template Section -->
+<div
+    x-data="{
+        openUsersModal: false,
+        selectedFormTitle: '',
+        selectedUsers: [],
+        showUsers(title, users) {
+            this.selectedFormTitle = title
+            this.selectedUsers = users
+            this.openUsersModal = true
+        },
+        closeUsers() {
+            this.openUsersModal = false
+            this.selectedFormTitle = ''
+            this.selectedUsers = []
+        }
+    }"
+    class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100"
+>
+    {{-- Template Section --}}
     <section class="border-b border-slate-200/80 bg-white/70 backdrop-blur">
         <div class="mx-auto max-w-7xl px-6 py-10 lg:px-10">
             <div class="mb-8 flex items-center justify-between">
@@ -24,7 +41,7 @@
             </div>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-5">
-                <!-- Form kosong -->
+                {{-- Form kosong --}}
                 <a href="{{ route('forms.create') }}" class="group flex h-full flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl">
                         <div class="flex h-52 items-center justify-center bg-gradient-to-br from-violet-50 via-white to-fuchsia-50">
@@ -40,7 +57,7 @@
                     </div>
                 </a>
 
-                <!-- Template 1 -->
+                {{-- Template 1 --}}
                 <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
@@ -60,7 +77,7 @@
                     </div>
                 </div>
 
-                <!-- Template 2 -->
+                {{-- Template 2 --}}
                 <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-sky-500 to-cyan-400"></div>
@@ -81,7 +98,7 @@
                     </div>
                 </div>
 
-                <!-- Template 3 -->
+                {{-- Template 3 --}}
                 <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-fuchsia-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-fuchsia-500 to-violet-400"></div>
@@ -102,7 +119,7 @@
                     </div>
                 </div>
 
-                <!-- Template 4 -->
+                {{-- Template 4 --}}
                 <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-amber-500 to-orange-400"></div>
@@ -123,7 +140,7 @@
                     </div>
                 </div>
 
-                <!-- Kelola Karyawan -->
+                {{-- Kelola Karyawan --}}
                 <a href="{{ route('employees.index') }}" class="group flex h-full flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
                         <div class="flex h-52 items-center justify-center bg-gradient-to-br from-sky-50 via-white to-blue-50">
@@ -144,7 +161,7 @@
         </div>
     </section>
 
-    <!-- Recent Forms -->
+    {{-- Recent Forms --}}
     <section class="mx-auto max-w-7xl px-6 py-10 lg:px-10">
         <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -177,21 +194,67 @@
                                     <h3 class="text-lg font-semibold text-slate-900 transition group-hover:text-violet-700">
                                         {{ $form->title }}
                                     </h3>
+                                    <p class="mt-1 text-sm text-slate-500">
+                                        Dibuat {{ $form->created_at->format('d M Y') }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mt-5 flex flex-wrap items-center gap-2">
-                            <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                                Dibuat {{ $form->created_at->format('d M Y') }}
-                            </span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                <p class="text-xs font-medium uppercase tracking-wide text-slate-500">
+                                    Total Pengisi
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-slate-900">
+                                    {{ $form->submissions_count ?? 0 }}
+                                </p>
+                            </div>
 
-                            {{-- <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-600">
-                                {{ $form->created_at->format('H:i') }}
-                            </span> --}}
+                            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                                <p class="text-xs font-medium uppercase tracking-wide text-emerald-600">
+                                    Status
+                                </p>
+                                <p class="mt-2 text-sm font-semibold text-emerald-700">
+                                    {{ ($form->submissions_count ?? 0) > 0 ? 'Ada Respon' : 'Belum Ada' }}
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="mt-6 flex items-center gap-3">
+                        <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+                            <div class="mb-3 flex items-center justify-between">
+                                <h4 class="text-sm font-semibold text-slate-800">
+                                    User yang sudah mengisi
+                                </h4>
+                                <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                                    {{ $form->submissions_count ?? 0 }} orang
+                                </span>
+                            </div>
+
+                            <div class="space-y-2">
+                                @forelse (($form->submissions ?? collect())->take(3) as $submission)
+                                    <div class="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-sm font-semibold text-violet-700">
+                                            {{ strtoupper(substr($submission->user->name ?? 'U', 0, 1)) }}
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="truncate text-sm font-medium text-slate-800">
+                                                {{ $submission->user->name ?? 'User' }}
+                                            </p>
+                                            <p class="text-xs text-slate-500">
+                                                Sudah mengisi formulir
+                                            </p>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm text-slate-500">
+                                        Belum ada user yang mengisi form ini.
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex flex-wrap items-center gap-3">
                             <a
                                 href="#"
                                 class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-200"
@@ -199,8 +262,30 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12H9m12 0A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z" />
                                 </svg>
-                                Lihat
+                                Lihat Form
                             </a>
+
+                            <button
+                                type="button"
+                                @click='showUsers(
+                                    @js($form->title),
+                                    @js(
+                                        ($form->submissions ?? collect())->map(function ($submission) {
+                                            return [
+                                                "name" => $submission->user->name ?? "User",
+                                                "email" => $submission->user->email ?? "-",
+                                                "submitted_at" => optional($submission->created_at)->format("d M Y H:i"),
+                                            ];
+                                        })->values()
+                                    )
+                                )'
+                                class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100 focus:outline-none focus:ring-4 focus:ring-sky-100"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5V4H2v16h5m10 0v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5m10 0H7m8-12h.01M9 8h.01" />
+                                </svg>
+                                Lihat Pengisi
+                            </button>
                         </div>
                     </div>
                 @endforeach
@@ -227,4 +312,84 @@
             </div>
         @endif
     </section>
+
+    {{-- Modal User Pengisi --}}
+    <div
+        x-show="openUsersModal"
+        x-transition.opacity
+        x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+    >
+        <div
+            @click.away="closeUsers()"
+            class="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+        >
+            <div class="bg-gradient-to-r from-sky-500 via-cyan-500 to-violet-500 px-6 py-5 text-white">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h3 class="text-xl font-semibold">
+                            Daftar Pengisi Form
+                        </h3>
+                        <p class="mt-1 text-sm text-white/80">
+                            Form: <span class="font-medium" x-text="selectedFormTitle"></span>
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="closeUsers()"
+                        class="rounded-xl bg-white/10 p-2 transition hover:bg-white/20"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="max-h-[70vh] overflow-y-auto p-6">
+                <template x-if="selectedUsers.length > 0">
+                    <div class="space-y-3">
+                        <template x-for="(user, index) in selectedUsers" :key="index">
+                            <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 text-sm font-semibold text-violet-700">
+                                        <span x-text="user.name ? user.name.charAt(0).toUpperCase() : 'U'"></span>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-900" x-text="user.name"></p>
+                                        <p class="text-xs text-slate-500" x-text="user.email"></p>
+                                    </div>
+                                </div>
+
+                                <div class="text-right">
+                                    <p class="text-xs font-medium text-slate-500">Waktu isi</p>
+                                    <p class="text-sm text-slate-700" x-text="user.submitted_at"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template x-if="selectedUsers.length === 0">
+                    <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center">
+                        <p class="text-sm font-medium text-slate-600">
+                            Belum ada user yang mengisi form ini.
+                        </p>
+                    </div>
+                </template>
+            </div>
+
+            <div class="flex justify-end border-t border-slate-100 px-6 py-4">
+                <button
+                    type="button"
+                    @click="closeUsers()"
+                    class="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700"
+                >
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
