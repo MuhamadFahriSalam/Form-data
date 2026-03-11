@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Models\Form;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class Create extends Component
@@ -72,7 +73,7 @@ class Create extends Component
         DB::transaction(function () {
             $form = Form::create([
                 'user_id' => auth()->id(),
-
+                "uuid" => Str::uuid(),
                 'title' => $this->title,
                 'description' => $this->description,
                 'is_active' => true,
