@@ -232,7 +232,7 @@
                             </a>
 
                             <a
-                                href="{{ route('forms.respondents', $form->uuid) }}"
+                                href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
                                 class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
