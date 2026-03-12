@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="mt-6 flex flex-wrap items-center gap-3">
-                            <a
+                            {{-- <a
                                 href="#"
                                 class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-200"
                             >
@@ -229,7 +229,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12H9m12 0A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z" />
                                 </svg>
                                 Lihat Form
-                            </a>
+                            </a> --}}
 
                             <a
                                 href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
