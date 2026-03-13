@@ -1,15 +1,6 @@
 @component('layouts.app', ['title' => 'Form Ditutup'])
-    @slot('header')
-        <div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-                Form Ditutup
-            </h2>
-            <p class="mt-1 text-sm text-slate-500">
-                Daftar form yang masa pengisiannya telah berakhir.
-            </p>
-        </div>
-    @endslot
 
+    {{-- Halaman ini menampilkan daftar form yang sudah melewati batas waktu pengisian (closes_at) dan tidak lagi dapat diisi oleh user. Admin dapat melihat detail form, jumlah pengisi, serta daftar responden yang sudah mengisi form tersebut. --}}
     <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50">
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
@@ -21,11 +12,6 @@
                 <div class="relative px-6 py-8 sm:px-8 lg:px-10">
                     <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div class="max-w-2xl">
-                            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide text-red-100 backdrop-blur-md">
-                                <span class="h-2 w-2 rounded-full bg-red-400"></span>
-                                Dashboard Admin
-                            </div>
-
                             <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
                                 Form yang Sudah Ditutup
                             </h1>
@@ -67,6 +53,7 @@
                 </div>
             </div>
 
+            {{-- Daftar form yang sudah ditutup --}}
             @if ($closedForms->count())
                 <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($closedForms as $form)
