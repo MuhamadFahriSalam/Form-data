@@ -1,117 +1,146 @@
-<div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100">
-    <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+@section('title', 'Buat Form')
+
+<div class="min-h-screen bg-slate-50">
+    <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+
         @if (session('success'))
             <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 shadow-sm">
                 {{ session('success') }}
             </div>
         @endif
 
-{{-- Header Form --}}
-<div class="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_40px_rgba(15,23,42,0.06)]">
-    <div class="h-2 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500"></div>
+        {{-- Hero Header --}}
+        <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
+            <div class="px-6 py-8 sm:px-8 lg:px-10">
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                        <h1 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                            Buat Form Pertanyaan
+                        </h1>
+                        <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-200 sm:text-base">
+                            Susun pertanyaan, atur tipe jawaban, dan buat form yang rapi serta mudah diisi user.
+                        </p>
+                    </div>
 
-    <div class="space-y-6 p-6 sm:p-8">
-        <div>
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-                Buat Form
-            </h1>
-            <p class="mt-2 text-sm text-slate-500">
-                Susun pertanyaan form dengan tampilan yang rapi dan mudah dipahami.
-            </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
+                            <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
+                                Total Pertanyaan
+                            </p>
+                            <p class="mt-2 text-2xl font-bold text-white">
+                                {{ count($questions) }}
+                            </p>
+                        </div>
+
+                        <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
+                            <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
+                                Status Form
+                            </p>
+                            <p class="mt-2 text-sm font-semibold text-white">
+                                Draft
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-5">
-
-            {{-- Judul --}}
-            <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">
-                    Judul Form
-                </label>
-                <input
-                    type="text"
-                    wire:model.defer="title"
-                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                    placeholder="Masukkan judul form"
-                >
-                @error('title')
-                    <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
-                @enderror
+        {{-- Informasi Form --}}
+        <div class="mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <div class="border-b border-slate-100 px-6 py-5 sm:px-8">
+                <h2 class="text-lg font-semibold text-slate-900">
+                    Informasi Form
+                </h2>
+                <p class="mt-1 text-sm text-slate-500">
+                    Isi judul, deskripsi, dan periode pengisian form.
+                </p>
             </div>
 
-            {{-- Deskripsi --}}
-            <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">
-                    Deskripsi
-                </label>
-                <textarea
-                    wire:model.defer="description"
-                    rows="4"
-                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                    placeholder="Masukkan deskripsi form"
-                ></textarea>
-                @error('description')
-                    <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Waktu Form --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-                {{-- Waktu Mulai --}}
+            <div class="grid grid-cols-1 gap-6 p-6 sm:p-8">
                 <div>
                     <label class="mb-2 block text-sm font-semibold text-slate-700">
-                        Waktu Mulai
+                        Judul Form
                     </label>
                     <input
-                        type="datetime-local"
-                        wire:model.defer="start_at"
-                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                        type="text"
+                        wire:model.defer="title"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                        placeholder="Masukkan judul form"
                     >
-                    @error('start_at')
+                    @error('title')
                         <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
                     @enderror
                 </div>
 
-                {{-- Batas Akhir --}}
                 <div>
                     <label class="mb-2 block text-sm font-semibold text-slate-700">
-                        Batas Akhir Pengisian
+                        Deskripsi
                     </label>
-                    <input
-                        type="datetime-local"
-                        wire:model.defer="end_at"
-                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                    >
-                    @error('end_at')
+                    <textarea
+                        wire:model.defer="description"
+                        rows="4"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                        placeholder="Masukkan deskripsi form"
+                    ></textarea>
+                    @error('description')
                         <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
                     @enderror
                 </div>
 
-            </div>
+                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">
+                            Waktu Mulai
+                        </label>
+                        <input
+                            type="datetime-local"
+                            wire:model.defer="start_at"
+                            required
+                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                        >
+                        @error('start_at')
+                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
 
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">
+                            Batas Akhir Pengisian
+                        </label>
+                        <input
+                            type="datetime-local"
+                            wire:model.defer="end_at"
+                            required
+                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                        >
+                        @error('end_at')
+                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
         {{-- Daftar Pertanyaan --}}
         <div class="space-y-6">
             @foreach ($questions as $index => $item)
-                <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.05)] transition hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
-                    <div class="flex items-center justify-between border-b border-slate-100 bg-slate-50/70 px-6 py-4">
+                <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
+                    <div class="flex flex-col gap-4 border-b border-slate-100 bg-slate-50 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm font-semibold uppercase tracking-wide text-violet-600">
                                 Pertanyaan {{ $index + 1 }}
                             </p>
                             <p class="mt-1 text-sm text-slate-500">
-                                Atur isi pertanyaan, tipe jawaban, dan opsi jika diperlukan.
+                                Atur isi pertanyaan, jenis jawaban, dan opsi bila diperlukan.
                             </p>
                         </div>
 
                         <button
                             type="button"
                             wire:click="removeQuestion({{ $index }})"
-                            class="inline-flex items-center rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
+                            class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
                         >
-                            Hapus
+                            Hapus Pertanyaan
                         </button>
                     </div>
 
@@ -124,15 +153,15 @@
                                 type="text"
                                 wire:model.defer="questions.{{ $index }}.question"
                                 class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                                placeholder="Tulis pertanyaan"
+                                placeholder="Contoh: Seberapa puas Anda terhadap layanan kami?"
                             >
                             @error('questions.'.$index.'.question')
                                 <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                            <div class="md:col-span-2">
+                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                            <div class="lg:col-span-2">
                                 <label class="mb-2 block text-sm font-semibold text-slate-700">
                                     Tipe Jawaban
                                 </label>
@@ -161,12 +190,12 @@
                         </div>
 
                         {{-- Preview --}}
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                             <div class="mb-4 flex items-center justify-between">
                                 <h3 class="text-sm font-semibold text-slate-800">
                                     Preview Jawaban
                                 </h3>
-                                <span class="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+                                <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-500">
                                     {{ ucfirst($questions[$index]['type']) }}
                                 </span>
                             </div>
@@ -179,18 +208,13 @@
                                         placeholder="Jawaban singkat"
                                     >
                                 @elseif ($questions[$index]['type'] === 'textarea')
-                                    <div>
-                                        <label class="mb-2 block text-sm font-medium text-slate-700">
-                                            {{ $questions[$index]['question'] ?: 'Tulis jawaban Anda' }}
-                                        </label>
-                                        <textarea
-                                            rows="4"
-                                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm outline-none placeholder:text-slate-400"
-                                            placeholder="Tulis jawaban panjang di sini..."
-                                        ></textarea>
-                                    </div>
+                                    <textarea
+                                        rows="4"
+                                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm"
+                                        placeholder="Tulis jawaban panjang di sini..."
+                                    ></textarea>
                                 @elseif ($questions[$index]['type'] === 'radio')
-                                    <div class="space-y-3">
+                                    <div class="grid gap-3 md:grid-cols-2">
                                         @foreach ($questions[$index]['options'] as $opt)
                                             @if (trim($opt) !== '')
                                                 <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm">
@@ -201,7 +225,7 @@
                                         @endforeach
                                     </div>
                                 @elseif ($questions[$index]['type'] === 'checkbox')
-                                    <div class="space-y-3">
+                                    <div class="grid gap-3 md:grid-cols-2">
                                         @foreach ($questions[$index]['options'] as $opt)
                                             @if (trim($opt) !== '')
                                                 <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm">
@@ -223,10 +247,15 @@
                         {{-- Opsi Jawaban --}}
                         @if (in_array($questions[$index]['type'], ['radio', 'checkbox', 'select']))
                             <div class="rounded-2xl border border-slate-200 bg-white p-5">
-                                <div class="mb-4 flex items-center justify-between">
-                                    <label class="block text-sm font-semibold text-slate-700">
-                                        Pilihan Jawaban
-                                    </label>
+                                <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700">
+                                            Pilihan Jawaban
+                                        </label>
+                                        <p class="mt-1 text-xs text-slate-500">
+                                            Tambahkan opsi yang akan dipilih user.
+                                        </p>
+                                    </div>
 
                                     <button
                                         type="button"
@@ -239,7 +268,7 @@
 
                                 <div class="space-y-3">
                                     @foreach ($questions[$index]['options'] as $optIndex => $opt)
-                                        <div class="flex items-center gap-3">
+                                        <div class="flex flex-col gap-3 sm:flex-row">
                                             <input
                                                 type="text"
                                                 wire:model.defer="questions.{{ $index }}.options.{{ $optIndex }}"
@@ -250,7 +279,7 @@
                                             <button
                                                 type="button"
                                                 wire:click="removeOption({{ $index }}, {{ $optIndex }})"
-                                                class="inline-flex items-center rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
+                                                class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
                                             >
                                                 Hapus
                                             </button>
@@ -265,11 +294,22 @@
         </div>
 
         {{-- Actions --}}
-        <div class="mt-8 flex flex-wrap gap-4">
+        <div class="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-6">
+
+            <a
+                href="{{ route('admin.dashboard') }}"
+                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+                </svg>
+                Kembali
+            </a>
+
             <button
                 type="button"
                 wire:click="addQuestion"
-                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
                 + Tambah Pertanyaan
             </button>
@@ -277,7 +317,7 @@
             <button
                 type="button"
                 wire:click="save"
-                class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:-translate-y-0.5 hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
             >
                 Simpan Form
             </button>

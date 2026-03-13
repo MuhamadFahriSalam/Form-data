@@ -7,15 +7,16 @@ use Livewire\Component;
 
 class AvailableForms extends Component
 {
-    public function render()
-    {
-        $forms = Form::query()
-            ->where('is_active', true)
-            ->latest()
-            ->get();
+public function render()
+{
+    $forms = Form::query()
+        ->where('is_active', true)
+        ->where('closes_at', '>=', now())
+        ->latest()
+        ->get();
 
-        return view('livewire.user.available-forms', [
-            'forms' => $forms,
-        ]);
-    }
+    return view('livewire.user.available-forms', [
+        'forms' => $forms,
+    ]);
+}
 }
