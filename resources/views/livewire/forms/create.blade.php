@@ -95,6 +95,7 @@
                         <input
                             type="datetime-local"
                             wire:model.defer="start_at"
+                            required
                             class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
                         >
                         @error('start_at')
@@ -109,6 +110,7 @@
                         <input
                             type="datetime-local"
                             wire:model.defer="end_at"
+                            required
                             class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
                         >
                         @error('end_at')

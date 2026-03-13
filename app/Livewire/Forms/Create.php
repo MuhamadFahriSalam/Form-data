@@ -53,9 +53,9 @@ class Create extends Component
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'start_at' => ['nullable', 'date'],
-            'end_at' => ['nullable', 'date', 'after:start_at'],
+            'description' => ['required', 'string'],
+            'start_at' => ['required', 'date'],
+            'end_at' => ['required', 'date', 'after:start_at'],
 
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
@@ -65,7 +65,23 @@ class Create extends Component
             'questions.*.options.*' => ['nullable', 'string', 'max:255'],
         ];
     }
+    protected function messages(): array
+    {
+        return [
+            'title.required' => 'Judul form wajib diisi.',
+            'description.required' => 'Deskripsi wajib diisi.',
 
+            'start_at.required' => 'Waktu mulai wajib diisi.',
+            'start_at.date' => 'Format waktu mulai tidak valid.',
+
+            'end_at.required' => 'Batas akhir pengisian wajib diisi.',
+            'end_at.date' => 'Format batas akhir tidak valid.',
+            'end_at.after' => 'Batas akhir harus setelah waktu mulai.',
+
+            'questions.required' => 'Minimal harus ada satu pertanyaan.',
+            'questions.*.question.required' => 'Teks pertanyaan wajib diisi.',
+        ];
+    }
     public function save(): void
     {
         $this->validate();
@@ -77,8 +93,11 @@ class Create extends Component
                 'title' => $this->title,
                 'description' => $this->description,
                 'is_active' => true,
-                'opens_at' => $this->start_at ?: null,
-                'closes_at' => $this->end_at ?: null,
+                'opens_at' => $this->start_at,
+                'closes_at' => $this->end_at,
+
+                // 'opens_at' => $this->start_at ?: null,
+                // 'closes_at' => $this->end_at ?: null,
             ]);
 
             foreach ($this->questions as $index => $q) {
