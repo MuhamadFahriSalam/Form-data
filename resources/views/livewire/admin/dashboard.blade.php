@@ -58,7 +58,7 @@
                 </a>
 
                 {{-- Template 1 --}}
-                <div class="group flex h-full cursor-pointer flex-col">
+                {{-- <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
                         <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-emerald-50 to-white p-4">
@@ -75,10 +75,10 @@
                         <p class="text-base font-semibold text-slate-900">Informasi Kontak</p>
                         <p class="mt-1 text-sm text-slate-500">Form sederhana untuk data kontak</p>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Template 2 --}}
-                <div class="group flex h-full cursor-pointer flex-col">
+                {{-- <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-sky-500 to-cyan-400"></div>
                         <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-sky-50 to-white p-4">
@@ -96,10 +96,10 @@
                         <p class="text-base font-semibold text-slate-900">RSVP</p>
                         <p class="mt-1 text-sm text-slate-500">Cocok untuk konfirmasi kehadiran</p>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Template 3 --}}
-                <div class="group flex h-full cursor-pointer flex-col">
+                {{-- <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-fuchsia-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-fuchsia-500 to-violet-400"></div>
                         <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-fuchsia-50 to-white p-4">
@@ -117,10 +117,10 @@
                         <p class="text-base font-semibold text-slate-900">Undangan Pesta</p>
                         <p class="mt-1 text-sm text-slate-500">Template acara yang lebih menarik</p>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Template 4 --}}
-                <div class="group flex h-full cursor-pointer flex-col">
+                {{-- <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
                         <div class="h-3 bg-gradient-to-r from-amber-500 to-orange-400"></div>
                         <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-amber-50 to-white p-4">
@@ -138,7 +138,7 @@
                         <p class="text-base font-semibold text-slate-900">Pendaftaran</p>
                         <p class="mt-1 text-sm text-slate-500">Untuk registrasi peserta atau user</p>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Kelola Karyawan --}}
                 <a href="{{ route('employees.index') }}" class="group flex h-full flex-col">
