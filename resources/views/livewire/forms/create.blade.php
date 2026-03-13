@@ -295,6 +295,17 @@
 
         {{-- Actions --}}
         <div class="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-6">
+
+            <a
+                href="{{ route('admin.dashboard') }}"
+                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+                </svg>
+                Kembali
+            </a>
+
             <button
                 type="button"
                 wire:click="addQuestion"
