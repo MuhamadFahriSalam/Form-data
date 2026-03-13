@@ -294,8 +294,9 @@
         </div>
 
         {{-- Actions --}}
-        <div class="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-6">
+        <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6">
 
+            {{-- Kiri --}}
             <a
                 href="{{ route('admin.dashboard') }}"
                 class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
@@ -306,21 +307,24 @@
                 Kembali
             </a>
 
-            <button
-                type="button"
-                wire:click="addQuestion"
-                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
-            >
-                + Tambah Pertanyaan
-            </button>
+            {{-- Kanan --}}
+            <div class="flex flex-wrap items-center gap-4">
+                <button
+                    type="button"
+                    wire:click="addQuestion"
+                    class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+                >
+                    + Tambah Pertanyaan
+                </button>
 
-            <button
-                type="button"
-                wire:click="save"
-                class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
-            >
-                Simpan Form
-            </button>
+                <button
+                    type="button"
+                    wire:click="save"
+                    class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                >
+                    Simpan Form
+                </button>
+            </div>
         </div>
     </div>
 </div>
