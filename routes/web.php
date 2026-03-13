@@ -34,15 +34,18 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/forms/closed', function () {
+Route::get('/forms/closed', function () {
+
     $closedForms = \App\Models\Form::withCount('submissions')
-        ->where('is_active', '0')
-        ->latest()
+        ->whereNotNull('closes_at')
+        ->where('closes_at', '<', now())
+        ->latest('closes_at')
         ->get();
 
-        return view('admin.closed-forms', compact('closedForms'));
-    })->name('forms.closed');
-    
+    return view('admin.closed-forms', compact('closedForms'));
+
+})->name('forms.closed');
+
     Route::get('/forms/{form}/respondents', Respondents::class)
         ->name('forms.respondents');
     Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
