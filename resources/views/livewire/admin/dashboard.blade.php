@@ -157,6 +157,24 @@
                         <p class="mt-1 text-sm text-slate-500">Daftar Karyawan yang sudah mengisi formulir</p>
                     </div>
                 </a>
+
+                {{-- Form Ditutup --}}
+                <a href="{{ route('forms.closed') }}" class="group flex h-full flex-col">
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-300 hover:shadow-xl">
+                        <div class="flex h-52 items-center justify-center bg-gradient-to-br from-red-50 via-white to-rose-50">
+                            <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-red-600 text-white shadow-lg shadow-red-200 transition group-hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 12H6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 min-h-[56px]">
+                        <p class="text-base font-semibold text-slate-900">Form Ditutup</p>
+                        <p class="mt-1 text-sm text-slate-500">Daftar formulir yang masa pengisiannya telah berakhir</p>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
