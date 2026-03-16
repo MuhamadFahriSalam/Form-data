@@ -174,6 +174,8 @@
                                     <option value="radio">Pilihan Ganda</option>
                                     <option value="checkbox">Checkbox</option>
                                     <option value="date">Tanggal</option>
+                                    <option value="number">Number</option>
+                                    <option value="file">File</option>
                                 </select>
                             </div>
 
@@ -238,6 +240,17 @@
                                 @elseif ($questions[$index]['type'] === 'date')
                                     <input
                                         type="date"
+                                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm"
+                                    >
+                                @elseif ($questions[$index]['type'] === 'number')
+                                    <input
+                                        type="number"
+                                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm"
+                                        placeholder="Masukkan angka"
+                                    >
+                                @elseif ($questions[$index]['type'] === 'file')
+                                    <input
+                                        type="file"
                                         class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm"
                                     >
                                 @endif
