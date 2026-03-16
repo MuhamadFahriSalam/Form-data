@@ -59,7 +59,7 @@ class Create extends Component
 
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
-            'questions.*.type' => ['required', Rule::in(['text', 'textarea', 'radio', 'checkbox', 'select', 'date'])],
+            'questions.*.type' => ['required', Rule::in(['text', 'textarea', 'radio', 'checkbox', 'select', 'date', 'number','file'])],
             'questions.*.is_required' => ['boolean'],
             'questions.*.options' => ['nullable', 'array'],
             'questions.*.options.*' => ['nullable', 'string', 'max:255'],
@@ -101,7 +101,7 @@ class Create extends Component
             ]);
 
             foreach ($this->questions as $index => $q) {
-                $options = in_array($q['type'], ['radio', 'checkbox', 'select'])
+                $options = in_array($q['type'], ['radio', 'checkbox', 'select', 'file','number'])
                     ? array_values(array_filter($q['options'], fn ($item) => trim((string) $item) !== ''))
                     : null;
 

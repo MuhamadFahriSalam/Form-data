@@ -87,6 +87,23 @@
                                         wire:model.defer="answers.{{ $question->id }}"
                                         class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                     >
+            @elseif ($question->type === 'file')
+                <input
+                    type="file"
+                    wire:model="answers.{{ $question->id }}"
+                    class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-blue-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                >
+                <div wire:loading wire:target="answers.{{ $question->id }}" class="mt-2 text-sm text-blue-600">
+                    Uploading...
+                </div>
+
+            @elseif ($question->type === 'number')
+                <input
+                    type="number"
+                    wire:model.defer="answers.{{ $question->id }}"
+                    class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                    placeholder="Masukkan angka"
+                >
                                 @elseif ($question->type === 'select')
                                     <select
                                         wire:model.defer="answers.{{ $question->id }}"

@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RespondentsExport;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Respondents extends Component
 {
@@ -26,6 +27,25 @@ class Respondents extends Component
     public function updatingSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function formatAnswer($question, $value): string
+    {
+        $decoded = json_decode($value, true);
+
+        if ($question->type === 'checkbox' && is_array($decoded)) {
+            return implode(', ', $decoded);
+        }
+
+        if ($question->type === 'date' && !empty($value)) {
+            return \Carbon\Carbon::parse($value)->format('d M Y');
+        }
+
+        if ($question->type === 'file' && !empty($value)) {
+            return Storage::url($value);
+        }
+
+        return !empty($value) ? $value : '-';
     }
 
     public function exportRespondents()
@@ -68,17 +88,8 @@ class Respondents extends Component
             foreach ($questions as $question) {
                 $answer = $submission->answers->firstWhere('form_question_id', $question->id);
                 $value = $answer->answer ?? null;
-                $decoded = json_decode($value, true);
 
-                if ($question->type === 'checkbox' && is_array($decoded)) {
-                    $row[] = implode(', ', $decoded);
-                } elseif ($question->type === 'date' && !empty($value)) {
-                    $row[] = \Carbon\Carbon::parse($value)->format('d M Y');
-                } elseif (!empty($value)) {
-                    $row[] = $value;
-                } else {
-                    $row[] = '-';
-                }
+                $row[] = $this->formatAnswer($question, $value);
             }
 
             $row[] = optional($submission->created_at)->format('d M Y H:i') ?? '-';

@@ -4,14 +4,18 @@ namespace App\Livewire\Forms;
 
 use App\Models\Form;
 use App\Models\FormSubmission;
-use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Show extends Component
 {
+    use WithFileUploads;
+
     public Form $form;
     public array $answers = [];
     public bool $alreadySubmitted = false;
+
     public function mount(Form $form): void
     {
         $this->form = $form->load(['questions' => function ($q) {
@@ -23,9 +27,10 @@ class Show extends Component
             ->exists();
 
         foreach ($this->form->questions as $question) {
-            $this->answers[$question->id] = $question->type === 'checkbox' ? [] : '';
+            $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
     }
+
     protected function rules(): array
     {
         $rules = [];
@@ -33,19 +38,31 @@ class Show extends Component
         foreach ($this->form->questions as $question) {
             $key = "answers.{$question->id}";
 
-            if ($question->is_required) {
-                $rules[$key] = match ($question->type) {
-                    'checkbox' => ['required', 'array', 'min:1'],
-                    'date' => ['required', 'date'],
-                    default => ['required'],
-                };
-            } else {
-                $rules[$key] = match ($question->type) {
-                    'checkbox' => ['nullable', 'array'],
-                    'date' => ['nullable', 'date'],
-                    default => ['nullable'],
-                };
-            }
+            $rules[$key] = match ($question->type) {
+                'checkbox' => $question->is_required
+                    ? ['required', 'array', 'min:1']
+                    : ['nullable', 'array'],
+
+                'date' => $question->is_required
+                    ? ['required', 'date']
+                    : ['nullable', 'date'],
+
+                'email' => $question->is_required
+                    ? ['required', 'email']
+                    : ['nullable', 'email'],
+
+                'number' => $question->is_required
+                    ? ['required', 'numeric']
+                    : ['nullable', 'numeric'],
+
+                'file' => $question->is_required
+                    ? ['required', 'file', 'max:2048']
+                    : ['nullable', 'file', 'max:2048'],
+
+                default => $question->is_required
+                    ? ['required']
+                    : ['nullable'],
+            };
         }
 
         return $rules;
@@ -62,6 +79,10 @@ class Show extends Component
             $messages["{$key}.min"] = 'Harus diisi.';
             $messages["{$key}.array"] = 'Harus diisi.';
             $messages["{$key}.date"] = 'Format tanggal tidak valid.';
+            $messages["{$key}.email"] = 'Format email tidak valid.';
+            $messages["{$key}.numeric"] = 'Harus berupa angka.';
+            $messages["{$key}.file"] = 'File tidak valid.';
+            $messages["{$key}.max"] = 'Ukuran file maksimal 2MB.';
         }
 
         return $messages;
@@ -89,7 +110,9 @@ class Show extends Component
             foreach ($this->form->questions as $question) {
                 $answer = $this->answers[$question->id] ?? null;
 
-                if (is_array($answer)) {
+                if ($question->type === 'file' && $answer) {
+                    $answer = $answer->store('form-answers', 'public');
+                } elseif (is_array($answer)) {
                     $answer = json_encode($answer);
                 }
 
@@ -105,7 +128,7 @@ class Show extends Component
         session()->flash('success', 'Jawaban berhasil dikirim.');
 
         foreach ($this->form->questions as $question) {
-            $this->answers[$question->id] = $question->type === 'checkbox' ? [] : '';
+            $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
     }
 
