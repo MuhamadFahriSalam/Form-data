@@ -15,7 +15,7 @@
                             Selamat datang
                         </h1>
                         <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-200 sm:text-base">
-                            Lihat form yang tersedia dan isi form yang sedang dibuka langsung dari halaman ini.
+                            Lihat form dan quiz yang tersedia dan isi yang sedang dibuka langsung dari halaman ini.
                         </p>
                     </div>
 
