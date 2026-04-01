@@ -151,5 +151,53 @@
                 </div>
             @endif
         </div>
+
+        {{-- ================= QUIZ SECTION ================= --}}
+        <div class="mt-12">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Quiz Tersedia
+                </h2>
+                <p class="mt-1 text-sm text-slate-500">
+                    Kerjakan quiz yang tersedia untuk evaluasi atau psikotes.
+                </p>
+            </div>
+
+            @if ($quizzes->count())
+                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    @foreach ($quizzes as $quiz)
+                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+
+                            <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+
+                            <div class="p-6 flex flex-col h-full">
+
+                                <h3 class="text-lg font-semibold text-slate-900">
+                                    {{ $quiz->title }}
+                                </h3>
+
+                                <p class="mt-2 text-sm text-slate-500">
+                                    Jumlah soal: {{ $quiz->questions->count() }}
+                                </p>
+
+                                <div class="mt-auto pt-4">
+                                    <a
+                                        href="{{ route('quiz.play', $quiz->uuid) }}"
+                                        class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
+                                    >
+                                        Kerjakan Quiz
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="rounded-2xl bg-white border p-6 text-center text-slate-500">
+                    Belum ada quiz tersedia.
+                </div>
+            @endif
+        </div>
     </div>
 </div>

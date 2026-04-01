@@ -7,10 +7,25 @@ use App\Livewire\Employees\Index as EmployeesIndex;
 use App\Livewire\Forms\Create as FormsCreate;
 use App\Livewire\Forms\Respondents;
 use App\Livewire\Forms\Show as FormsShow;
+use App\Livewire\Quiz\Create as QuizCreate;
+use App\Livewire\Quiz\Play;
 
+/*
+|--------------------------------------------------------------------------
+| ROOT REDIRECT
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
+
+/*
+|--------------------------------------------------------------------------
+| AUTH ROUTES
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [LoginController::class, 'showUserLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('website.login');
 
@@ -20,6 +35,11 @@ Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('admin
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+/*
+|--------------------------------------------------------------------------
+| USER ROUTES (AUTH)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
@@ -31,9 +51,28 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.dashboard');
 
     Route::get('/form/{form}', FormsShow::class)->name('forms.show');
+
+    // 🔥 Quiz Play untuk user
+    Route::get('/quiz/play/{quiz}', Play::class)->name('quiz.play');
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
+
+    Route::get('/employees', EmployeesIndex::class)->name('employees.index');
+
+    Route::get('/forms/create', FormsCreate::class)->name('forms.create');
+
+    Route::get('/forms/{form}/respondents', Respondents::class)
+        ->name('forms.respondents');
+
     Route::get('/forms/closed', function () {
 
         $closedForms = \App\Models\Form::withCount('submissions')
@@ -46,9 +85,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     })->name('forms.closed');
 
-    Route::get('/forms/{form}/respondents', Respondents::class)
-        ->name('forms.respondents');
-    Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
-    Route::get('/employees', EmployeesIndex::class)->name('employees.index');
-    Route::get('/forms/create', FormsCreate::class)->name('forms.create');
+    // 🔥 FIX: quiz create tidak konflik lagi
+    Route::get('/quiz/create', QuizCreate::class)->name('quiz.create');
+
+    // 🔥 ADMIN PLAY (opsional, beda URL)
+    Route::get('/quiz/manage/{quiz}', Play::class)->name('quiz.manage');
 });

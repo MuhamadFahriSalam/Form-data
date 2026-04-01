@@ -57,25 +57,62 @@
                     </div>
                 </a>
 
-                {{-- Template 1 --}}
-                {{-- <div class="group flex h-full cursor-pointer flex-col">
-                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl">
-                        <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
-                        <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-emerald-50 to-white p-4">
-                            <div class="mb-4 h-3 w-2/3 rounded-full bg-emerald-200"></div>
-                            <div class="space-y-3">
-                                <div class="h-10 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-10 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-10 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
+                {{-- Quiz  --}}
+                <a href="{{ route('quiz.create') }}" class="group flex h-full flex-col">
+                    <div class="group flex h-full cursor-pointer flex-col">
+                        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl">
+
+                            {{-- TOP BAR --}}
+                            <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
+
+                            {{-- CONTENT --}}
+                            <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-emerald-50 to-white p-5">
+
+                                {{-- ICON --}}
+                                <div class="mb-4 flex items-center gap-2">
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-white shadow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M8 10h8M8 14h5M9 21h6a2 2 0 002-2V7l-5-5H9a2 2 0 00-2 2v15a2 2 0 002 2Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="h-3 w-1/2 rounded-full bg-emerald-200"></div>
+                                </div>
+
+                                {{-- OPTIONS PREVIEW --}}
+                                <div class="space-y-3">
+
+                                    {{-- OPTION 1 --}}
+                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                        <div class="h-4 w-4 rounded-full border-2 border-emerald-400"></div>
+                                        <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
+                                    </div>
+
+                                    {{-- OPTION 2 (SELECTED) --}}
+                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-emerald-200">
+                                        <div class="flex h-4 w-4 items-center justify-center rounded-full border-2 border-emerald-500">
+                                            <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
+                                        </div>
+                                        <div class="h-3 w-1/2 rounded-full bg-slate-200"></div>
+                                    </div>
+
+                                    {{-- OPTION 3 --}}
+                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                        <div class="h-4 w-4 rounded border-2 border-emerald-400"></div>
+                                        <div class="h-3 w-3/4 rounded-full bg-slate-200"></div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mt-4 min-h-[56px]">
-                        <p class="text-base font-semibold text-slate-900">Informasi Kontak</p>
-                        <p class="mt-1 text-sm text-slate-500">Form sederhana untuk data kontak</p>
+                        {{-- TEXT --}}
+                        <div class="mt-4 min-h-[56px]">
+                            <p class="text-base font-semibold text-slate-900">Quiz</p>
+                            <p class="mt-1 text-sm text-slate-500">Buat soal quiz interaktif</p>
+                        </div>
                     </div>
-                </div> --}}
+                </a>
 
                 {{-- Template 2 --}}
                 {{-- <div class="group flex h-full cursor-pointer flex-col">

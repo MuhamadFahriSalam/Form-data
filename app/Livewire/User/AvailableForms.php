@@ -3,20 +3,26 @@
 namespace App\Livewire\User;
 
 use App\Models\Form;
+use App\Models\Quiz;
 use Livewire\Component;
 
 class AvailableForms extends Component
 {
-public function render()
-{
-    $forms = Form::query()
-        ->where('is_active', true)
-        ->where('closes_at', '>=', now())
-        ->latest()
-        ->get();
+    public function render()
+    {
+        // FORM
+        $forms = Form::query()
+            ->where('is_active', true)
+            ->where('closes_at', '>=', now())
+            ->latest()
+            ->get();
 
-    return view('livewire.user.available-forms', [
-        'forms' => $forms,
-    ]);
-}
+        // QUIZ
+        $quizzes = Quiz::with('questions')->latest()->get();
+
+        return view('livewire.user.available-forms', [
+            'forms' => $forms,
+            'quizzes' => $quizzes,
+        ]);
+    }
 }
