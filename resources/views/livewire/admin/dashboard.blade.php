@@ -147,27 +147,48 @@
                         {{-- TOP BAR --}}
                         <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
 
-                        {{-- CONTENT --}}
-                        <div class="flex flex-1 flex-col justify-center bg-gradient-to-br from-emerald-50 to-white p-5">
+                        {{-- CONTENT (FIX: -mt-3 biar sejajar) --}}
+                        <div class="flex flex-1 flex-col justify-center bg-gradient-to-br from-emerald-50 to-white p-5 -mt-14">
 
-                            {{-- ICON --}}
+                            {{-- HEADER + ICON --}}
                             <div class="mb-4 flex items-center gap-2">
-                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-white shadow">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-white shadow transition duration-300 group-hover:rotate-6">
+
+                                    {{-- ICON QUIZ (QUESTION + CHECK) --}}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        
+                                        {{-- QUESTION --}}
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                            d="M8 10h8M8 14h5M9 21h6a2 2 0 002-2V7l-5-5H9a2 2 0 00-2 2v15a2 2 0 002 2Z" />
+                                            d="M12 8a3 3 0 00-3 3h2a1 1 0 112 0c0 .5-.3.8-.8 1.1-.6.3-1.2.9-1.2 1.9" />
+                                        
+                                        {{-- DOT --}}
+                                        <circle cx="12" cy="17" r="1" fill="currentColor" />
+
+                                        {{-- CARD --}}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+
+                                        {{-- CHECK --}}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 14l1.5 1.5L14 12" />
                                     </svg>
+
                                 </div>
+
+                                {{-- TITLE LINE --}}
                                 <div class="h-3 w-1/2 rounded-full bg-emerald-200"></div>
                             </div>
 
-                            {{-- OPTIONS --}}
+                            {{-- OPTIONS PREVIEW --}}
                             <div class="space-y-3">
+
+                                {{-- OPTION 1 --}}
                                 <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
                                     <div class="h-4 w-4 rounded-full border-2 border-emerald-400"></div>
                                     <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
                                 </div>
 
+                                {{-- OPTION 2 (SELECTED) --}}
                                 <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-emerald-200">
                                     <div class="flex h-4 w-4 items-center justify-center rounded-full border-2 border-emerald-500">
                                         <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
@@ -175,10 +196,12 @@
                                     <div class="h-3 w-1/2 rounded-full bg-slate-200"></div>
                                 </div>
 
+                                {{-- OPTION 3 --}}
                                 <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
                                     <div class="h-4 w-4 rounded border-2 border-emerald-400"></div>
                                     <div class="h-3 w-3/4 rounded-full bg-slate-200"></div>
                                 </div>
+
                             </div>
 
                         </div>
