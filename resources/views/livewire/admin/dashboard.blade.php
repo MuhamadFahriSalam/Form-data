@@ -44,9 +44,39 @@
                 {{-- Form kosong --}}
                 <a href="{{ route('forms.create') }}" class="group flex h-full flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl">
-                        <div class="flex h-52 items-center justify-center bg-gradient-to-br from-violet-50 via-white to-fuchsia-50">
-                            <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-violet-600 text-5xl font-light text-white shadow-lg shadow-violet-200 transition group-hover:scale-105">
-                                +
+
+                        <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 p-5">
+
+                            {{-- ICON + HEADER --}}
+                            <div class="mb-4 flex items-center gap-2">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-white shadow">
+                                    {{-- ICON FORM --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 12h6M9 16h6M9 8h6M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+                                    </svg>
+                                </div>
+                                <div class="h-3 w-1/2 rounded-full bg-violet-200"></div>
+                            </div>
+
+                            {{-- PREVIEW INPUT FORM --}}
+                            <div class="space-y-3">
+
+                                {{-- INPUT TEXT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
+
+                                {{-- INPUT TEXT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
+
+                                {{-- INPUT SELECT --}}
+                                <div class="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-3 w-1/3 rounded-full bg-slate-200"></div>
+                                    <div class="ml-auto h-3 w-3 rounded-full bg-violet-400"></div>
+                                </div>
+
+                                {{-- BUTTON --}}
+                                <div class="h-9 rounded-xl bg-violet-500 shadow-sm"></div>
+
                             </div>
                         </div>
                     </div>
@@ -59,58 +89,52 @@
 
                 {{-- Quiz  --}}
                 <a href="{{ route('quiz.create') }}" class="group flex h-full flex-col">
-                    <div class="group flex h-full cursor-pointer flex-col">
-                        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl">
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl flex flex-col h-52">
 
-                            {{-- TOP BAR --}}
-                            <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
+                        {{-- TOP BAR --}}
+                        <div class="h-3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
 
-                            {{-- CONTENT --}}
-                            <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-emerald-50 to-white p-5">
+                        {{-- CONTENT --}}
+                        <div class="flex flex-1 flex-col justify-center bg-gradient-to-br from-emerald-50 to-white p-5">
 
-                                {{-- ICON --}}
-                                <div class="mb-4 flex items-center gap-2">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-white shadow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                                d="M8 10h8M8 14h5M9 21h6a2 2 0 002-2V7l-5-5H9a2 2 0 00-2 2v15a2 2 0 002 2Z" />
-                                        </svg>
-                                    </div>
-                                    <div class="h-3 w-1/2 rounded-full bg-emerald-200"></div>
+                            {{-- ICON --}}
+                            <div class="mb-4 flex items-center gap-2">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-white shadow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M8 10h8M8 14h5M9 21h6a2 2 0 002-2V7l-5-5H9a2 2 0 00-2 2v15a2 2 0 002 2Z" />
+                                    </svg>
+                                </div>
+                                <div class="h-3 w-1/2 rounded-full bg-emerald-200"></div>
+                            </div>
+
+                            {{-- OPTIONS --}}
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-4 w-4 rounded-full border-2 border-emerald-400"></div>
+                                    <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
                                 </div>
 
-                                {{-- OPTIONS PREVIEW --}}
-                                <div class="space-y-3">
-
-                                    {{-- OPTION 1 --}}
-                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
-                                        <div class="h-4 w-4 rounded-full border-2 border-emerald-400"></div>
-                                        <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-emerald-200">
+                                    <div class="flex h-4 w-4 items-center justify-center rounded-full border-2 border-emerald-500">
+                                        <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
                                     </div>
+                                    <div class="h-3 w-1/2 rounded-full bg-slate-200"></div>
+                                </div>
 
-                                    {{-- OPTION 2 (SELECTED) --}}
-                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-emerald-200">
-                                        <div class="flex h-4 w-4 items-center justify-center rounded-full border-2 border-emerald-500">
-                                            <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
-                                        </div>
-                                        <div class="h-3 w-1/2 rounded-full bg-slate-200"></div>
-                                    </div>
-
-                                    {{-- OPTION 3 --}}
-                                    <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
-                                        <div class="h-4 w-4 rounded border-2 border-emerald-400"></div>
-                                        <div class="h-3 w-3/4 rounded-full bg-slate-200"></div>
-                                    </div>
-
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-4 w-4 rounded border-2 border-emerald-400"></div>
+                                    <div class="h-3 w-3/4 rounded-full bg-slate-200"></div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{-- TEXT --}}
-                        <div class="mt-4 min-h-[56px]">
-                            <p class="text-base font-semibold text-slate-900">Quiz</p>
-                            <p class="mt-1 text-sm text-slate-500">Buat soal quiz interaktif</p>
                         </div>
+                    </div>
+
+                    {{-- TEXT --}}
+                    <div class="mt-4 min-h-[56px]">
+                        <p class="text-base font-semibold text-slate-900">Quiz</p>
+                        <p class="mt-1 text-sm text-slate-500">Buat soal quiz interaktif</p>
                     </div>
                 </a>
 
@@ -180,11 +204,51 @@
                 {{-- Kelola Karyawan --}}
                 <a href="{{ route('employees.index') }}" class="group flex h-full flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
-                        <div class="flex h-52 items-center justify-center bg-gradient-to-br from-sky-50 via-white to-blue-50">
-                            <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-sky-600 text-white shadow-lg shadow-sky-200 transition group-hover:scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5V4H2v16h5m10 0v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5m10 0H7m8-12h.01M9 8h.01" />
-                                </svg>
+
+                        <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-sky-50 via-white to-blue-50 p-5">
+
+                            {{-- HEADER --}}
+                            <div class="mb-4 flex items-center gap-2">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-600 text-white shadow">
+                                    {{-- ICON USER --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M16 14a4 4 0 10-8 0m8 0v1a4 4 0 01-8 0v-1m8 0a4 4 0 014 4v1H4v-1a4 4 0 014-4" />
+                                    </svg>
+                                </div>
+                                <div class="h-3 w-1/2 rounded-full bg-sky-200"></div>
+                            </div>
+
+                            {{-- LIST KARYAWAN PREVIEW --}}
+                            <div class="space-y-3">
+
+                                {{-- ITEM 1 --}}
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-8 w-8 rounded-full bg-sky-300"></div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
+                                        <div class="mt-1 h-2 w-1/3 rounded-full bg-slate-100"></div>
+                                    </div>
+                                </div>
+
+                                {{-- ITEM 2 --}}
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-8 w-8 rounded-full bg-sky-300"></div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-1/2 rounded-full bg-slate-200"></div>
+                                        <div class="mt-1 h-2 w-1/4 rounded-full bg-slate-100"></div>
+                                    </div>
+                                </div>
+
+                                {{-- ITEM 3 --}}
+                                <div class="flex items-center gap-3 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100">
+                                    <div class="h-8 w-8 rounded-full bg-sky-300"></div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-3/4 rounded-full bg-slate-200"></div>
+                                        <div class="mt-1 h-2 w-1/3 rounded-full bg-slate-100"></div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -198,12 +262,45 @@
                 {{-- Form Ditutup --}}
                 <a href="{{ route('forms.closed') }}" class="group flex h-full flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-300 hover:shadow-xl">
-                        <div class="flex h-52 items-center justify-center bg-gradient-to-br from-red-50 via-white to-rose-50">
-                            <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-red-600 text-white shadow-lg shadow-red-200 transition group-hover:scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 12H6" />
-                                </svg>
+
+                        <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-red-50 via-white to-rose-50 p-5">
+
+                            {{-- HEADER --}}
+                            <div class="mb-4 flex items-center gap-2">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 text-white shadow">
+                                    {{-- ICON CLOSED FORM --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 12h6M9 16h4M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M15 3v6h6" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 6l12 12" /> <!-- tanda X -->
+                                    </svg>
+                                </div>
+                                <div class="h-3 w-1/2 rounded-full bg-red-200"></div>
                             </div>
+
+                            {{-- PREVIEW FORM (DISABLED STYLE) --}}
+                            <div class="space-y-3 opacity-70">
+
+                                {{-- INPUT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-red-100"></div>
+
+                                {{-- INPUT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-red-100"></div>
+
+                                {{-- SELECT --}}
+                                <div class="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-red-100">
+                                    <div class="h-3 w-1/3 rounded-full bg-slate-200"></div>
+                                    <div class="ml-auto h-3 w-3 rounded-full bg-red-400"></div>
+                                </div>
+
+                                {{-- BUTTON DISABLED --}}
+                                <div class="h-9 rounded-xl bg-red-300"></div>
+
+                            </div>
+
                         </div>
                     </div>
 
