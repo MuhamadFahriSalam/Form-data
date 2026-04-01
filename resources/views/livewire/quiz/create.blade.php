@@ -24,20 +24,85 @@
                 </div>
             </div>
 
-            {{-- TITLE --}}
-            <div class="mb-8 rounded-3xl border border-slate-200 bg-white shadow-sm p-6">
-                <label class="block text-sm font-semibold text-slate-700 mb-2">
-                    Judul Quiz
-                </label>
-                <input
-                    type="text"
-                    wire:model="title"
-                    placeholder="Masukkan judul quiz"
-                    class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
-                >
-                @error('title')
-                    <div class="text-red-500 mt-2 text-sm">{{ $message }}</div>
-                @enderror
+            {{-- Informasi Quiz --}}
+            <div class="mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                <div class="border-b border-slate-100 px-6 py-5 sm:px-8">
+                    <h2 class="text-lg font-semibold text-slate-900">
+                        Informasi Quiz
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Isi judul, deskripsi, dan periode pengerjaan quiz.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 p-6 sm:p-8">
+                    
+                    {{-- Judul --}}
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">
+                            Judul Quiz
+                        </label>
+                        <input
+                            type="text"
+                            wire:model.defer="title"
+                            placeholder="Masukkan judul quiz"
+                            class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
+                        >
+                        @error('title')
+                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Deskripsi --}}
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">
+                            Deskripsi
+                        </label>
+                        <textarea
+                            wire:model.defer="description"
+                            rows="4"
+                            placeholder="Masukkan deskripsi quiz"
+                            class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
+                        ></textarea>
+                        @error('description')
+                            <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Waktu --}}
+                    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                        
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                Waktu Mulai
+                            </label>
+                            <input
+                                type="datetime-local"
+                                wire:model.defer="start_at"
+                                class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
+                            >
+                            @error('start_at')
+                                <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                Batas Akhir
+                            </label>
+                            <input
+                                type="datetime-local"
+                                wire:model.defer="end_at"
+                                class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
+                            >
+                            @error('end_at')
+                                <div class="mt-2 text-sm font-medium text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
 
             {{-- PERTANYAAN --}}

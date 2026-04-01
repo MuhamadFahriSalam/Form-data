@@ -166,31 +166,94 @@
             @if ($quizzes->count())
                 <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($quizzes as $quiz)
-                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
+                        @php
+                            $now = now();
+                            $status = 'active';
+
+                            if ($quiz->start_at && $now->lt($quiz->start_at)) {
+                                $status = 'upcoming';
+                            } elseif ($quiz->end_at && $now->gt($quiz->end_at)) {
+                                $status = 'ended';
+                            }
+                        @endphp
+
+                        <div class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+
+                            {{-- Top Gradient --}}
                             <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
 
-                            <div class="p-6 flex flex-col h-full">
+                            <div class="p-6 flex flex-col flex-1">
 
-                                <h3 class="text-lg font-semibold text-slate-900">
+                                {{-- Title --}}
+                                <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">
                                     {{ $quiz->title }}
                                 </h3>
 
-                                <p class="mt-2 text-sm text-slate-500">
-                                    Jumlah soal: {{ $quiz->questions->count() }}
+                                {{-- Description --}}
+                                <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+                                    {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
                                 </p>
 
+                                {{-- Info --}}
+                                <div class="mt-4 space-y-1 text-xs text-slate-500">
+                                    <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+
+                                    @if ($quiz->start_at)
+                                        <p>🟢 Mulai: {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
+                                    @endif
+
+                                    @if ($quiz->end_at)
+                                        <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
+                                    @endif
+                                </div>
+
+                                {{-- Status Badge --}}
+                                <div class="mt-4">
+                                    @if ($status === 'upcoming')
+                                        <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">
+                                            Belum Dimulai
+                                        </span>
+                                    @elseif ($status === 'ended')
+                                        <span class="inline-block rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                                            Sudah Berakhir
+                                        </span>
+                                    @else
+                                        <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
+                                            Aktif
+                                        </span>
+                                    @endif
+                                </div>
+
+                                {{-- Button --}}
                                 <div class="mt-auto pt-4">
-                                    <a
-                                        href="{{ route('quiz.play', $quiz->uuid) }}"
-                                        class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
-                                    >
-                                        Kerjakan Quiz
-                                    </a>
+                                    @if ($status === 'active')
+                                        <a
+                                            href="{{ route('quiz.play', $quiz->uuid) }}"
+                                            class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
+                                        >
+                                            Kerjakan Quiz
+                                        </a>
+                                    @elseif ($status === 'upcoming')
+                                        <button
+                                            disabled
+                                            class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                        >
+                                            Belum Tersedia
+                                        </button>
+                                    @else
+                                        <button
+                                            disabled
+                                            class="w-full rounded-2xl bg-red-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                        >
+                                            Ditutup
+                                        </button>
+                                    @endif
                                 </div>
 
                             </div>
                         </div>
+
                     @endforeach
                 </div>
             @else

@@ -11,6 +11,9 @@ class Create extends Component
 {
     public $title;
     public $questions = [];
+    public $description;
+    public $start_at;
+    public $end_at;
 
     public function mount()
     {
@@ -80,12 +83,18 @@ class Create extends Component
     public function save()
     {
         $this->validate([
-            'title' => 'required'
+            'title' => 'required',
+            'description' => 'nullable',
+            'start_at' => 'nullable|date',
+            'end_at' => 'nullable|date|after_or_equal:start_at',
         ]);
 
         // 🔥 SIMPAN QUIZ
         $quiz = Quiz::create([
-            'title' => $this->title
+            'title' => $this->title,
+            'description' => $this->description,
+            'start_at' => $this->start_at,
+            'end_at' => $this->end_at,
         ]);
 
         foreach ($this->questions as $q) {
