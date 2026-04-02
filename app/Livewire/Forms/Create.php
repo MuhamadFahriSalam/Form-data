@@ -17,11 +17,15 @@ class Create extends Component
 
     public array $questions = [];
 
+    public string $status = 'draft'; // default draft
+
+    // Initialize with one empty question
     public function mount(): void
     {
         $this->addQuestion();
     }
 
+    // Method untuk menambahkan pertanyaan baru
     public function addQuestion(): void
     {
         $this->questions[] = [
@@ -32,23 +36,27 @@ class Create extends Component
         ];
     }
 
+    // Method untuk menghapus pertanyaan
     public function removeQuestion(int $index): void
     {
         unset($this->questions[$index]);
         $this->questions = array_values($this->questions);
     }
 
+    // Method untuk menambahkan opsi ke pertanyaan pilihan
     public function addOption(int $questionIndex): void
     {
         $this->questions[$questionIndex]['options'][] = '';
     }
 
+    // Method untuk menghapus opsi dari pertanyaan pilihan
     public function removeOption(int $questionIndex, int $optionIndex): void
     {
         unset($this->questions[$questionIndex]['options'][$optionIndex]);
         $this->questions[$questionIndex]['options'] = array_values($this->questions[$questionIndex]['options']);
     }
 
+    // Validation rules
     protected function rules(): array
     {
         return [
@@ -56,6 +64,8 @@ class Create extends Component
             'description' => ['required', 'string'],
             'start_at' => ['required', 'date'],
             'end_at' => ['required', 'date', 'after:start_at'],
+
+            'status' => ['required', Rule::in(['draft', 'published'])],
 
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
@@ -65,6 +75,8 @@ class Create extends Component
             'questions.*.options.*' => ['nullable', 'string', 'max:255'],
         ];
     }
+    
+    // Custom validation messages
     protected function messages(): array
     {
         return [
@@ -82,6 +94,15 @@ class Create extends Component
             'questions.*.question.required' => 'Teks pertanyaan wajib diisi.',
         ];
     }
+
+    // Method untuk menyimpan dengan status tertentu (draft atau published)
+    public function saveAs(string $status): void
+    {
+        $this->status = $status;
+        $this->save();
+    }
+
+    // Method untuk konfirmasi sebelum menyimpan
     public function save(): void
     {
         $this->validate();
@@ -92,7 +113,7 @@ class Create extends Component
                 "uuid" => Str::uuid(),
                 'title' => $this->title,
                 'description' => $this->description,
-                'is_active' => true,
+                'is_active' => $this->status === 'published',
                 'opens_at' => $this->start_at,
                 'closes_at' => $this->end_at,
 
@@ -115,7 +136,12 @@ class Create extends Component
             }
         });
 
-        session()->flash('success', 'Form berhasil dibuat.');
+        // Redirect ke dashboard setelah menyimpan
+        session()->flash('success', 
+            $this->status === 'published'
+                ? 'Form berhasil dipublish.'
+                : 'Form berhasil disimpan sebagai draft.'
+        );
 
         $this->title = '';
         $this->description = '';
@@ -125,6 +151,7 @@ class Create extends Component
         $this->addQuestion();
     }
 
+    // Render method
     public function render()
     {
         return view('livewire.forms.create')
