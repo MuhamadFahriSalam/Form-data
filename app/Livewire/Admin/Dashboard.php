@@ -7,19 +7,20 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-public function render()
-{
-    $forms = Form::where('user_id', auth()->id())
-        ->where(function ($q) {
-            $q->whereNull('closes_at')
-              ->orWhere('closes_at', '>=', now());
-        })
-        ->withCount('submissions')
-        ->latest()
-        ->get();
+    // Dashboard untuk admin, menampilkan semua form yang dibuat oleh user
+    public function render()
+    {
+        $forms = Form::where('user_id', auth()->id())
+            ->where(function ($q) {
+                $q->whereNull('closes_at')
+                ->orWhere('closes_at', '>=', now());
+            })
+            ->withCount('submissions')
+            ->latest()
+            ->get();
 
-    return view('livewire.admin.dashboard', [
-        'forms' => $forms,
-    ]);
-}
+        return view('livewire.admin.dashboard', [
+            'forms' => $forms,
+        ]);
+    }
 }
