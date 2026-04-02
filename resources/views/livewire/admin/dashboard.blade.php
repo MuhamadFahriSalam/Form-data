@@ -411,6 +411,7 @@
                 @foreach ($forms as $form)
                     <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-[0_18px_50px_rgba(15,23,42,0.10)]">
                         <div class="mb-5 flex items-start justify-between gap-4">
+                            {{-- KIRI: ICON + TITLE --}}
                             <div class="flex items-center gap-3">
                                 <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -418,6 +419,7 @@
                                     </svg>
                                 </div>
 
+                                {{-- TITLE + CREATED AT --}}
                                 <div>
                                     <h3 class="text-lg font-semibold text-slate-900 transition group-hover:text-violet-700">
                                         {{ $form->title }}
@@ -426,6 +428,19 @@
                                         Dibuat {{ $form->created_at->format('d M Y') }}
                                     </p>
                                 </div>
+                            </div>
+
+                            {{-- KANAN: STATUS --}}
+                            <div>
+                                @if(!$form->is_active)
+                                    <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">
+                                        Draft
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                                        Published
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -451,16 +466,6 @@
 
                         {{-- ACTIONS --}}
                         <div class="mt-6 flex flex-wrap items-center gap-3">
-
-                            {{-- BUTTON (HANYA MUNCUL JIKA DRAFT) --}}
-                            @if(!$form->is_active)
-                                <button
-                                    wire:click="publish({{ $form->id }})"
-                                    class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700"
-                                >
-                                    Draft
-                                </button>
-                            @endif
 
                             {{-- BUTTON EDIT --}}
                             <a
