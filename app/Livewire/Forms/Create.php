@@ -15,14 +15,20 @@ class Create extends Component
     public ?string $start_at = null;
     public ?string $end_at = null;
 
+    public ?int $formId = null;
+
     public array $questions = [];
 
     public string $status = 'draft'; // default draft
 
     // Initialize with one empty question
-    public function mount(): void
+    public function mount($form = null): void
     {
-        $this->addQuestion();
+        if ($form) {
+            $this->loadForm($form);
+        } else {
+            $this->addQuestion();
+        }
     }
 
     // Method untuk menambahkan pertanyaan baru
@@ -102,25 +108,69 @@ class Create extends Component
         $this->save();
     }
 
+
+    // Method untuk load form yang sudah ada (untuk edit)
+    public function loadForm($uuid): void
+    {
+        $form = Form::where('uuid', $uuid)
+            ->with('questions')
+            ->firstOrFail();
+
+        $this->formId = $form->id;
+        $this->title = $form->title;
+        $this->description = $form->description;
+        $this->start_at = $form->opens_at;
+        $this->end_at = $form->closes_at;
+        $this->status = $form->is_active ? 'published' : 'draft';
+
+        $this->questions = [];
+
+        foreach ($form->questions as $q) {
+            $this->questions[] = [
+                'question' => $q->question,
+                'type' => $q->type,
+                'is_required' => $q->is_required,
+                'options' => $q->options ?? [''],
+            ];
+        }
+    }
+
     // Method untuk konfirmasi sebelum menyimpan
     public function save(): void
     {
         $this->validate();
 
         DB::transaction(function () {
-            $form = Form::create([
-                'user_id' => auth()->id(),
-                "uuid" => Str::uuid(),
-                'title' => $this->title,
-                'description' => $this->description,
-                'is_active' => $this->status === 'published',
-                'opens_at' => $this->start_at,
-                'closes_at' => $this->end_at,
 
-                // 'opens_at' => $this->start_at ?: null,
-                // 'closes_at' => $this->end_at ?: null,
-            ]);
+            if ($this->formId) {
+                // 🔥 UPDATE MODE
+                $form = Form::findOrFail($this->formId);
 
+                $form->update([
+                    'title' => $this->title,
+                    'description' => $this->description,
+                    'is_active' => $this->status === 'published',
+                    'opens_at' => $this->start_at,
+                    'closes_at' => $this->end_at,
+                ]);
+
+                // hapus pertanyaan lama
+                $form->questions()->delete();
+
+            } else {
+                // 🔥 CREATE MODE
+                $form = Form::create([
+                    'user_id' => auth()->id(),
+                    "uuid" => Str::uuid(),
+                    'title' => $this->title,
+                    'description' => $this->description,
+                    'is_active' => $this->status === 'published',
+                    'opens_at' => $this->start_at,
+                    'closes_at' => $this->end_at,
+                ]);
+            }
+
+            // insert ulang questions
             foreach ($this->questions as $index => $q) {
                 $options = in_array($q['type'], ['radio', 'checkbox', 'select', 'file','number'])
                     ? array_values(array_filter($q['options'], fn ($item) => trim((string) $item) !== ''))
@@ -136,19 +186,7 @@ class Create extends Component
             }
         });
 
-        // Redirect ke dashboard setelah menyimpan
-        session()->flash('success', 
-            $this->status === 'published'
-                ? 'Form berhasil dipublish.'
-                : 'Form berhasil disimpan sebagai draft.'
-        );
-
-        $this->title = '';
-        $this->description = '';
-        $this->start_at = null;
-        $this->end_at = null;
-        $this->questions = [];
-        $this->addQuestion();
+        session()->flash('success', 'Form berhasil disimpan.');
     }
 
     // Render method

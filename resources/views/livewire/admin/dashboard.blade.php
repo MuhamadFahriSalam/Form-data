@@ -448,27 +448,36 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="mt-6 flex flex-wrap items-center gap-3">
-                            {{-- <a
-                                href="#"
-                                class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-200"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12H9m12 0A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z" />
-                                </svg>
-                                Lihat Form
-                            </a> --}}
 
+                        {{-- ACTIONS --}}
+                        <div class="mt-6 flex flex-wrap items-center gap-3">
+
+                            {{-- BUTTON PUBLISH (HANYA MUNCUL JIKA DRAFT) --}}
+                            @if(!$form->is_active)
+                                <button
+                                    wire:click="publish({{ $form->id }})"
+                                    class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700"
+                                >
+                                    🚀 Publish
+                                </button>
+                            @endif
+
+                            {{-- BUTTON EDIT --}}
+                            <a
+                                href="{{ route('forms.edit', $form->uuid) }}"
+                                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                            >
+                                ✏️ Edit
+                            </a>
+
+                            {{-- LIHAT PENGISI --}}
                             <a
                                 href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
                                 class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M17 20h5V4H2v16h5m10 0v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5m10 0H7" />
-                                </svg>
                                 Lihat Pengisi
                             </a>
+
                         </div>
                     </div>
                 @endforeach

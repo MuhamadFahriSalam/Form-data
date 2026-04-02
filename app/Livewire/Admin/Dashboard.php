@@ -7,6 +7,18 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    // Method untuk mempublish form
+    public function publish($id)
+    {
+        $form = Form::where('user_id', auth()->id())->findOrFail($id);
+
+        $form->update([
+            'is_active' => true
+        ]);
+
+        session()->flash('success', 'Form berhasil dipublish.');
+    }
+
     // Dashboard untuk admin, menampilkan semua form yang dibuat oleh user
     public function render()
     {

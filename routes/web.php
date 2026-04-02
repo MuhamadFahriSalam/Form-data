@@ -9,6 +9,7 @@ use App\Livewire\Forms\Respondents;
 use App\Livewire\Forms\Show as FormsShow;
 use App\Livewire\Quiz\Create as QuizCreate;
 use App\Livewire\Quiz\Play;
+use App\Livewire\Forms\Create;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +91,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // 🔥 ADMIN PLAY (opsional, beda URL)
     Route::get('/quiz/manage/{quiz}', Play::class)->name('quiz.manage');
+
+    // 🔥 Edit form (reusing Create component)
+    Route::get('/forms/{form}/edit', Create::class)->name('forms.edit');
 });
