@@ -83,7 +83,7 @@ class Create extends Component
             'title.required' => 'Judul form wajib diisi.',
             'description.required' => 'Deskripsi wajib diisi.',
 
-            'start_at.required' => 'Waktu mulai wajib diisi.',
+            'start_at.required' => 'Tanggal Mulai wajib diisi.',
             'start_at.date' => 'Format waktu mulai tidak valid.',
 
             'end_at.required' => 'Batas akhir pengisian wajib diisi.',
