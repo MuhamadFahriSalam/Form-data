@@ -452,13 +452,13 @@
                         {{-- ACTIONS --}}
                         <div class="mt-6 flex flex-wrap items-center gap-3">
 
-                            {{-- BUTTON PUBLISH (HANYA MUNCUL JIKA DRAFT) --}}
+                            {{-- BUTTON (HANYA MUNCUL JIKA DRAFT) --}}
                             @if(!$form->is_active)
                                 <button
                                     wire:click="publish({{ $form->id }})"
                                     class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700"
                                 >
-                                    Publish
+                                    Draft
                                 </button>
                             @endif
 
