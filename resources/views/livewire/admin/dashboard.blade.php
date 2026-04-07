@@ -580,18 +580,18 @@
                         <div class="mt-6 flex gap-3">
 
                             <a
-                                href="{{ route('quiz.manage', $quiz->uuid) }}"
+                                href="{{ route('quiz.results', $quiz->uuid) }}"
                                 class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
                             >
-                                Kelola
+                                Lihat Hasil
                             </a>
 
-                            <a
+                            {{-- <a
                                 href="{{ route('quiz.play', $quiz->uuid) }}"
                                 class="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
                             >
                                 Preview
-                            </a>
+                            </a> --}}
 
                         </div>
 
