@@ -3,11 +3,12 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Form;
+use App\Models\Quiz;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
-    // Method untuk mempublish form
+    // Method publish form
     public function publish($id)
     {
         $form = Form::where('user_id', auth()->id())->findOrFail($id);
@@ -19,20 +20,26 @@ class Dashboard extends Component
         session()->flash('success', 'Form berhasil dipublish.');
     }
 
-    // Dashboard untuk admin, menampilkan semua form yang dibuat oleh user
     public function render()
     {
+        // ✅ Forms
         $forms = Form::where('user_id', auth()->id())
             ->where(function ($q) {
                 $q->whereNull('closes_at')
-                ->orWhere('closes_at', '>=', now());
+                  ->orWhere('closes_at', '>=', now());
             })
             ->withCount('submissions')
             ->latest()
             ->get();
 
+        // ✅ Quizzes
+        $quizzes = Quiz::withCount('questions')
+            ->latest()
+            ->get();
+
         return view('livewire.admin.dashboard', [
             'forms' => $forms,
+            'quizzes' => $quizzes,
         ]);
     }
 }
