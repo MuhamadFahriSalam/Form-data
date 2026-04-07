@@ -36,8 +36,10 @@
                             <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
                                 Status Form
                             </p>
-                            <p class="mt-2 text-sm font-semibold text-white">
-                                Draft
+                            <p class="mt-2 text-sm font-semibold 
+                                {{ $status === 'published' ? 'text-emerald-300' : 'text-yellow-300' }}">
+                                
+                                {{ $status === 'published' ? 'Published' : 'Draft' }}
                             </p>
                         </div>
                     </div>
