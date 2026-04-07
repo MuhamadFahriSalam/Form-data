@@ -63,77 +63,76 @@
         </div>
 
         {{-- TABLE --}}
-        <div class="overflow-hidden rounded-3xl bg-white shadow border">
+        <div class="overflow-hidden rounded-3xl border bg-white shadow">
 
-            <table class="w-full text-sm">
+            <div class="
+                {{ $attempts->count() > 5 ? 'max-h-[450px] overflow-auto' : '' }}
+            ">
+            
+                <table class="min-w-full text-sm">
 
-                <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
-                    <tr>
-                        <th class="px-6 py-4">#</th>
-                        <th class="px-6 py-4 text-left">Peserta</th>
-                        <th class="px-6 py-4 text-left">Score</th>
-                        <th class="px-6 py-4 text-left">Tanggal</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($attempts as $index => $attempt)
-                        <tr
-                            x-show="
-                                '{{ strtolower($attempt->user->name ?? '') }}'
-                                .includes(search.toLowerCase())
-                            "
-                            class="border-t hover:bg-slate-50 transition"
-                        >
-
-                            {{-- RANK --}}
-                            <td class="px-6 py-4 font-bold text-slate-600">
-                                @if($index == 0)
-                                    🥇
-                                @elseif($index == 1)
-                                    🥈
-                                @elseif($index == 2)
-                                    🥉
-                                @else
-                                    {{ $index + 1 }}
-                                @endif
-                            </td>
-
-                            {{-- USER --}}
-                            <td class="px-6 py-4 flex items-center gap-3">
-
-                                <div class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700">
-                                    {{ strtoupper(substr($attempt->user->name ?? 'U', 0, 1)) }}
-                                </div>
-
-                                <div>
-                                    <p class="font-semibold text-slate-800">
-                                        {{ $attempt->user->name ?? '-' }}
-                                    </p>
-                                    <p class="text-xs text-slate-500">
-                                        {{ $attempt->user->email ?? '-' }}
-                                    </p>
-                                </div>
-
-                            </td>
-
-                            {{-- SCORE --}}
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-semibold">
-                                    {{ $attempt->score }}
-                                </span>
-                            </td>
-
-                            {{-- DATE --}}
-                            <td class="px-6 py-4 text-slate-500">
-                                {{ $attempt->created_at->format('d M Y H:i') }}
-                            </td>
-
+                    {{-- HEADER --}}
+                    <thead class="bg-slate-50 text-slate-500 text-xs uppercase {{ $attempts->count() > 5 ? 'sticky top-0 z-10' : '' }}">
+                        <tr>
+                            <th class="px-6 py-4">#</th>
+                            <th class="px-6 py-4 text-left">Peserta</th>
+                            <th class="px-6 py-4 text-left">Score</th>
+                            <th class="px-6 py-4 text-left">Tanggal</th>
                         </tr>
-                    @endforeach
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody class="divide-y">
+
+                        @foreach ($attempts as $index => $attempt)
+                            <tr
+                                x-show="
+                                    '{{ strtolower($attempt->user->name ?? '') }}'
+                                    .includes(search.toLowerCase())
+                                "
+                                class="hover:bg-slate-50 transition"
+                            >
+
+                                {{-- RANK --}}
+                                <td class="px-6 py-4 font-bold text-slate-600">
+                                    {{ $index + 1 }}
+                                </td>
+
+                                {{-- USER --}}
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+
+                                        <div class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700">
+                                            {{ strtoupper(substr($attempt->user->name ?? 'U', 0, 1)) }}
+                                        </div>
+
+                                        <div>
+                                            <p class="font-semibold text-slate-800">
+                                                {{ $attempt->user->name ?? '-' }}
+                                            </p>
+                                            <p class="text-xs text-slate-500">
+                                                {{ $attempt->user->email ?? '-' }}
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                {{-- SCORE --}}
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+                                        {{ $attempt->score }}
+                                    </span>
+                                </td>
+
+                                {{-- DATE --}}
+                                <td class="px-6 py-4 text-slate-500">
+                                    {{ $attempt->created_at->format('d M Y H:i') }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
