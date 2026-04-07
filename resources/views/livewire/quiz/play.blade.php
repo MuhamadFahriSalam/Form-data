@@ -59,39 +59,23 @@
                             {{ $currentQuestion + 1 }}. {{ $question->question }}
                         </p>
 
-                        {{-- RADIO --}}
-                        @if (!$question->is_multiple)
-                            <div class="space-y-3">
-                                @foreach ($question->options as $option)
-                                    <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50">
-                                        <input
-                                            type="radio"
-                                            wire:model="answers.{{ $question->id }}"
-                                            value="{{ $option->id }}"
-                                            class="h-4 w-4 text-emerald-600 focus:ring-emerald-500"
-                                        >
-                                        <span>{{ $option->text }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        @endif
+                        {{-- ✅ RADIO (HANYA 1 PILIHAN) --}}
+                        <div class="space-y-3">
+                            @foreach ($question->options as $option)
+                                <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 cursor-pointer">
+                                    
+                                    <input
+                                        type="radio"
+                                        name="question_{{ $question->id }}"
+                                        wire:model="answers.{{ $question->id }}"
+                                        value="{{ $option->id }}"
+                                        class="h-4 w-4 text-emerald-600 focus:ring-emerald-500"
+                                    >
+                                    <span>{{ $option->text }}</span>
+                                </label>
+                            @endforeach
+                        </div>
 
-                        {{-- CHECKBOX --}}
-                        @if ($question->is_multiple)
-                            <div class="space-y-3">
-                                @foreach ($question->options as $option)
-                                    <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50">
-                                        <input
-                                            type="checkbox"
-                                            wire:model="answers.{{ $question->id }}.{{ $option->id }}"
-                                            value="1"
-                                            class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                                        >
-                                        <span>{{ $option->text }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        @endif
                     </div>
 
                     {{-- ACTION --}}
