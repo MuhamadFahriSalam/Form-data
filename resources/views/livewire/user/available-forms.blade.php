@@ -7,10 +7,9 @@
         <div class="overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
             <div class="px-6 py-8 sm:px-8 lg:px-10">
                 <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+
+                    {{-- LEFT --}}
                     <div>
-                        {{-- <p class="text-sm font-medium text-violet-200">
-                            Dashboard User
-                        </p> --}}
                         <h1 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
                             Selamat datang
                         </h1>
@@ -19,24 +18,36 @@
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
-                            <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
-                                Total Form
-                            </p>
-                            <p class="mt-2 text-2xl font-bold text-white">
-                                {{ $forms->count() }}
-                            </p>
+                    {{-- RIGHT --}}
+                    <div class="flex justify-end pr-6 sm:pr-10">
+                        
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-md w-full">
+
+                            {{-- FORM DIBUKA --}}
+                            <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
+                                <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
+                                    Form Dibuka
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-white">
+                                    {{ $forms->where('status', 'open')->count() }}
+                                </p>
+                            </div>
+
+                            {{-- QUIZ DIBUKA --}}
+                            <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
+                                <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
+                                    Quiz Dibuka
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-white">
+                                    {{ $quizzes->where(function($q){
+                                        return (!$q->start_at || $q->start_at <= now()) &&
+                                            (!$q->end_at || $q->end_at >= now());
+                                    })->count() }}
+                                </p>
+                            </div>
+
                         </div>
 
-                        <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
-                            <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
-                                Form Dibuka
-                            </p>
-                            <p class="mt-2 text-2xl font-bold text-white">
-                                {{ $forms->where('status', 'open')->count() }}
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
