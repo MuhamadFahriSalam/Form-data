@@ -53,7 +53,10 @@
                     @endphp
 
                     {{-- QUESTION CARD --}}
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                    <div 
+                        wire:key="question-{{ $question->id }}"
+                        class="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                    >
 
                         <p class="mb-4 text-sm font-semibold text-slate-800">
                             {{ $currentQuestion + 1 }}. {{ $question->question }}
@@ -67,9 +70,9 @@
                                     <input
                                         type="radio"
                                         name="question_{{ $question->id }}"
-                                        wire:model="answers.{{ $question->id }}"
+                                        wire:model.live="answers.{{ $question->id }}"
                                         value="{{ $option->id }}"
-                                        class="h-4 w-4 text-emerald-600 focus:ring-emerald-500"
+                                        @checked(isset($answers[$question->id]) && $answers[$question->id] == $option->id)
                                     >
                                     <span>{{ $option->text }}</span>
                                 </label>
