@@ -6,13 +6,28 @@
 
             {{-- HEADER --}}
             <div class="bg-gradient-to-r from-blue-900 via-blue-700 to-slate-900 px-6 py-8 sm:px-8">
-                <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                    {{ $quiz->title }}
-                </h1>
+                
+                <div class="flex items-center justify-between">
+                    
+                    <!-- KIRI: Judul -->
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                            {{ $quiz->title }}
+                        </h1>
 
-                <p class="mt-2 text-sm text-emerald-100">
-                    Jawab setiap pertanyaan dengan benar
-                </p>
+                        <p class="mt-2 text-sm text-emerald-100">
+                            Jawab setiap pertanyaan dengan benar
+                        </p>
+                    </div>
+
+                    <!-- KANAN: Button Kembali -->
+                    <a
+                        href="{{ route('user.dashboard') }}"
+                        class="inline-flex items-center rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 hover:border-white/30 focus:outline-none focus:ring-4 focus:ring-white/20"
+                    >
+                        ← Kembali
+                    </a>
+                </div>
             </div>
 
             {{-- CONTENT --}}
@@ -77,34 +92,23 @@
                                 @endforeach
                             </div>
                         @endif
-
                     </div>
 
                     {{-- ACTION --}}
-                    <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6">
+                    <div class="flex items-center justify-between mt-8">
 
-                        {{-- KIRI (KEMBALI) --}}
-                        <a
-                            href="{{ route('user.dashboard') }}"
-                            class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus:ring-4 focus:ring-slate-100"
+                        {{-- KIRI: PREV --}}
+                        <button
+                            type="button"
+                            wire:click="prev"
+                            class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 disabled:opacity-50"
+                            @if($currentQuestion == 0) disabled @endif
                         >
-                            ← Kembali
-                        </a>
+                            Sebelumnya
+                        </button>
 
-                        {{-- KANAN (NAVIGATION) --}}
-                        <div class="flex gap-4">
-
-                            {{-- PREV --}}
-                            <button
-                                type="button"
-                                wire:click="prev"
-                                class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 disabled:opacity-50"
-                                @if($currentQuestion == 0) disabled @endif
-                            >
-                                Sebelumnya
-                            </button>
-
-                            {{-- NEXT / SUBMIT --}}
+                        {{-- KANAN: NEXT / SUBMIT --}}
+                        <div>
                             @if($currentQuestion < count($quiz->questions) - 1)
                                 <button
                                     type="button"
@@ -116,12 +120,13 @@
                             @else
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                                    class="inline-flex items-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-100"
                                 >
                                     Submit Jawaban
                                 </button>
                             @endif
                         </div>
+
                     </div>
                 </form>
             </div>
