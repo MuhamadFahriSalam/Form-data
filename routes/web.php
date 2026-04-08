@@ -99,4 +99,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // 🔥 Quiz results
     Route::get('/quiz/{quiz}/results', Results::class)
     ->name('quiz.results');
+
+    // 🔥 Monitoring
+    Route::get('/admin/monitoring', \App\Livewire\Admin\Monitoring::class)
+    ->name('admin.monitoring');
 });

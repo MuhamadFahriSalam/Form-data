@@ -88,7 +88,6 @@
                             </svg>
                             Buat Quiz
                         </a>
-
                     </div>
                 </div>
             </div>
@@ -213,27 +212,6 @@
                         <p class="mt-1 text-sm text-slate-500">Buat soal quiz interaktif</p>
                     </div>
                 </a>
-
-                {{-- Template 2 --}}
-                {{-- <div class="group flex h-full cursor-pointer flex-col">
-                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
-                        <div class="h-3 bg-gradient-to-r from-sky-500 to-cyan-400"></div>
-                        <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-sky-50 to-white p-4">
-                            <div class="mb-4 h-3 w-1/2 rounded-full bg-sky-200"></div>
-                            <div class="space-y-3">
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 min-h-[56px]">
-                        <p class="text-base font-semibold text-slate-900">RSVP</p>
-                        <p class="mt-1 text-sm text-slate-500">Cocok untuk konfirmasi kehadiran</p>
-                    </div>
-                </div> --}}
 
                 {{-- Template 3 --}}
                 {{-- <div class="group flex h-full cursor-pointer flex-col">
@@ -384,6 +362,80 @@
                         <p class="text-base font-semibold text-slate-900">Form Ditutup</p>
                         <p class="mt-1 text-sm text-slate-500">Daftar formulir yang masa pengisiannya telah berakhir</p>
                     </div>
+                </a>
+
+                {{-- Monitoring --}}
+                <a href="{{ route('admin.monitoring') }}" class="group flex h-full flex-col">
+
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl">
+                        
+                        {{-- CONTENT --}}
+                        <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-sky-50 via-white to-cyan-50 p-5 relative">
+
+                            {{-- TOP BAR (TIDAK MENAMBAH HEIGHT) --}}
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-sky-500 to-cyan-400"></div>
+
+                            {{-- HEADER --}}
+                            <div class="mb-4 flex items-center gap-2 mt-2">
+                                
+                                {{-- ICON MONITORING (IMPROVED) --}}
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl 
+                                            bg-gradient-to-br from-sky-500 to-cyan-400 
+                                            text-white shadow shadow-sky-200
+                                            transition duration-300 
+                                            group-hover:scale-110 group-hover:shadow-lg">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-5 w-5" 
+                                        fill="none" 
+                                        viewBox="0 0 24 24" 
+                                        stroke="currentColor">
+                                        
+                                        {{-- Axis --}}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M3 3v18h18" />
+                                        
+                                        {{-- Bars --}}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M7 13v5M12 9v9M17 5v13" />
+                                    </svg>
+                                </div>
+
+                                {{-- TITLE SKELETON --}}
+                                <div class="h-3 w-1/2 rounded-full bg-sky-200"></div>
+                            </div>
+
+                            {{-- PREVIEW --}}
+                            <div class="space-y-3 opacity-70">
+
+                                {{-- INPUT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-sky-100"></div>
+
+                                {{-- INPUT --}}
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-sky-100"></div>
+
+                                {{-- SELECT --}}
+                                <div class="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-sky-100">
+                                    <div class="h-3 w-1/3 rounded-full bg-slate-200"></div>
+                                    <div class="ml-auto h-3 w-3 rounded-full bg-sky-400"></div>
+                                </div>
+
+                                {{-- BUTTON --}}
+                                <div class="h-9 rounded-xl bg-sky-300"></div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {{-- TEXT --}}
+                    <div class="mt-4 min-h-[56px]">
+                        <p class="text-base font-semibold text-slate-900">Monitoring</p>
+                        <p class="mt-1 text-sm text-slate-500">
+                            Lihat statistik dan performa formulir & quiz
+                        </p>
+                    </div>
+
                 </a>
             </div>
         </div>
