@@ -30,6 +30,24 @@
 
         {{-- STATS --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            @php
+            $totalUsers = \App\Models\User::count();
+            $filled = $attempts->count();
+            $percent = $totalUsers > 0 ? round(($filled / $totalUsers) * 100) : 0;
+        @endphp
+
+        <div class="bg-slate-900 text-white rounded-2xl p-4 shadow border border-slate-800">
+            <p class="text-sm text-slate-400">Persentase Pengerjaan</p>
+            <p class="text-2xl font-bold text-emerald-400">
+                {{ $percent }}%
+            </p>
+
+            <div class="mt-2 h-2 bg-slate-700 rounded-full">
+                <div class="h-2 bg-emerald-500 rounded-full"
+                    style="width: {{ $percent }}%">
+                </div>
+            </div>
+        </div>
 
             <div class="bg-slate-900 text-white rounded-2xl p-4 shadow border border-slate-800">
                 <p class="text-sm text-slate-400">Total Peserta</p>

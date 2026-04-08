@@ -21,10 +21,31 @@
                     Pengisi Form
                 </h2>
 
+                {{-- DESKRIPSI --}}
                 <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:gap-x-6">
+                    @php
+                        $totalUsers = \App\Models\User::count();
+                        $filled = method_exists($respondents, 'total') ? $respondents->total() : $respondents->count();
+                        $percent = $totalUsers > 0 ? round(($filled / $totalUsers) * 100) : 0;
+                    @endphp
+
+                    <div class="mt-3 w-full">
+                        <div class="flex justify-between text-sm text-gray-300">
+                            <span>Persentase Pengisian</span>
+                            <span>{{ $percent }}%</span>
+                        </div>
+
+                        <div class="mt-1 h-2 bg-white/20 rounded-full">
+                            <div class="h-2 bg-green-400 rounded-full transition-all"
+                                style="width: {{ $percent }}%">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mt-2 flex items-center text-sm text-gray-300">
                         Form: {{ $form->title }}
                     </div>
+                    
                     <div class="mt-2 flex items-center text-sm text-gray-300">
                         Total: {{ method_exists($respondents, 'total') ? $respondents->total() : $respondents->count() }} data
                     </div>
@@ -108,29 +129,29 @@
                                     <span class="whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($value)->format('d M Y') }}
                                     </span>
-@elseif ($question->type === 'file' && !empty($value))
-    <a
-        href="{{ \Illuminate\Support\Facades\Storage::url($value) }}"
-        target="_blank"
-        class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100"
-    >
-        Lihat File
-    </a>
-@elseif ($question->type === 'number' && $value !== null && $value !== '')
-    <div class="max-w-xs whitespace-normal break-words">
-        {{ $value }}
-    </div>
-@elseif (($question->type === 'select' || $question->type === 'radio') && !empty($value))
-    <div class="max-w-xs whitespace-normal break-words">
-        {{ $value }}
-    </div>
-@elseif (!empty($value))
-    <div class="max-w-xs whitespace-normal break-words">
-        {{ $value }}
-    </div>
-@else
-    <span class="text-gray-400">-</span>
-@endif
+                                @elseif ($question->type === 'file' && !empty($value))
+                                    <a
+                                        href="{{ \Illuminate\Support\Facades\Storage::url($value) }}"
+                                        target="_blank"
+                                        class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100"
+                                    >
+                                        Lihat File
+                                    </a>
+                                @elseif ($question->type === 'number' && $value !== null && $value !== '')
+                                    <div class="max-w-xs whitespace-normal break-words">
+                                        {{ $value }}
+                                    </div>
+                                @elseif (($question->type === 'select' || $question->type === 'radio') && !empty($value))
+                                    <div class="max-w-xs whitespace-normal break-words">
+                                        {{ $value }}
+                                    </div>
+                                @elseif (!empty($value))
+                                    <div class="max-w-xs whitespace-normal break-words">
+                                        {{ $value }}
+                                    </div>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
                             </td>
                         @endforeach
 
