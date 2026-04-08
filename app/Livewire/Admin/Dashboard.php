@@ -33,9 +33,7 @@ class Dashboard extends Component
             ->get();
 
         // ✅ Quizzes
-        $quizzes = Quiz::withCount('questions')
-            ->latest()
-            ->get();
+        $quizzes = Quiz::withCount(['questions', 'attempts'])->latest()->get();
 
         return view('livewire.admin.dashboard', [
             'forms' => $forms,

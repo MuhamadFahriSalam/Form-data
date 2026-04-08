@@ -540,9 +540,9 @@
                         <div class="grid grid-cols-2 gap-3">
                             
                             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                                <p class="text-xs text-slate-500">Total Soal</p>
+                                <p class="text-xs text-slate-500">Total Pengisi</p>
                                 <p class="mt-1 text-xl font-bold text-slate-900">
-                                    {{ $quiz->questions_count }}
+                                    {{ $quiz->attempts_count }}
                                 </p>
                             </div>
 
