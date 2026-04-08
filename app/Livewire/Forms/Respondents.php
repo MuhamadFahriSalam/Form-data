@@ -10,25 +10,44 @@ use App\Exports\RespondentsExport;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
+
 class Respondents extends Component
 {
     use WithPagination;
 
     public Form $form;
     public string $search = '';
-
     protected $paginationTheme = 'tailwind';
+    public $selectedSubmission = null;
+    public $showModal = false;
 
+    // Method untuk inisialisasi data form dan pertanyaan terkait
     public function mount(Form $form): void
     {
         $this->form = $form->load('questions');
     }
 
+    // Method untuk menampilkan detail jawaban responden
+    public function showDetail($id)
+    {
+        $this->selectedSubmission = \App\Models\FormSubmission::with(['answers','user'])->find($id);
+        $this->showModal = true;
+    }
+
+    // Method untuk menutup modal detail
+    public function closeModal()
+    {
+        $this->showModal = false;
+        $this->selectedSubmission = null;
+    }
+
+    // Method untuk menutup modal detail
     public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
+    // Method untuk memformat jawaban berdasarkan tipe pertanyaan
     public function formatAnswer($question, $value): string
     {
         $decoded = json_decode($value, true);
@@ -48,6 +67,7 @@ class Respondents extends Component
         return !empty($value) ? $value : '-';
     }
 
+    // Method untuk mengekspor data responden ke Excel
     public function exportRespondents()
     {
         $submissions = $this->form->submissions()
@@ -101,6 +121,7 @@ class Respondents extends Component
         return Excel::download(new RespondentsExport($rows), $filename);
     }
 
+    // Method untuk merender view dengan data responden dan pertanyaan terkait
     public function render()
     {
         $respondents = $this->form->submissions()

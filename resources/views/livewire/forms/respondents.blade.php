@@ -2,6 +2,7 @@
 
 <div class="max-w-7xl mx-auto p-6 space-y-6">
 
+    {{-- NOTIFIKASI --}}
     @if (session('success'))
         <div class="p-3 bg-green-100 text-green-800 rounded">
             {{ session('success') }}
@@ -14,6 +15,7 @@
         </div>
     @endif
 
+    {{-- HEADER --}}
     <div class="rounded-xl bg-gray-900 px-6 py-6 shadow">
         <div class="lg:flex lg:items-center lg:justify-between">
             <div class="min-w-0 flex-1">
@@ -52,6 +54,7 @@
                 </div>
             </div>
 
+            {{-- AKSI --}}
             <div class="mt-5 flex flex-wrap lg:mt-0 lg:ml-4 gap-3 items-center">
                 <div class="relative">
                     <input
@@ -80,6 +83,7 @@
         </div>
     </div>
 
+    {{-- TABLE RESPONDENTS --}}
     <div class="relative overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
         <table class="w-full text-sm text-left text-gray-700">
             <thead class="text-sm bg-gray-100 border-b border-gray-200">
@@ -87,17 +91,12 @@
                     <th class="px-6 py-3 font-medium">No</th>
                     <th class="px-6 py-3 font-medium">Nama</th>
                     <th class="px-6 py-3 font-medium">Email</th>
-
-                    @foreach ($questions as $question)
-                        <th class="px-6 py-3 font-medium min-w-[180px]">
-                            {{ $question->question }}
-                        </th>
-                    @endforeach
-
+                    <th class="px-6 py-3 font-medium">Aksi</th>
                     <th class="px-6 py-3 font-medium">Waktu Isi</th>
                 </tr>
             </thead>
 
+            {{-- DATA RESPONDEN --}}
             <tbody>
                 @forelse ($respondents as $index => $submission)
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
@@ -113,47 +112,14 @@
                             {{ $submission->user->email ?? '-' }}
                         </td>
 
-                        @foreach ($questions as $question)
-                            @php
-                                $answer = $submission->answers->firstWhere('form_question_id', $question->id);
-                                $value = $answer->answer ?? null;
-                                $decoded = json_decode($value, true);
-                            @endphp
-
-                            <td class="px-6 py-4 align-top">
-                                @if ($question->type === 'checkbox' && is_array($decoded))
-                                    <div class="max-w-xs whitespace-normal break-words">
-                                        {{ implode(', ', $decoded) }}
-                                    </div>
-                                @elseif ($question->type === 'date' && !empty($value))
-                                    <span class="whitespace-nowrap">
-                                        {{ \Carbon\Carbon::parse($value)->format('d M Y') }}
-                                    </span>
-                                @elseif ($question->type === 'file' && !empty($value))
-                                    <a
-                                        href="{{ \Illuminate\Support\Facades\Storage::url($value) }}"
-                                        target="_blank"
-                                        class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100"
-                                    >
-                                        Lihat File
-                                    </a>
-                                @elseif ($question->type === 'number' && $value !== null && $value !== '')
-                                    <div class="max-w-xs whitespace-normal break-words">
-                                        {{ $value }}
-                                    </div>
-                                @elseif (($question->type === 'select' || $question->type === 'radio') && !empty($value))
-                                    <div class="max-w-xs whitespace-normal break-words">
-                                        {{ $value }}
-                                    </div>
-                                @elseif (!empty($value))
-                                    <div class="max-w-xs whitespace-normal break-words">
-                                        {{ $value }}
-                                    </div>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-                        @endforeach
+                        <td class="px-6 py-4">
+                            <button
+                                wire:click="showDetail({{ $submission->id }})"
+                                class="px-3 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600"
+                            >
+                                Lihat Detail
+                            </button>
+                        </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $submission->created_at?->format('d M Y H:i') ?? '-' }}
@@ -161,14 +127,65 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="{{ 4 + $questions->count() }}" class="px-6 py-4 text-center text-gray-500">
-                            Belum ada user yang mengisi form
-                        </td>
+                        <td colspan="5">
                     </tr>
                 @endforelse
             </tbody>
         </table>
 
+        {{-- MODAL DETAIL JAWABAN --}}
+        @if ($showModal && $selectedSubmission)
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+
+                <div class="bg-white w-[700px] max-h-[80vh] rounded-xl shadow-lg flex flex-col">
+                    
+                    {{-- HEADER --}}
+                    <div class="flex justify-between items-center p-6 border-b">
+                        <h2 class="text-lg font-bold">Detail Jawaban</h2>
+                        <button wire:click="closeModal" class="text-gray-500 hover:text-black">✕</button>
+                    </div>
+
+                    {{-- CONTENT (SCROLL DI SINI) --}}
+                    <div class="overflow-y-auto p-6 space-y-4">
+                        <div>
+                            <strong>Nama:</strong> {{ $selectedSubmission->user->name ?? '-' }}
+                        </div>
+                        <div>
+                            <strong>Email:</strong> {{ $selectedSubmission->user->email ?? '-' }}
+                        </div>
+
+                        <hr>
+
+                        @foreach ($questions as $question)
+                            @php
+                                $answer = $selectedSubmission->answers->firstWhere('form_question_id', $question->id);
+                                $value = $answer->answer ?? null;
+                                $decoded = json_decode($value, true);
+                            @endphp
+
+                            <div>
+                                <strong>{{ $question->question }}</strong><br>
+
+                                @if ($question->type === 'checkbox' && is_array($decoded))
+                                    {{ implode(', ', $decoded) }}
+                                @elseif ($question->type === 'date' && !empty($value))
+                                    {{ \Carbon\Carbon::parse($value)->format('d M Y') }}
+                                @elseif ($question->type === 'file' && !empty($value))
+                                    <a href="{{ \Storage::url($value) }}" target="_blank" class="text-blue-500 underline">
+                                        Lihat File
+                                    </a>
+                                @else
+                                    {{ $value ?? '-' }}
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+
+                </div>
+            </div>
+        @endif
+
+        {{-- PAGINATION --}}
         @if (method_exists($respondents, 'links'))
             <div class="p-4">
                 {{ $respondents->links() }}
