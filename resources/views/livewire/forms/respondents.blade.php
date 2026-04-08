@@ -91,7 +91,7 @@
                     <th class="px-6 py-3 font-medium">No</th>
                     <th class="px-6 py-3 font-medium">Nama</th>
                     <th class="px-6 py-3 font-medium">Email</th>
-                    <th class="px-6 py-3 font-medium">Aksi</th>
+                    <th class="px-6 py-3 font-medium">Lihat Soal & Jawaban</th>
                     <th class="px-6 py-3 font-medium">Waktu Isi</th>
                 </tr>
             </thead>
