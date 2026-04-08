@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AvailableForms extends Component
 {
     // Filter untuk menampilkan semua form, hanya yang sudah diisi, atau hanya yang belum diisi
-    public $filter = 'all'; // all | filled | empty
+    public $filter = 'empty'; // all | filled | empty
 
 
     // Method untuk mengubah filter
