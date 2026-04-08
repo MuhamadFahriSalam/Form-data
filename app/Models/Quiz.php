@@ -20,6 +20,12 @@ class Quiz extends Model
         });
     }
 
+    // Relasi dengan QuizAttempt
+    public function attempts()
+    {
+        return $this->hasMany(QuizAttempt::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'uuid';

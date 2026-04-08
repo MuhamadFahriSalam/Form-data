@@ -55,7 +55,11 @@
 
         {{-- Section --}}
         <div class="mt-8">
-            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+
+            {{-- Header & Filter --}}
+            <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
+                {{-- Title --}}
                 <div>
                     <h2 class="text-2xl font-bold tracking-tight text-slate-900">
                         Form Tersedia
@@ -64,9 +68,35 @@
                         Lihat form yang sedang dibuka untuk diisi. Form yang belum dibuka atau sudah ditutup tidak akan muncul di sini.
                     </p>
                 </div>
-            </div>
 
-            {{-- Form List --}}
+                {{-- Filter Button --}}
+                <div class="flex flex-wrap gap-2">
+
+                    <button 
+                        wire:click="$set('filter','all')"
+                        class="px-4 py-2 rounded-xl border transition 
+                        {{ $filter=='all' ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-700 hover:bg-slate-100' }}">
+                        Semua
+                    </button>
+
+                    <button 
+                        wire:click="$set('filter','filled')"
+                        class="px-4 py-2 rounded-xl border transition 
+                        {{ $filter=='filled' ? 'bg-green-600 text-white border-green-600' : 'bg-white text-slate-700 hover:bg-slate-100' }}">
+                        Sudah Diisi
+                    </button>
+
+                    <button 
+                        wire:click="$set('filter','empty')"
+                        class="px-4 py-2 rounded-xl border transition 
+                        {{ $filter=='empty' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-slate-700 hover:bg-slate-100' }}">
+                        Belum Diisi
+                    </button>
+                </div>
+            </div>
+        </div>
+
+            {{-- Form List --}} 
             @if ($forms->count())
                 <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($forms as $form)
