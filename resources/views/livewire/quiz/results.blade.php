@@ -80,12 +80,27 @@
             >
         </div>
 
+        {{-- ACTION BAR --}}
+        <div class="flex items-center justify-between mb-4">
+
+            <h2 class="text-lg font-semibold text-slate-700">
+                Data Hasil Quiz
+            </h2>
+
+            {{-- EXPORT EXCEL --}}
+            <a
+                href="{{ route('quiz.export', $quiz->id) }}"
+                class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-emerald-700"
+            >
+                📥 Export Excel
+            </a>
+
+        </div>
+
         {{-- TABLE --}}
         <div class="overflow-hidden rounded-3xl border bg-white shadow">
 
-            <div class="
-                {{ $attempts->count() > 5 ? 'max-h-[450px] overflow-auto' : '' }}
-            ">
+            <div class="{{ $attempts->count() > 5 ? 'max-h-[450px] overflow-auto' : '' }}">
             
                 <table class="min-w-full text-sm">
 
@@ -138,7 +153,7 @@
                                 {{-- SCORE --}}
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
-                                        {{ $attempt->score }}
+                                        {{ $attempt->score }}%
                                     </span>
                                 </td>
 
