@@ -6,15 +6,32 @@
             {{-- HEADER --}}
             <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
                 <div class="px-6 py-8 sm:px-8 lg:px-10 flex justify-between items-center">
-                    <div>
-                        <h1 class="text-3xl font-bold text-white">
-                            Buat Quiz
-                        </h1>
-                        <p class="mt-2 text-sm text-slate-200">
-                            Susun pertanyaan dan jawaban quiz
-                        </p>
+                    <div class="flex items-center justify-between">
+
+                        {{-- LEFT --}}
+                        <div class="flex items-center gap-4">
+
+                            {{-- ICON --}}
+                            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M9 12h6m-6 4h6M9 8h6M5 6h.01M5 10h.01M5 14h.01M5 18h.01"/>
+                                </svg>
+                            </div>
+
+                            {{-- TEXT --}}
+                            <div>
+                                <h1 class="text-3xl font-bold tracking-tight text-white">
+                                    Buat Quiz
+                                </h1>
+                                <p class="mt-1 text-sm text-white/70">
+                                    Susun pertanyaan dan jawaban quiz dengan mudah
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
+                    {{-- RIGHT --}}
                     <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
                         <p class="text-xs text-slate-200">Total Soal</p>
                         <p class="text-2xl font-bold text-white">
