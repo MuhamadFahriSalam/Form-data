@@ -142,6 +142,13 @@
                                 placeholder="Tulis pertanyaan..."
                             ></textarea>
 
+                            {{-- VALIDASI PERTANYAAN KOSONG --}}
+                            @error('questions.' . $qIndex . '.question')
+                                <div class="text-sm text-red-500 font-semibold mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                             {{-- VALIDASI JAWABAN BENAR --}}
                             @error('questions.' . $qIndex . '.correct')
                                 <div class="text-sm text-red-500 font-semibold mt-2">
