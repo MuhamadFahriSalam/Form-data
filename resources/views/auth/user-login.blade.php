@@ -135,7 +135,7 @@
 
         <!-- Footer -->
         <p class="text-center text-xs text-slate-400 mt-6">
-            © {{ date('Y') }} Sistem form dan quiz untuk pendataan karyawan baru.
+            © {{ date('Y') }} Sistem form dan quiz.
         </p>
     </div>
 </body>
