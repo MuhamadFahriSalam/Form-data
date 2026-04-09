@@ -90,11 +90,29 @@ class Create extends Component
     public function save()
     {
         $this->validate([
-            'title' => 'required',
-            'description' => 'nullable',
-            'start_at' => 'nullable|date',
-            'end_at' => 'nullable|date|after_or_equal:start_at',
+            'title' => 'required|string|min:3',
+            'description' => 'required|string|min:5',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after:start_at',
+        ], [
+            'title.required' => 'Judul wajib diisi',
+            'description.required' => 'Deskripsi wajib diisi',
+            'start_at.required' => 'Tanggal mulai wajib diisi',
+            'end_at.required' => 'Tanggal berakhir wajib diisi',
+            'end_at.after' => 'Tanggal berakhir harus setelah tanggal mulai',
         ]);
+
+        // 🔥 VALIDASI SETIAP PERTANYAAN & OPSI
+        foreach ($this->questions as $qIndex => $q) {
+
+            // ❌ Pertanyaan kosong
+            if (trim($q['question']) === '') {
+                $this->addError(
+                    'questions.' . $qIndex . '.question',
+                    'Pertanyaan tidak boleh kosong'
+                );
+            }
+        }
 
         // 🔥 VALIDASI SETIAP SOAL
         foreach ($this->questions as $qIndex => $q) {

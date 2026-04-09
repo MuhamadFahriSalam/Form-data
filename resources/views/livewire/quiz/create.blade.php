@@ -74,7 +74,7 @@
                         
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                Waktu Mulai
+                                Tanggal Mulai
                             </label>
                             <input
                                 type="datetime-local"
@@ -88,7 +88,7 @@
 
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                Batas Akhir
+                                Tanggal Berakhir
                             </label>
                             <input
                                 type="datetime-local"
@@ -246,10 +246,10 @@
                     <button
                         type="submit"
                         class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                        wire:loading.attr="disabled"
                     >
                         Simpan Quiz
                     </button>
-
                 </div>
             </div>
         </form>
