@@ -142,6 +142,13 @@
                                 placeholder="Tulis pertanyaan..."
                             ></textarea>
 
+                            {{-- VALIDASI JAWABAN BENAR --}}
+                            @error('questions.' . $qIndex . '.correct')
+                                <div class="text-sm text-red-500 font-semibold mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                             {{-- OPSI --}}
                             <div class="space-y-3">
                                 @foreach ($question['options'] as $oIndex => $option)

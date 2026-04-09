@@ -96,6 +96,31 @@ class Create extends Component
             'end_at' => 'nullable|date|after_or_equal:start_at',
         ]);
 
+        // 🔥 VALIDASI SETIAP SOAL
+        foreach ($this->questions as $qIndex => $q) {
+
+            $hasCorrect = false;
+
+            foreach ($q['options'] as $opt) {
+                if ($opt['is_correct']) {
+                    $hasCorrect = true;
+                    break;
+                }
+            }
+
+            if (!$hasCorrect) {
+                $this->addError(
+                    'questions.' . $qIndex . '.correct',
+                    'Soal ini wajib memiliki minimal 1 jawaban benar ✔'
+                );
+            }
+        }
+
+        // 🔥 STOP kalau ada error
+        if ($this->getErrorBag()->isNotEmpty()) {
+            return;
+        }
+
         // 🔥 SIMPAN QUIZ
         $quiz = Quiz::create([
             'title' => $this->title,
