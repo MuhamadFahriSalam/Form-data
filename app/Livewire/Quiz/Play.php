@@ -63,20 +63,18 @@ class Play extends Component
             'score' => 0
         ]);
 
-        $score = 0;
+        $correctCount = 0;
+        $totalQuestions = count($this->answers);
 
-        // 🔥 Evaluasi jawaban
         foreach ($this->answers as $questionId => $answer) {
 
             $question = QuizQuestion::with('options')->find($questionId);
 
-            // 🔥 Ambil jawaban benar
             $correctOptions = $question->options
                 ->where('is_correct', true)
                 ->pluck('id')
                 ->toArray();
 
-            // 🔥 Jawaban user
             $selectedOptions = is_array($answer)
                 ? array_keys(array_filter($answer))
                 : [$answer];
@@ -86,7 +84,7 @@ class Play extends Component
 
             $isCorrect = $correctOptions == $selectedOptions;
 
-            // 🔥 Simpan jawaban user
+            // simpan jawaban
             foreach ($selectedOptions as $optionId) {
                 QuizAnswer::create([
                     'attempt_id' => $attempt->id,
@@ -96,20 +94,24 @@ class Play extends Component
                 ]);
             }
 
-            // 🔥 Tambah skor kalau BENAR SEMUA
             if ($isCorrect) {
-                $score++;
+                $correctCount++;
             }
         }
 
-        // 🔥 Update skor attempt
+        // 🔥 HITUNG NILAI 0 - 100
+        $score = ($correctCount / $totalQuestions) * 100;
+
+        // bulatkan biar rapi
+        $score = round($score);
+
         $attempt->update([
             'score' => $score
         ]);
 
-        // 🔥 Redirect dengan pesan
+        // Redirect ke dashboard dengan pesan sukses
         return redirect()->route('user.dashboard')
-            ->with('success', 'Quiz selesai! Score: ' . $score);
+            ->with('success', 'Quiz selesai! Score: ' . $score . ' (' . $correctCount . '/' . $totalQuestions . ')');
     }
 
     // Render
