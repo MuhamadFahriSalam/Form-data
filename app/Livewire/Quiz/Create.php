@@ -15,6 +15,7 @@ class Create extends Component
     public $start_at;
     public $end_at;
 
+    // Inisialisasi dengan 1 question dan 2 options
     public function mount()
     {
         $this->questions = [
@@ -29,6 +30,7 @@ class Create extends Component
         ];
     }
 
+    // Tambah question baru
     public function addQuestion()
     {
         $this->questions[] = [
@@ -41,12 +43,14 @@ class Create extends Component
         ];
     }
 
+    // Hapus question
     public function removeQuestion($qIndex)
     {
         unset($this->questions[$qIndex]);
         $this->questions = array_values($this->questions);
     }
 
+    // Tambah option untuk question tertentu
     public function addOption($qIndex)
     {
         $this->questions[$qIndex]['options'][] = [
@@ -55,6 +59,7 @@ class Create extends Component
         ];
     }
 
+    // Hapus option untuk question tertentu
     public function removeOption($qIndex, $oIndex)
     {
         if (count($this->questions[$qIndex]['options']) <= 2) {
@@ -66,6 +71,7 @@ class Create extends Component
             array_values($this->questions[$qIndex]['options']);
     }
 
+    // Toggle correct option, dengan logika untuk single/multiple choice
     public function toggleCorrect($qIndex, $oIndex)
     {
         $isMultiple = $this->questions[$qIndex]['is_multiple'];
@@ -80,6 +86,7 @@ class Create extends Component
             !$this->questions[$qIndex]['options'][$oIndex]['is_correct'];
     }
 
+    // Simpan quiz beserta questions dan optionsnya
     public function save()
     {
         $this->validate([
@@ -97,6 +104,7 @@ class Create extends Component
             'end_at' => $this->end_at,
         ]);
 
+        // 🔥 SIMPAN QUESTIONS & OPTIONS
         foreach ($this->questions as $q) {
 
             if (trim($q['question']) === '') continue;
@@ -121,11 +129,13 @@ class Create extends Component
             }
         }
 
+        // 🔥 FLASH MESSAGE
         session()->flash('success', 'Quiz berhasil dibuat!');
 
         return redirect()->route('admin.dashboard');
     }
 
+    // Render method untuk menampilkan form create quiz
     public function render()
     {
         return view('livewire.quiz.create')
