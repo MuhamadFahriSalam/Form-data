@@ -161,6 +161,13 @@
                                             placeholder="Opsi jawaban"
                                         >
 
+                                        {{-- VALIDASI OPSI KOSONG --}}
+                                        @error('questions.' . $qIndex . '.options.' . $oIndex)
+                                            <div class="text-xs text-red-500 font-semibold">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+
                                         <button
                                             type="button"
                                             wire:click="toggleCorrect({{ $qIndex }}, {{ $oIndex }})"

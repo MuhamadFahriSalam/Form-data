@@ -101,13 +101,32 @@ class Create extends Component
 
             $hasCorrect = false;
 
-            foreach ($q['options'] as $opt) {
-                if ($opt['is_correct']) {
+            // 🔥 VALIDASI PERTANYAAN KOSONG
+            foreach ($q['options'] as $oIndex => $opt) {
+
+                // ❌ VALIDASI OPSI KOSONG
+                if (trim($opt['text']) === '') {
+                    $this->addError(
+                        'questions.' . $qIndex . '.options.' . $oIndex,
+                        'Opsi tidak boleh kosong'
+                    );
+                }
+
+                // ❌ VALIDASI: centang tapi kosong
+                if ($opt['is_correct'] && trim($opt['text']) === '') {
+                    $this->addError(
+                        'questions.' . $qIndex . '.options.' . $oIndex,
+                        'Tidak boleh mencentang opsi kosong'
+                    );
+                }
+
+                // cek jawaban benar
+                if ($opt['is_correct'] && trim($opt['text']) !== '') {
                     $hasCorrect = true;
-                    break;
                 }
             }
 
+            // ❌ tidak ada jawaban benar
             if (!$hasCorrect) {
                 $this->addError(
                     'questions.' . $qIndex . '.correct',
