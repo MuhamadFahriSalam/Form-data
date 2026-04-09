@@ -12,11 +12,13 @@ class QuizQuestion extends Model
         'is_multiple'
     ];
 
+    // Relasi dengan Quiz
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
     }
 
+    // Relasi dengan QuizOption
     public function options()
     {
         return $this->hasMany(QuizOption::class, 'question_id');

@@ -7,8 +7,16 @@ use Illuminate\Support\Str;
 
 class Quiz extends Model
 {
-    protected $fillable = ['title', 'uuid'];
+    // Mass assignment
+    protected $fillable = [
+        'title',
+        'uuid',
+        'description',
+        'start_at',
+        'end_at'
+    ];
 
+    // Auto-generate UUID saat membuat quiz baru
     protected static function boot()
     {
         parent::boot();
@@ -26,11 +34,13 @@ class Quiz extends Model
         return $this->hasMany(QuizAttempt::class);
     }
 
+    // Gunakan UUID untuk route model binding
     public function getRouteKeyName()
     {
         return 'uuid';
     }
 
+    // Relasi dengan QuizQuestion
     public function questions()
     {
         return $this->hasMany(QuizQuestion::class);

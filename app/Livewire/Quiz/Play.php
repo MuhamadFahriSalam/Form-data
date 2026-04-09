@@ -7,6 +7,7 @@ use App\Models\Quiz;
 use App\Models\QuizAttempt;
 use App\Models\QuizAnswer;
 use App\Models\QuizOption;
+use App\Models\QuizQuestion;
 
 class Play extends Component
 {
@@ -14,6 +15,7 @@ class Play extends Component
     public $answers = [];
     public $currentQuestion = 0;
 
+    // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
     {
         $this->quiz = $quiz->load('questions.options');
@@ -63,55 +65,54 @@ class Play extends Component
 
         $score = 0;
 
+        // 🔥 Evaluasi jawaban
         foreach ($this->answers as $questionId => $answer) {
 
-            // SINGLE
-            if (!is_array($answer)) {
-                $option = QuizOption::find($answer);
+            $question = QuizQuestion::with('options')->find($questionId);
 
-                if ($option) {
-                    QuizAnswer::create([
-                        'attempt_id' => $attempt->id,
-                        'question_id' => $questionId,
-                        'option_id' => $option->id,
-                        'is_correct' => $option->is_correct
-                    ]);
+            // 🔥 Ambil jawaban benar
+            $correctOptions = $question->options
+                ->where('is_correct', true)
+                ->pluck('id')
+                ->toArray();
 
-                    if ($option->is_correct) {
-                        $score++;
-                    }
-                }
+            // 🔥 Jawaban user
+            $selectedOptions = is_array($answer)
+                ? array_keys(array_filter($answer))
+                : [$answer];
+
+            sort($correctOptions);
+            sort($selectedOptions);
+
+            $isCorrect = $correctOptions == $selectedOptions;
+
+            // 🔥 Simpan jawaban user
+            foreach ($selectedOptions as $optionId) {
+                QuizAnswer::create([
+                    'attempt_id' => $attempt->id,
+                    'question_id' => $questionId,
+                    'option_id' => $optionId,
+                    'is_correct' => in_array($optionId, $correctOptions)
+                ]);
             }
 
-            // CHECKBOX (1 pilihan)
-            else {
-                foreach ($answer as $optionId => $val) {
-                    if ($val) {
-                        $option = QuizOption::find($optionId);
-
-                        QuizAnswer::create([
-                            'attempt_id' => $attempt->id,
-                            'question_id' => $questionId,
-                            'option_id' => $option->id,
-                            'is_correct' => $option->is_correct
-                        ]);
-
-                        if ($option->is_correct) {
-                            $score++;
-                        }
-                    }
-                }
+            // 🔥 Tambah skor kalau BENAR SEMUA
+            if ($isCorrect) {
+                $score++;
             }
         }
 
+        // 🔥 Update skor attempt
         $attempt->update([
             'score' => $score
         ]);
 
+        // 🔥 Redirect dengan pesan
         return redirect()->route('user.dashboard')
             ->with('success', 'Quiz selesai! Score: ' . $score);
     }
 
+    // Render
     public function render()
     {
         return view('livewire.quiz.play')

@@ -12,5 +12,23 @@ class QuizAnswer extends Model
         'option_id',
         'is_correct'
     ];
+
+    // Relasi dengan QuizAttempt
+    public function attempt()
+    {
+        return $this->belongsTo(QuizAttempt::class);
+    }
+
+    // Relasi dengan QuizQuestion
+    public function question()
+    {
+        return $this->belongsTo(QuizQuestion::class);
+    }
+
+    // Relasi dengan QuizOption
+    public function option()
+    {
+        return $this->belongsTo(QuizOption::class);
+    }
 }
 
