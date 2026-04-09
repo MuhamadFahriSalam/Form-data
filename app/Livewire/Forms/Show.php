@@ -120,11 +120,6 @@ class Show extends Component
                     'form_question_id' => $question->id,
                     'answer' => $answer,
                 ]);
-
-                // ✅ redirect ke dashboard + flash message
-                session()->flash('success', 'Jawaban berhasil dikirim.');
-                
-                return redirect()->route('user.dashboard');
             }
         });
 

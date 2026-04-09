@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('forms', function (Blueprint $table) {
-            if (!Schema::hasColumn('forms', 'uuid')) {
-                $table->char('uuid', 36)->after('id');
-            }
+            $table->uuid('uuid')->unique()->after('id');
         });
     }
 
