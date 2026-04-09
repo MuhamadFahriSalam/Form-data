@@ -36,8 +36,10 @@
                             <p class="text-xs font-medium uppercase tracking-wide text-slate-200">
                                 Status Form
                             </p>
-                            <p class="mt-2 text-sm font-semibold text-white">
-                                Draft
+                            <p class="mt-2 text-sm font-semibold 
+                                {{ $status === 'published' ? 'text-emerald-300' : 'text-yellow-300' }}">
+                                
+                                {{ $status === 'published' ? 'Published' : 'Draft' }}
                             </p>
                         </div>
                     </div>
@@ -90,7 +92,7 @@
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
                         <label class="mb-2 block text-sm font-semibold text-slate-700">
-                            Waktu Mulai
+                            Tanggal Mulai Pengisian
                         </label>
                         <input
                             type="datetime-local"
@@ -138,9 +140,18 @@
                         <button
                             type="button"
                             wire:click="removeQuestion({{ $index }})"
-                            class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
+                            class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 p-2 text-red-600 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100"
                         >
-                            Hapus Pertanyaan
+                            <!-- Icon Trash -->
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                stroke-width="1.5" 
+                                stroke="currentColor" 
+                                class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M6 7.5h12M9 7.5V6a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 6v1.5M6 7.5l.75 12A1.5 1.5 0 008.25 21h7.5a1.5 1.5 0 001.5-1.5L18 7.5M10.5 11.25v6M13.5 11.25v6" />
+                            </svg>
                         </button>
                     </div>
 
@@ -332,10 +343,18 @@
 
                 <button
                     type="button"
-                    wire:click="save"
-                    class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                    wire:click="saveAs('draft')"
+                    class="inline-flex items-center rounded-2xl bg-slate-500 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-slate-600"
                 >
-                    Simpan Form
+                    Simpan sebagai Draft
+                </button>
+
+                <button
+                    type="button"
+                    wire:click="saveAs('published')"
+                    class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-violet-700"
+                >
+                    Publish Form
                 </button>
             </div>
         </div>

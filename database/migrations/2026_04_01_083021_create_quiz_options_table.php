@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('forms', function (Blueprint $table) {
-            if (!Schema::hasColumn('forms', 'uuid')) {
-                $table->char('uuid', 36)->after('id');
-            }
+        Schema::create('quiz_options', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained('quiz_questions')->cascadeOnDelete();
+            $table->string('text');
+            $table->boolean('is_correct')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -23,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('forms', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('quiz_options');
     }
 };
