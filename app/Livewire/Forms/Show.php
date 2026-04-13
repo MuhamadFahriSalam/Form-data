@@ -15,27 +15,26 @@ class Show extends Component
     public Form $form;
     public array $answers = [];
     public bool $alreadySubmitted = false;
+    public bool $showConfirm = false;
 
     // Method untuk inisialisasi data form dan jawaban jika sudah pernah submit
     public function mount(Form $form): void
     {
-        $this->form = $form->load(['questions' => function ($q) {
-            $q->orderBy('sort_order');
-        }]);
+        $this->form = $form->load(['questions' => fn($q) => $q->orderBy('sort_order')]);
 
-        // Cek apakah user sudah pernah submit form ini, kalau sudah load jawaban lamanya
         $submission = FormSubmission::where('form_id', $form->id)
             ->where('user_id', auth()->id())
             ->with('answers')
             ->first();
 
+        // default kosong
         foreach ($this->form->questions as $question) {
             $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
 
-        // 🔥 kalau sudah pernah isi → load jawaban lama
         if ($submission) {
             $this->alreadySubmitted = true;
+            $this->showConfirm = true; // 🔥 tampilkan pilihan dulu
 
             foreach ($submission->answers as $answer) {
                 $value = json_decode($answer->answer, true);
@@ -155,6 +154,23 @@ class Show extends Component
 
         // ✅ Livewire redirect (tanpa return)
         $this->redirect(route('user.dashboard'));
+    }
+
+    // Method untuk memulai ulang form (reset jawaban)
+    public function startAgain(): void
+    {
+        foreach ($this->form->questions as $question) {
+            $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
+        }
+
+        $this->alreadySubmitted = false;
+        $this->showConfirm = false; // 🔥 langsung masuk form
+    }
+    
+    // Method untuk membatalkan edit dan tetap melihat jawaban lama
+    public function continueEdit(): void
+    {
+        $this->showConfirm = false;
     }
 
     // Method untuk menampilkan detail jawaban responden

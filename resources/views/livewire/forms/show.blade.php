@@ -33,130 +33,113 @@
             <!-- Form Questions -->
             <div class="px-6 py-8 sm:px-8">
 
-                {{-- 🔔 Info kalau sudah isi --}}
-                @if ($alreadySubmitted)
-                    <div class="mb-6 rounded-2xl border border-yellow-200 bg-yellow-50 px-5 py-4 text-sm text-yellow-700">
-                        Anda sudah mengisi form ini. Anda bisa mengedit jawaban.
-                    </div>
-                @endif
+                {{-- 🔥 MODE PILIHAN (SEPERTI QUIZ) --}}
+                @if ($showConfirm)
 
-                {{-- ❗ DEBUG kalau pertanyaan kosong --}}
-                @if ($form->questions->count() == 0)
-                    <div class="mb-6 text-red-500 font-semibold">
-                        ❌ Tidak ada pertanyaan pada form ini
-                    </div>
-                @endif
+                    <div class="mb-6 max-w-xl mx-auto">
 
-                {{-- ✅ FORM SELALU MUNCUL --}}
-                <form wire:submit="submit" class="space-y-6">
+                        <div class="rounded-3xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 p-6 shadow-lg text-center">
 
-                      {{-- Loop pertanyaan --}}
-                    @foreach ($form->questions as $index => $question)
+                            <h2 class="text-lg font-bold text-slate-800">
+                                Anda sudah mengisi form ini
+                            </h2>
 
-                        @php
-                            $options = is_array($question->options)
-                                ? $question->options
-                                : json_decode($question->options ?? '[]', true);
-                        @endphp
+                            <p class="text-sm text-slate-500 mt-2">
+                                Pilih aksi yang ingin dilakukan
+                            </p>
 
-                         {{--  Setiap jenis pertanyaan ditangani dengan kondisi berbeda --}}
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                            
-                            <label class="mb-3 block text-sm font-semibold text-slate-800">
-                                {{ $index + 1 }}. {{ $question->question }}
-                                @if ($question->is_required)
-                                    <span class="text-red-500">*</span>
-                                @endif
-                            </label>
+                            <div class="flex justify-center gap-3 mt-5">
 
-                            {{-- TEXT --}}
-                            @if ($question->type === 'text')
-                                <input type="text"
-                                    wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3"
-                                    placeholder="Tulis jawaban">
+                                {{-- 🔁 ISI ULANG --}}
+                                <button
+                                    wire:click="startAgain"
+                                    class="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition"
+                                >
+                                    🔁 Isi Ulang
+                                </button>
 
-                            {{-- TEXTAREA --}}
-                            @elseif ($question->type === 'textarea')
-                                <textarea wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3"></textarea>
+                                {{-- ✏️ EDIT --}}
+                                <button
+                                    wire:click="continueEdit"
+                                    class="px-5 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+                                >
+                                    ✏️ Edit Jawaban
+                                </button>
 
-                            {{-- EMAIL --}}
-                            @elseif ($question->type === 'email')
-                                <input type="email"
-                                    wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3">
+                            </div>
 
-                            {{-- NUMBER --}}
-                            @elseif ($question->type === 'number')
-                                <input type="number"
-                                    wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3">
-
-                            {{-- DATE --}}
-                            @elseif ($question->type === 'date')
-                                <input type="date"
-                                    wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3">
-
-                            {{-- SELECT --}}
-                            @elseif ($question->type === 'select')
-                                <select wire:model.defer="answers.{{ $question->id }}"
-                                    class="w-full rounded-xl border px-4 py-3">
-                                    <option value="">Pilih</option>
-                                    @foreach ($options as $option)
-                                        <option value="{{ $option }}">{{ $option }}</option>
-                                    @endforeach
-                                </select>
-
-                            {{-- RADIO --}}
-                            @elseif ($question->type === 'radio')
-                                @foreach ($options as $option)
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="radio"
-                                            name="question_{{ $question->id }}"
-                                            wire:model.defer="answers.{{ $question->id }}"
-                                            value="{{ $option }}"
-                                            class="text-blue-600 focus:ring-blue-500">
-                                        {{ $option }}
-                                    </label>
-                                @endforeach
-                                
-                            {{-- CHECKBOX --}}
-                            @elseif ($question->type === 'checkbox')
-                                @foreach ($options as $option)
-                                    <label class="flex gap-2">
-                                        <input type="checkbox"
-                                            wire:model.defer="answers.{{ $question->id }}"
-                                            value="{{ $option }}">
-                                        {{ $option }}
-                                    </label>
-                                @endforeach
-
-                            {{-- FILE --}}
-                            @elseif ($question->type === 'file')
-                                <input type="file"
-                                    wire:model="answers.{{ $question->id }}"
-                                    class="w-full border p-2">
-
-                            @endif
-
-                            {{-- ERROR --}}
-                            @error('answers.' . $question->id)
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
-                            @enderror
                         </div>
-                    @endforeach
 
-                    {{-- ACTION --}}
-                    <div class="flex justify-between">
-                        <a href="{{ route('user.dashboard') }}">← Kembali</a>
-
-                        <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-xl">
-                            {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
-                        </button>
                     </div>
-                </form>
+                @else
+
+                    {{-- ❗ DEBUG kalau pertanyaan kosong --}}
+                    @if ($form->questions->count() == 0)
+                        <div class="mb-6 text-red-500 font-semibold">
+                            ❌ Tidak ada pertanyaan pada form ini
+                        </div>
+                    @endif
+
+                    {{-- ✅ FORM --}}
+                    <form wire:submit="submit" class="space-y-6">
+
+                        @foreach ($form->questions as $index => $question)
+
+                            @php
+                                $options = is_array($question->options)
+                                    ? $question->options
+                                    : json_decode($question->options ?? '[]', true);
+                            @endphp
+
+                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+                                <label class="mb-3 block text-sm font-semibold text-slate-800">
+                                    {{ $index + 1 }}. {{ $question->question }}
+                                    @if ($question->is_required)
+                                        <span class="text-red-500">*</span>
+                                    @endif
+                                </label>
+
+                                {{-- TEXT --}}
+                                @if ($question->type === 'text')
+                                    <input type="text"
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- TEXTAREA --}}
+                                @elseif ($question->type === 'textarea')
+                                    <textarea wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3"></textarea>
+
+                                {{-- RADIO --}}
+                                @elseif ($question->type === 'radio')
+                                    @foreach ($options as $option)
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio"
+                                                name="question_{{ $question->id }}"
+                                                wire:model.defer="answers.{{ $question->id }}"
+                                                value="{{ $option }}">
+                                            {{ $option }}
+                                        </label>
+                                    @endforeach
+                                @endif
+
+                                @error('answers.' . $question->id)
+                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endforeach
+
+                        <div class="flex justify-between">
+                            <a href="{{ route('user.dashboard') }}">← Kembali</a>
+
+                            <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-xl">
+                                {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
+                            </button>
+                        </div>
+
+                    </form>
+                @endif
             </div>
         </div>
     </div>
