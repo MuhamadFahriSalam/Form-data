@@ -36,39 +36,61 @@
                 {{-- 🔥 KONFIRMASI ULANG QUIZ --}}
                 @if ($showConfirm)
 
-                    <div class="mb-6 rounded-2xl border border-yellow-200 bg-yellow-50 p-6 text-center">
+                    <div class="mb-6 max-w-xl mx-auto">
 
-                        <p class="text-lg font-semibold text-yellow-700">
-                            Anda sudah mengisi quiz ini
-                        </p>
+                        <div class="relative overflow-hidden rounded-3xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 shadow-lg p-8 text-center">
 
-                        <p class="text-sm text-yellow-600 mt-2">
-                            Apakah Anda ingin mengisi quiz lagi?
-                        </p>
+                            {{-- ICON --}}
+                            <div class="flex justify-center mb-4">
+                                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-yellow-100 text-yellow-600 shadow-inner">
+                                    ⚠️
+                                </div>
+                            </div>
 
-                        <p class="text-xs text-yellow-600 mt-1">
-                            Percobaan sebelumnya: 
-                            {{ \App\Models\QuizAttempt::where('quiz_id', $quiz->id)->where('user_id', auth()->id())->count() }}x
-                        </p>
+                            {{-- TITLE --}}
+                            <h2 class="text-xl font-bold text-slate-800">
+                                Anda sudah mengisi quiz ini
+                            </h2>
 
-                        <div class="flex justify-center gap-4 mt-4">
+                            {{-- DESC --}}
+                            <p class="text-sm text-slate-500 mt-2">
+                                Apakah Anda ingin mengisi quiz lagi?
+                            </p>
 
-                            <button
-                                wire:click="startAgain"
-                                class="px-5 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
-                            >
-                                🔁 Isi Lagi
-                            </button>
+                            {{-- ATTEMPT --}}
+                            <p class="mt-3 text-xs text-yellow-700 bg-yellow-100 inline-block px-3 py-1 rounded-full">
+                                Percobaan sebelumnya:
+                                <span class="font-semibold">
+                                    {{ \App\Models\QuizAttempt::where('quiz_id', $quiz->id)->where('user_id', auth()->id())->count() }}x
+                                </span>
+                            </p>
 
-                            <a
-                                href="{{ route('user.dashboard') }}"
-                                class="px-5 py-2 bg-gray-300 text-gray-700 rounded-xl hover:bg-gray-400"
-                            >
-                                Kembali
-                            </a>
+                            {{-- ACTION --}}
+                            <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
+
+                                {{-- BUTTON ULANG --}}
+                                <button
+                                    wire:click="startAgain"
+                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-md hover:bg-blue-700 hover:shadow-lg active:scale-[0.97] transition"
+                                >
+                                    🔁 Isi Lagi
+                                </button>
+
+                                {{-- BUTTON KEMBALI --}}
+                                <a
+                                    href="{{ route('user.dashboard') }}"
+                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium shadow-sm hover:bg-slate-100 hover:shadow-md active:scale-[0.97] transition"
+                                >
+                                    ← Kembali
+                                </a>
+
+                            </div>
+
+                            {{-- DECORATION --}}
+                            <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-200 opacity-20 rounded-full blur-2xl"></div>
+                            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-yellow-300 opacity-20 rounded-full blur-2xl"></div>
                         </div>
                     </div>
-
                 @else
 
                     {{-- ✅ CEK ADA SOAL ATAU TIDAK --}}
