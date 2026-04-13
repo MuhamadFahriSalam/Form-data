@@ -35,48 +35,59 @@
 
                 {{-- 🔥 MODE PILIHAN (SEPERTI QUIZ) --}}
                 @if ($showConfirm)
-
                     <div class="mb-6 max-w-xl mx-auto">
+                        <div class="relative overflow-hidden rounded-3xl 
+                            bg-gradient-to-br from-blue-600 via-blue-500 to-white 
+                            border border-blue-200 shadow-xl p-6 text-center">
 
-                        <div class="rounded-3xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 p-6 shadow-lg text-center">
+                            <!-- DECORATION -->
+                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-300/30 rounded-full blur-2xl"></div>
+                            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-white/50 rounded-full blur-2xl"></div>
 
-                            <h2 class="text-lg font-bold text-slate-800">
+                            <!-- TITLE -->
+                            <h2 class="text-lg font-bold text-white">
                                 Anda sudah mengisi quiz ini
                             </h2>
 
-                            <p class="text-sm text-slate-500 mt-2">
+                            <!-- DESC -->
+                            <p class="text-sm text-blue-100 mt-2">
                                 Pilih aksi yang ingin dilakukan
                             </p>
 
-                            <p class="text-xs text-yellow-600 mt-1">
+                            <!-- ATTEMPT -->
+                            <div class="mt-3 inline-block px-3 py-1 rounded-full 
+                                bg-white text-blue-600 text-xs border border-blue-200 shadow-sm">
                                 Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                            </p>
+                            </div>
 
-                            <div class="flex flex-wrap justify-center gap-3 mt-5">
+                            <!-- ACTION -->
+                            <div class="flex flex-wrap justify-center gap-3 mt-6">
 
-                                {{-- 🔁 ISI ULANG --}}
+                                <!-- 🔁 ISI ULANG -->
                                 <button
                                     wire:click="startAgain"
                                     @if($attemptCount >= $maxAttempt) disabled @endif
-                                    class="px-5 py-2 rounded-xl bg-blue-600 text-white 
-                                        hover:bg-blue-700 transition
-                                        disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    class="px-5 py-2 rounded-xl bg-white text-blue-600 font-semibold 
+                                    shadow-md hover:bg-blue-50 transition
+                                    disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                 >
                                     🔁 Isi Ulang
                                 </button>
 
-                                {{-- ✏️ EDIT --}}
+                                <!-- ✏️ EDIT -->
                                 <button
                                     wire:click="continueEdit"
-                                    class="px-5 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+                                    class="px-5 py-2 rounded-xl bg-blue-100 text-blue-700 
+                                    hover:bg-blue-200 transition shadow-sm"
                                 >
                                     ✏️ Edit Jawaban
                                 </button>
 
-                                {{-- ⬅️ KEMBALI --}}
+                                <!-- ⬅️ KEMBALI -->
                                 <a
                                     href="{{ route('user.dashboard') }}"
-                                    class="px-5 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition"
+                                    class="px-5 py-2 rounded-xl bg-blue-700 text-white 
+                                    hover:bg-blue-800 transition shadow-md"
                                 >
                                     ⬅️ Kembali
                                 </a>

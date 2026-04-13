@@ -35,87 +35,92 @@
 
                 {{-- 🔥 KONFIRMASI ULANG QUIZ --}}
                 @if ($showConfirm)
-
                     <div class="mb-6 max-w-xl mx-auto">
+                        <div class="relative overflow-hidden rounded-3xl 
+                            bg-gradient-to-br from-blue-600 via-blue-500 to-white 
+                            border border-blue-200 shadow-xl p-8 text-center">
 
-                        <div class="relative overflow-hidden rounded-3xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 shadow-lg p-8 text-center">
+                            <!-- DECORATION -->
+                            <div class="absolute -top-16 -right-16 w-40 h-40 bg-blue-300/30 rounded-full blur-3xl"></div>
+                            <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-white/50 rounded-full blur-3xl"></div>
 
-                            {{-- ICON --}}
+                            <!-- ICON -->
                             <div class="flex justify-center mb-4">
-                                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-yellow-100 text-yellow-600 shadow-inner">
-                                    ⚠️
+                                <div class="flex items-center justify-center w-16 h-16 rounded-full 
+                                    bg-white text-blue-600 shadow-lg">
+                                    ⚡
                                 </div>
                             </div>
 
-                            {{-- TITLE --}}
-                            <h2 class="text-xl font-bold text-slate-800">
+                            <!-- TITLE -->
+                            <h2 class="text-xl font-bold text-white tracking-wide">
                                 Anda sudah mengisi quiz ini
                             </h2>
 
-                            {{-- DESC --}}
+                            <!-- TOTAL SCORE -->
                             @if($totalScore > 0)
-                                <div class="mt-4 p-4 bg-blue-100 border border-blue-200 rounded-2xl text-center">
-                                    
-                                    <p class="text-sm text-blue-700">
-                                        📊 Total Score Anda
-                                    </p>
+                            <div class="mt-5 p-5 rounded-2xl 
+                                bg-white shadow-md border border-blue-100">
 
-                                    <p class="text-3xl font-bold text-blue-600 mt-1">
-                                        {{ $totalScore }}
-                                    </p>
+                                <p class="text-sm text-blue-600">
+                                    📊 Total Score Anda
+                                </p>
 
-                                    <p class="text-xs text-blue-500 mt-1">
-                                        Dari {{ $attemptCount }} percobaan
-                                    </p>
+                                <p class="text-4xl font-extrabold text-blue-700 mt-1">
+                                    {{ $totalScore }}
+                                </p>
 
-                                </div>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    Dari {{ $attemptCount }} percobaan
+                                </p>
+                            </div>
                             @endif
 
-                            {{-- DESC --}}
-                            <p class="text-sm text-slate-500 mt-2">
+                            <!-- DESC -->
+                            <p class="text-sm text-blue-100 mt-4">
                                 Apakah Anda ingin mengisi quiz lagi?
                             </p>
 
-                            {{-- ATTEMPT COUNT --}}
-                            <p class="mt-3 text-xs text-yellow-700 bg-yellow-100 inline-block px-3 py-1 rounded-full">
-                                Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                            </p>
+                            <!-- ATTEMPT INFO -->
+                            <div class="flex flex-wrap justify-center gap-2 mt-4">
 
-                            {{-- ATTEMPT --}}
-                            <p class="mt-3 text-xs text-yellow-700 bg-yellow-100 inline-block px-3 py-1 rounded-full">
-                                Percobaan sebelumnya:
-                                <span class="font-semibold">
-                                    {{ \App\Models\QuizAttempt::where('quiz_id', $quiz->id)->where('user_id', auth()->id())->count() }}x
+                                <span class="px-3 py-1 text-xs rounded-full 
+                                    bg-white text-blue-600 border border-blue-200">
+                                    Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
                                 </span>
-                            </p>
 
-                            {{-- ACTION --}}
+                                <span class="px-3 py-1 text-xs rounded-full 
+                                    bg-blue-100 text-blue-700 border border-blue-200">
+                                    Total attempt: {{ $attemptCount }}x
+                                </span>
+
+                            </div>
+
+                            <!-- ACTION -->
                             <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
 
-                                {{-- BUTTON ULANG --}}
+                                <!-- BUTTON ULANG -->
                                 <button
                                     wire:click="startAgain"
                                     @if($attemptCount >= $maxAttempt) disabled @endif
-                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white 
-                                        hover:bg-blue-700 transition
-                                        disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl 
+                                    bg-white text-blue-600 font-semibold 
+                                    hover:bg-blue-50 shadow-md transition
+                                    disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                 >
                                     🔁 Isi Lagi
                                 </button>
 
-                                {{-- BUTTON KEMBALI --}}
+                                <!-- BUTTON KEMBALI -->
                                 <a
                                     href="{{ route('user.dashboard') }}"
-                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium shadow-sm hover:bg-slate-100 hover:shadow-md active:scale-[0.97] transition"
+                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl 
+                                    bg-blue-700 text-white font-medium 
+                                    hover:bg-blue-800 shadow-md transition"
                                 >
                                     ← Kembali
                                 </a>
-
                             </div>
-
-                            {{-- DECORATION --}}
-                            <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-200 opacity-20 rounded-full blur-2xl"></div>
-                            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-yellow-300 opacity-20 rounded-full blur-2xl"></div>
                         </div>
                     </div>
                 @else
