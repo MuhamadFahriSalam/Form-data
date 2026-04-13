@@ -8,27 +8,36 @@ use App\Models\QuizAttempt;
 use App\Models\QuizAnswer;
 use App\Models\QuizOption;
 use App\Models\QuizQuestion;
+use Illuminate\Support\Facades\DB;
 
 class Play extends Component
 {
     public $quiz;
     public $answers = [];
     public $currentQuestion = 0;
+    public $hasAttempt = false;
+    public $showConfirm = false;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
     {
         $this->quiz = $quiz->load('questions.options');
 
+        // 🔥 cek apakah sudah pernah mengerjakan
+        $this->hasAttempt = QuizAttempt::where('quiz_id', $quiz->id)
+            ->where('user_id', auth()->id())
+            ->exists();
+
+        // kalau sudah pernah → tampilkan konfirmasi
+        if ($this->hasAttempt) {
+            $this->showConfirm = true;
+        }
+
         foreach ($this->quiz->questions as $q) {
-            if ($q->is_multiple) {
-                $this->answers[$q->id] = [];
-            } else {
-                $this->answers[$q->id] = null;
-            }
+            $this->answers[$q->id] = $q->is_multiple ? [] : null;
         }
     }
-
+    
     // NEXT
     public function next()
     {
@@ -57,61 +66,77 @@ class Play extends Component
     {
         $userId = auth()->id();
 
-        $attempt = QuizAttempt::create([
-            'user_id' => $userId,
-            'quiz_id' => $this->quiz->id,
-            'score' => 0
-        ]);
+        DB::transaction(function () use ($userId, &$score, &$correctCount, &$totalQuestions) {
 
-        $correctCount = 0;
-        $totalQuestions = count($this->answers);
+            // ✅ buat attempt baru
+            $attempt = QuizAttempt::create([
+                'user_id' => $userId,
+                'quiz_id' => $this->quiz->id,
+                'score' => 0
+            ]);
 
-        foreach ($this->answers as $questionId => $answer) {
+            $correctCount = 0;
+            $totalQuestions = count($this->quiz->questions);
 
-            $question = QuizQuestion::with('options')->find($questionId);
+            foreach ($this->quiz->questions as $question) {
 
-            $correctOptions = $question->options
-                ->where('is_correct', true)
-                ->pluck('id')
-                ->toArray();
+                $answer = $this->answers[$question->id] ?? null;
 
-            $selectedOptions = is_array($answer)
-                ? array_keys(array_filter($answer))
-                : [$answer];
+                $correctOptions = $question->options
+                    ->where('is_correct', true)
+                    ->pluck('id')
+                    ->toArray();
 
-            sort($correctOptions);
-            sort($selectedOptions);
+                $selectedOptions = is_array($answer)
+                    ? array_keys(array_filter($answer))
+                    : [$answer];
 
-            $isCorrect = $correctOptions == $selectedOptions;
+                sort($correctOptions);
+                sort($selectedOptions);
 
-            // simpan jawaban
-            foreach ($selectedOptions as $optionId) {
-                QuizAnswer::create([
-                    'attempt_id' => $attempt->id,
-                    'question_id' => $questionId,
-                    'option_id' => $optionId,
-                    'is_correct' => in_array($optionId, $correctOptions)
-                ]);
+                $isCorrect = $correctOptions == $selectedOptions;
+
+                // ✅ simpan jawaban
+                foreach ($selectedOptions as $optionId) {
+                    QuizAnswer::create([
+                        'attempt_id' => $attempt->id,
+                        'question_id' => $question->id,
+                        'option_id' => $optionId,
+                        'is_correct' => in_array($optionId, $correctOptions)
+                    ]);
+                }
+
+                if ($isCorrect) {
+                    $correctCount++;
+                }
             }
 
-            if ($isCorrect) {
-                $correctCount++;
-            }
+            // ✅ hitung score
+            $score = round(($correctCount / $totalQuestions) * 100);
+
+            $attempt->update([
+                'score' => $score
+            ]);
+        });
+
+        // 🔥 reset biar bisa ulang lagi
+        $this->reset(['answers', 'currentQuestion']);
+
+        return redirect()->route('user.dashboard')
+            ->with('success', "Quiz selesai! Score: {$score} ({$correctCount}/{$totalQuestions})");
+    }
+
+    // 🔥 mulai ulang quiz
+    public function startAgain()
+    {
+        $this->showConfirm = false;
+
+        // reset jawaban
+        foreach ($this->quiz->questions as $q) {
+            $this->answers[$q->id] = $q->is_multiple ? [] : null;
         }
 
-        // 🔥 HITUNG NILAI 0 - 100
-        $score = ($correctCount / $totalQuestions) * 100;
-
-        // bulatkan biar rapi
-        $score = round($score);
-
-        $attempt->update([
-            'score' => $score
-        ]);
-
-        // Redirect ke dashboard dengan pesan sukses
-        return redirect()->route('user.dashboard')
-            ->with('success', 'Quiz selesai! Score: ' . $score . ' (' . $correctCount . '/' . $totalQuestions . ')');
+        $this->currentQuestion = 0;
     }
 
     // Render
