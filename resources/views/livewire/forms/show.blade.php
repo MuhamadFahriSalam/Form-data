@@ -18,16 +18,24 @@
 
         <!-- Form Details -->
         <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-700 px-6 py-8 sm:px-8">
-                <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            <div class="relative bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 px-6 py-8 sm:px-8 text-white overflow-hidden rounded-3xl shadow-lg">
+
+                <!-- DECORATION -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+
+                <!-- TITLE -->
+                <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">
                     {{ $form->title }}
                 </h1>
 
+                <!-- DESCRIPTION -->
                 @if ($form->description)
-                    <p class="mt-2 text-sm leading-6 text-slate-200">
+                    <p class="mt-2 text-sm leading-6 text-blue-200">
                         {{ $form->description }}
                     </p>
                 @endif
+
             </div>
 
             <!-- Form Questions -->
@@ -36,61 +44,69 @@
                 {{-- 🔥 MODE PILIHAN (SEPERTI QUIZ) --}}
                 @if ($showConfirm)
                     <div class="mb-6 max-w-xl mx-auto">
-                        <div class="relative overflow-hidden rounded-3xl 
-                            bg-gradient-to-br from-blue-600 via-blue-500 to-white 
-                            border border-blue-200 shadow-xl p-6 text-center">
+                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                            <!-- ACCENT LINE -->
+                            <div class="h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600"></div>
 
-                            <!-- DECORATION -->
-                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-300/30 rounded-full blur-2xl"></div>
-                            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-white/50 rounded-full blur-2xl"></div>
+                            <div class="p-6 text-center">
 
-                            <!-- TITLE -->
-                            <h2 class="text-lg font-bold text-white">
-                                Anda sudah mengisi quiz ini
-                            </h2>
+                                <!-- ICON -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 text-xl">
+                                        ⚡
+                                    </div>
+                                </div>
 
-                            <!-- DESC -->
-                            <p class="text-sm text-blue-100 mt-2">
-                                Pilih aksi yang ingin dilakukan
-                            </p>
+                                <!-- TITLE -->
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    Anda sudah mengisi quiz ini
+                                </h2>
 
-                            <!-- ATTEMPT -->
-                            <div class="mt-3 inline-block px-3 py-1 rounded-full 
-                                bg-white text-blue-600 text-xs border border-blue-200 shadow-sm">
-                                Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                            </div>
+                                <!-- DESC -->
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Pilih aksi yang ingin dilakukan
+                                </p>
 
-                            <!-- ACTION -->
-                            <div class="flex flex-wrap justify-center gap-3 mt-6">
+                                <!-- ATTEMPT -->
+                                <div class="mt-3 inline-block px-3 py-1 rounded-full 
+                                    bg-blue-50 text-blue-600 text-xs border border-blue-200">
+                                    Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                                </div>
 
-                                <!-- 🔁 ISI ULANG -->
-                                <button
-                                    wire:click="startAgain"
-                                    @if($attemptCount >= $maxAttempt) disabled @endif
-                                    class="px-5 py-2 rounded-xl bg-white text-blue-600 font-semibold 
-                                    shadow-md hover:bg-blue-50 transition
-                                    disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                >
-                                    🔁 Isi Ulang
-                                </button>
+                                <!-- ACTION -->
+                                <div class="flex flex-wrap justify-center gap-3 mt-6">
 
-                                <!-- ✏️ EDIT -->
-                                <button
-                                    wire:click="continueEdit"
-                                    class="px-5 py-2 rounded-xl bg-blue-100 text-blue-700 
-                                    hover:bg-blue-200 transition shadow-sm"
-                                >
-                                    ✏️ Edit Jawaban
-                                </button>
+                                    <!-- 🔁 ISI ULANG -->
+                                    <button
+                                        wire:click="startAgain"
+                                        @if($attemptCount >= $maxAttempt) disabled @endif
+                                        class="px-5 py-2 rounded-2xl bg-blue-600 text-white font-semibold 
+                                        hover:bg-blue-700 transition shadow-sm
+                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    >
+                                        🔁 Isi Ulang
+                                    </button>
 
-                                <!-- ⬅️ KEMBALI -->
-                                <a
-                                    href="{{ route('user.dashboard') }}"
-                                    class="px-5 py-2 rounded-xl bg-blue-700 text-white 
-                                    hover:bg-blue-800 transition shadow-md"
-                                >
-                                    ⬅️ Kembali
-                                </a>
+                                    <!-- ✏️ EDIT -->
+                                    <button
+                                        wire:click="continueEdit"
+                                        class="px-5 py-2 rounded-2xl bg-blue-50 text-blue-600 
+                                        hover:bg-blue-100 transition"
+                                    >
+                                        ✏️ Edit Jawaban
+                                    </button>
+
+                                    <!-- ⬅️ KEMBALI -->
+                                    <a
+                                        href="{{ route('user.dashboard') }}"
+                                        class="px-5 py-2 rounded-2xl bg-slate-100 text-slate-700 
+                                        hover:bg-slate-200 transition"
+                                    >
+                                        ⬅️ Kembali
+                                    </a>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -36,90 +36,87 @@
                 {{-- 🔥 KONFIRMASI ULANG QUIZ --}}
                 @if ($showConfirm)
                     <div class="mb-6 max-w-xl mx-auto">
-                        <div class="relative overflow-hidden rounded-3xl 
-                            bg-gradient-to-br from-blue-600 via-blue-500 to-white 
-                            border border-blue-200 shadow-xl p-8 text-center">
+                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                            <!-- ACCENT LINE -->
+                            <div class="h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600"></div>
+                            <div class="p-6 text-center">
 
-                            <!-- DECORATION -->
-                            <div class="absolute -top-16 -right-16 w-40 h-40 bg-blue-300/30 rounded-full blur-3xl"></div>
-                            <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-white/50 rounded-full blur-3xl"></div>
-
-                            <!-- ICON -->
-                            <div class="flex justify-center mb-4">
-                                <div class="flex items-center justify-center w-16 h-16 rounded-full 
-                                    bg-white text-blue-600 shadow-lg">
-                                    ⚡
+                                <!-- ICON -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 text-xl">
+                                        ⚡
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- TITLE -->
-                            <h2 class="text-xl font-bold text-white tracking-wide">
-                                Anda sudah mengisi quiz ini
-                            </h2>
+                                <!-- TITLE -->
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    Anda sudah mengisi quiz ini
+                                </h2>
 
-                            <!-- TOTAL SCORE -->
-                            @if($totalScore > 0)
-                            <div class="mt-5 p-5 rounded-2xl 
-                                bg-white shadow-md border border-blue-100">
-
-                                <p class="text-sm text-blue-600">
-                                    📊 Total Score Anda
+                                <!-- DESC -->
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Apakah Anda ingin mengisi quiz lagi?
                                 </p>
 
-                                <p class="text-4xl font-extrabold text-blue-700 mt-1">
-                                    {{ $totalScore }}
-                                </p>
+                                <!-- SCORE CARD -->
+                                @if($totalScore > 0)
+                                    <div class="mt-5 rounded-2xl bg-slate-50 p-4 border border-slate-200">
 
-                                <p class="text-xs text-slate-500 mt-1">
-                                    Dari {{ $attemptCount }} percobaan
-                                </p>
-                            </div>
-                            @endif
+                                        <p class="text-sm text-slate-600">
+                                            📊 Total Score Anda
+                                        </p>
 
-                            <!-- DESC -->
-                            <p class="text-sm text-blue-100 mt-4">
-                                Apakah Anda ingin mengisi quiz lagi?
-                            </p>
+                                        <p class="text-3xl font-bold text-blue-600 mt-1">
+                                            {{ $totalScore }}
+                                        </p>
 
-                            <!-- ATTEMPT INFO -->
-                            <div class="flex flex-wrap justify-center gap-2 mt-4">
+                                        <p class="text-xs text-slate-500 mt-1">
+                                            Dari {{ $attemptCount }} percobaan
+                                        </p>
 
-                                <span class="px-3 py-1 text-xs rounded-full 
-                                    bg-white text-blue-600 border border-blue-200">
-                                    Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                                </span>
+                                    </div>
+                                @endif
 
-                                <span class="px-3 py-1 text-xs rounded-full 
-                                    bg-blue-100 text-blue-700 border border-blue-200">
-                                    Total attempt: {{ $attemptCount }}x
-                                </span>
+                                <!-- ATTEMPT INFO -->
+                                <div class="flex flex-wrap justify-center gap-2 mt-4">
 
-                            </div>
+                                    <span class="px-3 py-1 text-xs rounded-full 
+                                        bg-blue-50 text-blue-600 border border-blue-200">
+                                        Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                                    </span>
 
-                            <!-- ACTION -->
-                            <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
+                                    <span class="px-3 py-1 text-xs rounded-full 
+                                        bg-slate-100 text-slate-600 border border-slate-200">
+                                        Total attempt: {{ $attemptCount }}x
+                                    </span>
 
-                                <!-- BUTTON ULANG -->
-                                <button
-                                    wire:click="startAgain"
-                                    @if($attemptCount >= $maxAttempt) disabled @endif
-                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl 
-                                    bg-white text-blue-600 font-semibold 
-                                    hover:bg-blue-50 shadow-md transition
-                                    disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                >
-                                    🔁 Isi Lagi
-                                </button>
+                                </div>
 
-                                <!-- BUTTON KEMBALI -->
-                                <a
-                                    href="{{ route('user.dashboard') }}"
-                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl 
-                                    bg-blue-700 text-white font-medium 
-                                    hover:bg-blue-800 shadow-md transition"
-                                >
-                                    ← Kembali
-                                </a>
+                                <!-- ACTION -->
+                                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
+
+                                    <!-- 🔁 ISI ULANG -->
+                                    <button
+                                        wire:click="startAgain"
+                                        @if($attemptCount >= $maxAttempt) disabled @endif
+                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
+                                        bg-blue-600 text-white font-semibold 
+                                        hover:bg-blue-700 transition shadow-sm
+                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    >
+                                        🔁 Isi Lagi
+                                    </button>
+
+                                    <!-- ⬅️ KEMBALI -->
+                                    <a
+                                        href="{{ route('user.dashboard') }}"
+                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
+                                        bg-slate-100 text-slate-700 font-medium 
+                                        hover:bg-slate-200 transition"
+                                    >
+                                        ← Kembali
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
