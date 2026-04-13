@@ -76,37 +76,45 @@
                                 <!-- ACTION -->
                                 <div class="flex flex-wrap justify-center gap-3 mt-6">
 
-                                    <!-- 🔁 ISI ULANG -->
+                                    <!-- 🔁 ISI ULANG (PRIMARY) -->
                                     <button
                                         wire:click="startAgain"
                                         @if($attemptCount >= $maxAttempt) disabled @endif
-                                        class="px-5 py-2 rounded-2xl bg-blue-600 text-white font-semibold 
-                                        hover:bg-blue-700 transition shadow-sm
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-blue-600 text-white font-semibold
+                                        hover:bg-blue-700
+                                        shadow-sm hover:shadow-md
+                                        transition-all duration-300
                                         disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                     >
                                         🔁 Isi Ulang
                                     </button>
 
-                                    <!-- ✏️ EDIT -->
+                                    <!-- ✏️ EDIT (SECONDARY) -->
                                     <button
                                         wire:click="continueEdit"
-                                        class="px-5 py-2 rounded-2xl bg-blue-50 text-blue-600 
-                                        hover:bg-blue-100 transition"
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-white text-blue-600 font-medium
+                                        border border-blue-200
+                                        hover:bg-blue-50 hover:border-blue-300
+                                        transition-all duration-300"
                                     >
                                         ✏️ Edit Jawaban
                                     </button>
 
-                                    <!-- ⬅️ KEMBALI -->
+                                    <!-- ⬅️ KEMBALI (OUTLINE) -->
                                     <a
                                         href="{{ route('user.dashboard') }}"
-                                        class="px-5 py-2 rounded-2xl bg-slate-100 text-slate-700 
-                                        hover:bg-slate-200 transition"
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-white text-slate-600 font-medium
+                                        border border-slate-200
+                                        hover:bg-slate-50 hover:border-slate-300
+                                        transition-all duration-300"
                                     >
                                         ⬅️ Kembali
                                     </a>
 
                                 </div>
-
                             </div>
                         </div>
                     </div>
