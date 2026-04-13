@@ -19,28 +19,26 @@ class Play extends Component
     public $showConfirm = false;
     public int $attemptCount = 0;
     public int $maxAttempt = 3;
+    public $totalScore = 0;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
     {
-        // load quiz dengan relasi questions dan options
         $this->quiz = $quiz->load('questions.options');
 
-        // hitung attempt
         $this->attemptCount = QuizAttempt::where('quiz_id', $quiz->id)
-        ->where('user_id', auth()->id())
-        ->count();
+            ->where('user_id', auth()->id())
+            ->count();
 
-        // cek apakah sudah pernah mengerjakan
         $this->hasAttempt = $this->attemptCount > 0;
 
-        // 🔥 cek apakah sudah pernah mengerjakan
-        $this->hasAttempt = QuizAttempt::where('quiz_id', $quiz->id)
-            ->where('user_id', auth()->id())
-            ->exists();
-
-        // kalau sudah pernah → tampilkan konfirmasi
+        // 🔥 ambil TOTAL score semua percobaan
         if ($this->hasAttempt) {
+
+            $this->totalScore = QuizAttempt::where('quiz_id', $quiz->id)
+                ->where('user_id', auth()->id())
+                ->sum('score'); // 🔥 ini yang penting
+
             $this->showConfirm = true;
         }
 

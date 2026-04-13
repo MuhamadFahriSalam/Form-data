@@ -53,6 +53,25 @@
                             </h2>
 
                             {{-- DESC --}}
+                            @if($totalScore > 0)
+                                <div class="mt-4 p-4 bg-blue-100 border border-blue-200 rounded-2xl text-center">
+                                    
+                                    <p class="text-sm text-blue-700">
+                                        📊 Total Score Anda
+                                    </p>
+
+                                    <p class="text-3xl font-bold text-blue-600 mt-1">
+                                        {{ $totalScore }}
+                                    </p>
+
+                                    <p class="text-xs text-blue-500 mt-1">
+                                        Dari {{ $attemptCount }} percobaan
+                                    </p>
+
+                                </div>
+                            @endif
+
+                            {{-- DESC --}}
                             <p class="text-sm text-slate-500 mt-2">
                                 Apakah Anda ingin mengisi quiz lagi?
                             </p>
