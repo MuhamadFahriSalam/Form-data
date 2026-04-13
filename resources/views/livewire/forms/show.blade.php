@@ -113,7 +113,8 @@
 
                                 {{-- TEXTAREA --}}
                                 @elseif ($question->type === 'textarea')
-                                    <textarea wire:model.defer="answers.{{ $question->id }}"
+                                    <textarea
+                                        wire:model.defer="answers.{{ $question->id }}"
                                         class="w-full rounded-xl border px-4 py-3"></textarea>
 
                                 {{-- RADIO --}}
@@ -127,22 +128,67 @@
                                             {{ $option }}
                                         </label>
                                     @endforeach
+
+                                {{-- CHECKBOX --}}
+                                @elseif ($question->type === 'checkbox')
+                                    @foreach ($options as $option)
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox"
+                                                wire:model.defer="answers.{{ $question->id }}"
+                                                value="{{ $option }}">
+                                            {{ $option }}
+                                        </label>
+                                    @endforeach
+
+                                {{-- SELECT --}}
+                                @elseif ($question->type === 'select')
+                                    <select
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($options as $option)
+                                            <option value="{{ $option }}">{{ $option }}</option>
+                                        @endforeach
+                                    </select>
+
+                                {{-- DATE --}}
+                                @elseif ($question->type === 'date')
+                                    <input type="date"
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- NUMBER --}}
+                                @elseif ($question->type === 'number')
+                                    <input type="number"
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- FILE --}}
+                                @elseif ($question->type === 'file')
+                                    <input type="file"
+                                        wire:model="answers.{{ $question->id }}"
+                                        class="w-full border p-2 rounded-xl">
+
                                 @endif
 
+                                {{-- ERROR --}}
                                 @error('answers.' . $question->id)
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         @endforeach
 
-                        <div class="flex justify-between">
-                            <a href="{{ route('user.dashboard') }}">← Kembali</a>
+                        {{-- ACTION --}}
+                        <div class="flex justify-between items-center">
+                            <a href="{{ route('user.dashboard') }}" class="text-sm text-slate-600 hover:underline">
+                                ← Kembali
+                            </a>
 
-                            <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-xl">
+                            <button type="submit"
+                                class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700">
                                 {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
                             </button>
                         </div>
-
                     </form>
                 @endif
             </div>

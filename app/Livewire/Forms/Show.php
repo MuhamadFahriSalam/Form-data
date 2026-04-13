@@ -16,6 +16,7 @@ class Show extends Component
     public array $answers = [];
     public bool $alreadySubmitted = false;
     public bool $showConfirm = false;
+    public bool $isEditMode = false;
 
     // Method untuk inisialisasi data form dan jawaban jika sudah pernah submit
     public function mount(Form $form): void
@@ -117,22 +118,24 @@ class Show extends Component
         // Gunakan transaction untuk memastikan data konsisten
         DB::transaction(function () {
 
-            // Cek apakah sudah pernah submit, kalau sudah hapus jawaban lama dan buat baru
-            $submission = FormSubmission::where('form_id', $this->form->id)
-                ->where('user_id', auth()->id())
-                ->first();
+            if ($this->isEditMode) {
+                // ✏️ EDIT → update data lama
+                $submission = FormSubmission::where('form_id', $this->form->id)
+                    ->where('user_id', auth()->id())
+                    ->first();
 
-            // Kalau belum pernah submit, buat baru. Kalau sudah, hapus jawaban lama dan buat baru (update)
-            if (!$submission) {
+                // hapus jawaban lama → isi ulang
+                $submission->answers()->delete();
+
+            } else {
+                // 🔁 ISI ULANG → buat submission baru
                 $submission = FormSubmission::create([
                     'form_id' => $this->form->id,
                     'user_id' => auth()->id(),
                 ]);
-            } else {
-                $submission->answers()->delete();
             }
 
-            // Simpan jawaban untuk setiap pertanyaan
+            // simpan jawaban
             foreach ($this->form->questions as $question) {
                 $answer = $this->answers[$question->id] ?? null;
 
@@ -163,13 +166,14 @@ class Show extends Component
             $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
 
-        $this->alreadySubmitted = false;
-        $this->showConfirm = false; // 🔥 langsung masuk form
+        $this->isEditMode = false; // 🔥 penting
+        $this->showConfirm = false;
     }
     
     // Method untuk membatalkan edit dan tetap melihat jawaban lama
     public function continueEdit(): void
     {
+        $this->isEditMode = true;
         $this->showConfirm = false;
     }
 
