@@ -112,14 +112,16 @@
                             {{-- RADIO --}}
                             @elseif ($question->type === 'radio')
                                 @foreach ($options as $option)
-                                    <label class="flex gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer">
                                         <input type="radio"
+                                            name="question_{{ $question->id }}"
                                             wire:model.defer="answers.{{ $question->id }}"
-                                            value="{{ $option }}">
+                                            value="{{ $option }}"
+                                            class="text-blue-600 focus:ring-blue-500">
                                         {{ $option }}
                                     </label>
                                 @endforeach
-
+                                
                             {{-- CHECKBOX --}}
                             @elseif ($question->type === 'checkbox')
                                 @foreach ($options as $option)

@@ -23,6 +23,7 @@ class Show extends Component
             $q->orderBy('sort_order');
         }]);
 
+        // Cek apakah user sudah pernah submit form ini, kalau sudah load jawaban lamanya
         $submission = FormSubmission::where('form_id', $form->id)
             ->where('user_id', auth()->id())
             ->with('answers')
@@ -45,6 +46,7 @@ class Show extends Component
         }
     }
 
+    // Method untuk mendefinisikan aturan validasi dinamis berdasarkan tipe pertanyaan
     protected function rules(): array
     {
         $rules = [];
@@ -82,6 +84,7 @@ class Show extends Component
         return $rules;
     }
 
+    // Custom validation messages untuk setiap pertanyaan
     protected function messages(): array
     {
         $messages = [];
