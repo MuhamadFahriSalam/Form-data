@@ -41,14 +41,14 @@
                         <div class="rounded-3xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 p-6 shadow-lg text-center">
 
                             <h2 class="text-lg font-bold text-slate-800">
-                                Anda sudah mengisi form ini
+                                Anda sudah mengisi quiz ini
                             </h2>
 
                             <p class="text-sm text-slate-500 mt-2">
                                 Pilih aksi yang ingin dilakukan
                             </p>
 
-                            <div class="flex justify-center gap-3 mt-5">
+                            <div class="flex flex-wrap justify-center gap-3 mt-5">
 
                                 {{-- 🔁 ISI ULANG --}}
                                 <button
@@ -66,10 +66,15 @@
                                     ✏️ Edit Jawaban
                                 </button>
 
+                                {{-- ⬅️ KEMBALI --}}
+                                <a
+                                    href="{{ route('user.dashboard') }}"
+                                    class="px-5 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition"
+                                >
+                                    ⬅️ Kembali
+                                </a>
                             </div>
-
                         </div>
-
                     </div>
                 @else
 
