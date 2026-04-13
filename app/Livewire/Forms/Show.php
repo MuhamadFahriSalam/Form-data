@@ -17,14 +17,24 @@ class Show extends Component
     public bool $alreadySubmitted = false;
     public bool $showConfirm = false;
     public bool $isEditMode = false;
+    public int $attemptCount = 0;
+    public int $maxAttempt = 3;
 
     // Method untuk inisialisasi data form dan jawaban jika sudah pernah submit
     public function mount(Form $form): void
     {
+        // load form dulu
         $this->form = $form->load(['questions' => fn($q) => $q->orderBy('sort_order')]);
 
+        // hitung attempt
+        $this->attemptCount = FormSubmission::where('form_id', $form->id)
+            ->where('user_id', auth()->id())
+            ->count();
+
+        // ambil submission terakhir
         $submission = FormSubmission::where('form_id', $form->id)
             ->where('user_id', auth()->id())
+            ->latest()
             ->with('answers')
             ->first();
 
@@ -33,9 +43,10 @@ class Show extends Component
             $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
 
+        // kalau ada submission
         if ($submission) {
             $this->alreadySubmitted = true;
-            $this->showConfirm = true; // 🔥 tampilkan pilihan dulu
+            $this->showConfirm = true;
 
             foreach ($submission->answers as $answer) {
                 $value = json_decode($answer->answer, true);
@@ -115,6 +126,12 @@ class Show extends Component
 
         $this->validate();
 
+        // Cek apakah sudah pernah submit dan belum mencapai batas maksimal
+        if (!$this->isEditMode && $this->attemptCount >= $this->maxAttempt) {
+            session()->flash('error', 'Batas maksimal pengisian sudah tercapai.');
+            return;
+        }
+
         // Gunakan transaction untuk memastikan data konsisten
         DB::transaction(function () {
 
@@ -162,14 +179,20 @@ class Show extends Component
     // Method untuk memulai ulang form (reset jawaban)
     public function startAgain(): void
     {
+        // ❌ kalau sudah 3x
+        if ($this->attemptCount >= $this->maxAttempt) {
+            session()->flash('error', 'Anda sudah mencapai batas maksimal 3 kali pengisian.');
+            return;
+        }
+
         foreach ($this->form->questions as $question) {
             $this->answers[$question->id] = $question->type === 'checkbox' ? [] : null;
         }
 
-        $this->isEditMode = false; // 🔥 penting
+        $this->isEditMode = false;
         $this->showConfirm = false;
     }
-    
+        
     // Method untuk membatalkan edit dan tetap melihat jawaban lama
     public function continueEdit(): void
     {

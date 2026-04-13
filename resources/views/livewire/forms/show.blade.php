@@ -48,12 +48,19 @@
                                 Pilih aksi yang ingin dilakukan
                             </p>
 
+                            <p class="text-xs text-yellow-600 mt-1">
+                                Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                            </p>
+
                             <div class="flex flex-wrap justify-center gap-3 mt-5">
 
                                 {{-- 🔁 ISI ULANG --}}
                                 <button
                                     wire:click="startAgain"
-                                    class="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition"
+                                    @if($attemptCount >= $maxAttempt) disabled @endif
+                                    class="px-5 py-2 rounded-xl bg-blue-600 text-white 
+                                        hover:bg-blue-700 transition
+                                        disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 >
                                     🔁 Isi Ulang
                                 </button>
