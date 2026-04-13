@@ -17,11 +17,22 @@ class Play extends Component
     public $currentQuestion = 0;
     public $hasAttempt = false;
     public $showConfirm = false;
+    public int $attemptCount = 0;
+    public int $maxAttempt = 3;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
     {
+        // load quiz dengan relasi questions dan options
         $this->quiz = $quiz->load('questions.options');
+
+        // hitung attempt
+        $this->attemptCount = QuizAttempt::where('quiz_id', $quiz->id)
+        ->where('user_id', auth()->id())
+        ->count();
+
+        // cek apakah sudah pernah mengerjakan
+        $this->hasAttempt = $this->attemptCount > 0;
 
         // 🔥 cek apakah sudah pernah mengerjakan
         $this->hasAttempt = QuizAttempt::where('quiz_id', $quiz->id)
@@ -66,6 +77,13 @@ class Play extends Component
     {
         $userId = auth()->id();
 
+        // ❌ kalau sudah 3x
+        if ($this->attemptCount >= $this->maxAttempt) {
+            session()->flash('error', 'Batas maksimal percobaan sudah tercapai.');
+            return;
+        }
+
+        // ✅ simpan jawaban dan hitung score dalam satu transaksi
         DB::transaction(function () use ($userId, &$score, &$correctCount, &$totalQuestions) {
 
             // ✅ buat attempt baru
@@ -129,9 +147,15 @@ class Play extends Component
     // 🔥 mulai ulang quiz
     public function startAgain()
     {
+        // ❌ kalau sudah 3x
+        if ($this->attemptCount >= $this->maxAttempt) {
+            session()->flash('error', 'Anda sudah mencapai batas maksimal 3 kali quiz.');
+            return;
+        }
+
+        // reset jawaban dan current question
         $this->showConfirm = false;
 
-        // reset jawaban
         foreach ($this->quiz->questions as $q) {
             $this->answers[$q->id] = $q->is_multiple ? [] : null;
         }

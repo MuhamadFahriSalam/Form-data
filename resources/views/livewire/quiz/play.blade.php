@@ -57,6 +57,11 @@
                                 Apakah Anda ingin mengisi quiz lagi?
                             </p>
 
+                            {{-- ATTEMPT COUNT --}}
+                            <p class="mt-3 text-xs text-yellow-700 bg-yellow-100 inline-block px-3 py-1 rounded-full">
+                                Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                            </p>
+
                             {{-- ATTEMPT --}}
                             <p class="mt-3 text-xs text-yellow-700 bg-yellow-100 inline-block px-3 py-1 rounded-full">
                                 Percobaan sebelumnya:
@@ -71,7 +76,10 @@
                                 {{-- BUTTON ULANG --}}
                                 <button
                                     wire:click="startAgain"
-                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-md hover:bg-blue-700 hover:shadow-lg active:scale-[0.97] transition"
+                                    @if($attemptCount >= $maxAttempt) disabled @endif
+                                    class="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white 
+                                        hover:bg-blue-700 transition
+                                        disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 >
                                     🔁 Isi Lagi
                                 </button>
