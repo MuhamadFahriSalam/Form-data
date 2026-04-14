@@ -173,13 +173,13 @@
                                 </div>
 
                                 {{-- ACTION --}}
-                                <div class="flex items-center justify-between mt-8">
+                                <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:justify-between">
 
                                     {{-- PREV --}}
                                     <button
                                         type="button"
                                         wire:click="prev"
-                                        class="px-5 py-2 bg-gray-200 rounded-xl"
+                                        class="w-full sm:w-auto px-5 py-3 bg-gray-200 text-gray-700 rounded-xl font-medium disabled:opacity-50"
                                         @if($currentQuestion == 0) disabled @endif
                                     >
                                         Sebelumnya
@@ -190,14 +190,14 @@
                                         <button
                                             type="button"
                                             wire:click="next"
-                                            class="px-5 py-2 bg-blue-600 text-white rounded-xl"
+                                            class="w-full sm:w-auto px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition"
                                         >
                                             Selanjutnya
                                         </button>
                                     @else
                                         <button
                                             type="submit"
-                                            class="px-5 py-2 bg-green-600 text-white rounded-xl"
+                                            class="w-full sm:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold shadow-md transition"
                                         >
                                             Submit Jawaban
                                         </button>
@@ -209,7 +209,7 @@
                                 ❌ Soal tidak ditemukan
                             </div>
                         @endif
-
+                        
                     @else
                         <div class="text-center text-red-500 font-semibold">
                             ❌ Quiz ini belum memiliki pertanyaan
