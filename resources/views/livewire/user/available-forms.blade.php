@@ -98,85 +98,92 @@
 
             {{-- Form List --}} 
             @if ($forms->count())
-                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+                <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+
                     @foreach ($forms as $form)
-                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-                            <div class="h-2 bg-gradient-to-r from-violet-500 via-indigo-500 to-blue-500"></div>
+                    <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                            <div class="flex h-full flex-col p-6">
-                                <div class="flex items-start justify-between gap-4">
-                                    <div>
-                                        <h3 class="text-lg font-semibold leading-6 text-slate-900 transition group-hover:text-violet-700">
-                                            {{ $form->title }}
-                                        </h3>
-                                    </div>
+                        <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
+                                    hover:-translate-y-1 hover:shadow-xl transition duration-300">
 
-                                    @if ($form->status === 'upcoming')
-                                        <span class="shrink-0 rounded-full border border-yellow-200 bg-yellow-50 px-3 py-1 text-xs font-semibold text-yellow-700">
-                                            Belum Dibuka
-                                        </span>
-                                    @elseif ($form->status === 'closed')
-                                        <span class="shrink-0 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
-                                            Sudah Ditutup
-                                        </span>
-                                    @else
-                                        <span class="shrink-0 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
-                                            Aktif
-                                        </span>
-                                    @endif
+                            {{-- HEADER --}}
+                            <div class="flex items-start justify-between mb-4">
+
+                                <div class="pr-2">
+                                    <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                        {{ $form->title }}
+                                    </h3>
                                 </div>
 
-                                <p class="mt-4 text-sm leading-6 text-slate-500">
-                                    {{ $form->description ?: 'Tidak ada deskripsi.' }}
-                                </p>
+                                {{-- STATUS --}}
+                                @if ($form->status === 'upcoming')
+                                    <span class="text-[11px] bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                        Belum Dibuka
+                                    </span>
+                                @elseif ($form->status === 'closed')
+                                    <span class="text-[11px] bg-red-100 text-red-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                        Ditutup
+                                    </span>
+                                @else
+                                    <span class="text-[11px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                        Aktif
+                                    </span>
+                                @endif
+                            </div>
 
-                                <div class="mt-5 space-y-3 rounded-2xl bg-slate-50 p-4">
-                                    <div class="flex items-center justify-between gap-4 text-sm">
-                                        <span class="font-medium text-slate-600">Mulai</span>
-                                        <span class="text-right text-slate-500">
-                                            {{ $form->opens_at ? $form->opens_at->format('d M Y H:i') : '-' }}
-                                        </span>
-                                    </div>
+                            {{-- DESKRIPSI --}}
+                            <p class="text-sm text-slate-500 line-clamp-2 mb-4">
+                                {{ $form->description ?: 'Tidak ada deskripsi.' }}
+                            </p>
 
-                                    <div class="flex items-center justify-between gap-4 text-sm">
-                                        <span class="font-medium text-slate-600">Batas akhir</span>
-                                        <span class="text-right text-slate-500">
-                                            {{ $form->closes_at ? $form->closes_at->format('d M Y H:i') : '-' }}
-                                        </span>
-                                    </div>
+                            {{-- INFO --}}
+                            <div class="space-y-2 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
+
+                                <div class="flex justify-between">
+                                    <span>Mulai</span>
+                                    <span>
+                                        {{ $form->opens_at ? $form->opens_at->format('d M Y') : '-' }}
+                                    </span>
                                 </div>
 
-                                <div class="mt-6 pt-2">
-                                    @if ($form->status === 'open')
-                                        <a
-                                            href="{{ route('forms.show', $form->uuid) }}"
-                                            class="inline-flex w-full items-center justify-center rounded-2xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-200"
-                                        >
-                                            Isi Form
-                                        </a>
-                                    @elseif ($form->status === 'upcoming')
-                                        <button
-                                            type="button"
-                                            disabled
-                                            class="inline-flex w-full cursor-not-allowed items-center justify-center rounded-2xl bg-yellow-500 px-4 py-3 text-sm font-semibold text-white opacity-80"
-                                        >
-                                            Belum Dibuka
-                                        </button>
-                                    @else
-                                        <button
-                                            type="button"
-                                            disabled
-                                            class="inline-flex w-full cursor-not-allowed items-center justify-center rounded-2xl bg-red-500 px-4 py-3 text-sm font-semibold text-white opacity-80"
-                                        >
-                                            Sudah Ditutup
-                                        </button>
-                                    @endif
+                                <div class="flex justify-between">
+                                    <span>Selesai</span>
+                                    <span>
+                                        {{ $form->closes_at ? $form->closes_at->format('d M Y') : '-' }}
+                                    </span>
                                 </div>
+
+                            </div>
+
+                            {{-- ACTION --}}
+                            <div class="mt-5">
+
+                                @if ($form->status === 'open')
+                                    <a href="{{ route('forms.show', $form->uuid) }}"
+                                    class="block w-full text-center text-sm font-semibold bg-violet-600 text-white py-2.5 rounded-xl hover:bg-violet-700 transition">
+                                        Isi Form
+                                    </a>
+
+                                @elseif ($form->status === 'upcoming')
+                                    <button disabled
+                                        class="w-full text-sm font-semibold bg-yellow-500 text-white py-2.5 rounded-xl opacity-80">
+                                        Belum Dibuka
+                                    </button>
+
+                                @else
+                                    <button disabled
+                                        class="w-full text-sm font-semibold bg-red-500 text-white py-2.5 rounded-xl opacity-80">
+                                        Sudah Ditutup
+                                    </button>
+                                @endif
                             </div>
                         </div>
+                    </div>
                     @endforeach
                 </div>
-            @else
+                @else
+
                 <div class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
                     <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
                         📄
@@ -186,8 +193,8 @@
                         Belum ada form tersedia
                     </h3>
 
-                    <p class="mt-2 max-w-md text-sm leading-6 text-slate-500">
-                        Form akan muncul di sini ketika admin membuat form baru dan membukanya untuk user.
+                    <p class="mt-2 max-w-md text-sm text-slate-500">
+                        Form akan muncul di sini ketika admin membuat form baru.
                     </p>
                 </div>
             @endif
@@ -209,11 +216,15 @@
                     </p>
                 </div>
 
+                {{-- List Quiz --}}
                 @if ($quizzes->count())
 
-                    {{-- Grid Quiz --}}
-                    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                        @foreach ($quizzes as $quiz)
+                    {{-- SWIPE CONTAINER (GANTI GRID) --}}
+                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+
+                        @foreach ($quizzes->filter(function ($quiz) {
+                            return !$quiz->end_at || \Carbon\Carbon::now()->lte($quiz->end_at);
+                        }) as $quiz)
 
                             @php
                                 $now = now();
@@ -228,76 +239,100 @@
                                 $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
                             @endphp
 
-                            <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                            {{-- WRAPPER TAMBAHAN (AGAR BISA SWIPE) --}}
+                            <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                                {{-- Top Gradient --}}
-                                <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                                <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
-                                {{-- ✅ STATUS DI POJOK KANAN ATAS --}}
-                                <div class="absolute top-4 right-4">
-                                    @if ($isUpcoming)
-                                        <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600 shadow backdrop-blur bg-white/70">
-                                            Belum Dimulai
-                                        </span>
-                                    @else
-                                        <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600 shadow backdrop-blur bg-white/70">
-                                            Aktif
-                                        </span>
-                                    @endif
-                                </div>
+                                    {{-- Top Gradient --}}
+                                    <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
 
-                                {{-- Content --}}
-                                <div class="p-6 flex flex-col flex-1">
-
-                                    {{-- Title --}}
-                                    <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">
-                                        {{ $quiz->title }}
-                                    </h3>
-
-                                    {{-- Description --}}
-                                    <p class="mt-2 text-sm text-slate-500 line-clamp-3">
-                                        {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
-                                    </p>
-
-                                    {{-- Info --}}
-                                    <div class="mt-4 space-y-1 text-xs text-slate-500">
-                                        <p>📌 Soal: {{ $quiz->questions->count() }}</p>
-
-                                        @if ($quiz->start_at)
-                                            <p>🟢 Mulai: {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
-                                        @endif
-
-                                        @if ($quiz->end_at)
-                                            <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
+                                    {{-- STATUS --}}
+                                    <div class="absolute top-4 right-4">
+                                        @if ($isUpcoming)
+                                            <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-medium text-yellow-600 whitespace-nowrap shadow">
+                                                Belum Dimulai
+                                            </span>
+                                        @elseif ($status === 'ended')
+                                            <span class="inline-block rounded-full bg-red-100 px-3 py-1 text-[11px] font-medium text-red-600 whitespace-nowrap shadow">
+                                                Selesai
+                                            </span>
+                                        @else
+                                            <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-[11px] font-medium text-green-600 whitespace-nowrap shadow">
+                                                Aktif
+                                            </span>
                                         @endif
                                     </div>
 
-                                    {{-- Button --}}
-                                    <div class="mt-auto pt-4">
-                                        @if ($isUpcoming)
-                                            <button
-                                                disabled
-                                                class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
-                                            >
-                                                Belum Tersedia
-                                            </button>
-                                        @else
-                                            <a
-                                                href="{{ route('quiz.play', $quiz->uuid) }}"
-                                                class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
-                                            >
-                                                Kerjakan Quiz
-                                            </a>
-                                        @endif
+                                    {{-- Content --}}
+                                    <div class="p-6 flex flex-col flex-1">
+
+                                        {{-- Title --}}
+                                        <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 pr-16">
+                                            {{ $quiz->title }}
+                                        </h3>
+
+                                        {{-- Description --}}
+                                        <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+                                            {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
+                                        </p>
+
+                                        {{-- Info --}}
+                                        <div class="mt-4 space-y-1 text-xs text-slate-500">
+                                            <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+
+                                            @if ($quiz->start_at)
+                                                <p>🟢 Mulai: {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
+                                            @endif
+
+                                            @if ($quiz->end_at)
+                                                <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
+                                            @endif
+                                        </div>
+
+                                        {{-- Button --}}
+                                        <div class="mt-auto pt-4">
+                                            @if ($isUpcoming)
+                                                <button
+                                                    disabled
+                                                    class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                                >
+                                                    Belum Tersedia
+                                                </button>
+                                            @elseif ($status === 'ended')
+                                                <button
+                                                    disabled
+                                                    class="w-full rounded-2xl bg-red-400 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                                >
+                                                    Sudah Selesai
+                                                </button>
+                                            @else
+                                                <a
+                                                    href="{{ route('quiz.play', $quiz->uuid) }}"
+                                                    class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
+                                                >
+                                                    Kerjakan Quiz
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-
                 @else
-                    <div class="rounded-2xl bg-white border p-6 text-center text-slate-500">
-                        Belum ada quiz tersedia.
+                    <div class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
+                        <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
+                            📄
+                        </div>
+
+                        <h3 class="text-lg font-semibold text-slate-800">
+                            Belum ada quiz tersedia
+                        </h3>
+
+                        <p class="mt-2 max-w-md text-sm text-slate-500">
+                            Quiz akan muncul di sini ketika admin membuat quiz baru.
+                        </p>
                     </div>
                 @endif
             </div>
