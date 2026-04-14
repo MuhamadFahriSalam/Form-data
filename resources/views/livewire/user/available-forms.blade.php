@@ -224,12 +224,27 @@
                                 } elseif ($quiz->end_at && $now->gt($quiz->end_at)) {
                                     $status = 'ended';
                                 }
+
+                                $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
                             @endphp
 
-                            <div class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                            <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
                                 {{-- Top Gradient --}}
                                 <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+
+                                {{-- ✅ STATUS DI POJOK KANAN ATAS --}}
+                                <div class="absolute top-4 right-4">
+                                    @if ($isUpcoming)
+                                        <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600 shadow backdrop-blur bg-white/70">
+                                            Belum Dimulai
+                                        </span>
+                                    @else
+                                        <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600 shadow backdrop-blur bg-white/70">
+                                            Aktif
+                                        </span>
+                                    @endif
+                                </div>
 
                                 {{-- Content --}}
                                 <div class="p-6 flex flex-col flex-1">
@@ -254,24 +269,6 @@
 
                                         @if ($quiz->end_at)
                                             <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
-                                        @endif
-                                    </div>
-
-                                    {{-- Status (TANPA ENDED 🔥) --}}
-                                    @php
-                                        $now = now();
-                                        $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
-                                    @endphp
-
-                                    <div class="mt-4">
-                                        @if ($isUpcoming)
-                                            <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">
-                                                Belum Dimulai
-                                            </span>
-                                        @else
-                                            <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
-                                                Aktif
-                                            </span>
                                         @endif
                                     </div>
 
