@@ -21,12 +21,25 @@
                     </div>
 
                     <!-- KANAN: Button Kembali -->
-                    <a
-                        href="{{ route('user.dashboard') }}"
-                        class="inline-flex items-center rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 hover:border-white/30 focus:outline-none focus:ring-4 focus:ring-white/20"
-                    >
-                        ← Kembali
-                    </a>
+                    <div>
+                        <a
+                            href="{{ route('user.dashboard') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl 
+                                bg-white/10 text-white font-semibold text-sm
+                                border border-white/20 backdrop-blur-md
+                                transition duration-300
+                                hover:bg-white/20 hover:-translate-y-0.5"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="h-4 w-4 text-white"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
 
