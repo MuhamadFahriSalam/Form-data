@@ -9,7 +9,6 @@
         {{-- HEADER --}}
         <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-emerald-800 to-slate-900 shadow-lg">
             <div class="flex items-center justify-between px-6 py-6 text-white">
-
                 <div>
                     <h1 class="text-2xl font-bold sm:text-3xl">
                         Hasil Quiz
@@ -19,12 +18,35 @@
                     </p>
                 </div>
 
-                <a
-                    href="{{ route('admin.dashboard') }}"
-                    class="inline-flex items-center rounded-xl bg-white/10 px-4 py-2 text-sm backdrop-blur hover:bg-white/20 transition"
-                >
-                    ← Kembali
-                </a>
+                <div>
+                    <a
+                        href="{{ route('admin.dashboard') }}"
+                        class="inline-flex items-center gap-1.5 sm:gap-2 
+                            px-4 py-2 sm:px-6 sm:py-3 
+                            rounded-xl sm:rounded-2xl
+                            bg-white/10 text-white text-xs sm:text-sm font-semibold
+                            border border-white/20 backdrop-blur-xl
+                            shadow-md sm:shadow-lg
+                            transition duration-300
+                            hover:bg-white/20 hover:shadow-xl hover:-translate-y-0.5"
+                    >
+                        <!-- ICON -->
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="h-4 w-4 sm:h-5 sm:w-5 text-white/90"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M15 19l-7-7 7-7" />
+                        </svg>
+
+                        <span class="hidden sm:inline">
+                            Kembali ke Dashboard
+                        </span>
+
+                        <span class="sm:hidden">
+                            Kembali
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
 
