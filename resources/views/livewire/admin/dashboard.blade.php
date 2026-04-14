@@ -331,9 +331,7 @@
 
                                 {{-- BUTTON DISABLED --}}
                                 <div class="h-9 rounded-xl bg-red-300"></div>
-
                             </div>
-
                         </div>
                     </div>
 
@@ -352,7 +350,16 @@
                             <!-- HEADER -->
                             <div class="mb-4 flex items-center gap-2">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600 text-white shadow">
-                                    🎯
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-5 w-5"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 12h6M9 16h4M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M15 3v6h6" />
+                                    </svg>
                                 </div>
                                 <div class="h-3 w-1/2 rounded-full bg-purple-200"></div>
                             </div>

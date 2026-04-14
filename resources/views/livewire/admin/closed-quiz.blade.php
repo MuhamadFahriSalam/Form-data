@@ -84,9 +84,20 @@
                     <!-- HEADER -->
                     <div class="mb-5 flex justify-between items-start">
 
+                        <!-- ICON + TITLE -->
                         <div class="flex gap-4">
                             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600">
-                                🎯
+                                
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                    class="h-6 w-6"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M9 12h6M9 16h4M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M15 3v6h6" />
+                                </svg>
+
                             </div>
 
                             <div>
