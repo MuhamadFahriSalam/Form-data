@@ -231,6 +231,7 @@
                                 {{-- Top Gradient --}}
                                 <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
 
+                                {{-- Content --}}
                                 <div class="p-6 flex flex-col flex-1">
 
                                     {{-- Title --}}
@@ -243,7 +244,7 @@
                                         {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
                                     </p>
 
-                                    {{-- Info (TIDAK DIUBAH) --}}
+                                    {{-- Info --}}
                                     <div class="mt-4 space-y-1 text-xs text-slate-500">
                                         <p>📌 Soal: {{ $quiz->questions->count() }}</p>
 
@@ -256,15 +257,16 @@
                                         @endif
                                     </div>
 
-                                    {{-- Status --}}
+                                    {{-- Status (TANPA ENDED 🔥) --}}
+                                    @php
+                                        $now = now();
+                                        $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
+                                    @endphp
+
                                     <div class="mt-4">
-                                        @if ($status === 'upcoming')
+                                        @if ($isUpcoming)
                                             <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">
                                                 Belum Dimulai
-                                            </span>
-                                        @elseif ($status === 'ended')
-                                            <span class="inline-block rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-                                                Sudah Berakhir
                                             </span>
                                         @else
                                             <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
@@ -275,14 +277,7 @@
 
                                     {{-- Button --}}
                                     <div class="mt-auto pt-4">
-                                        @if ($status === 'active')
-                                            <a
-                                                href="{{ route('quiz.play', $quiz->uuid) }}"
-                                                class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
-                                            >
-                                                Kerjakan Quiz
-                                            </a>
-                                        @elseif ($status === 'upcoming')
+                                        @if ($isUpcoming)
                                             <button
                                                 disabled
                                                 class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
@@ -290,18 +285,16 @@
                                                 Belum Tersedia
                                             </button>
                                         @else
-                                            <button
-                                                disabled
-                                                class="w-full rounded-2xl bg-red-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                            <a
+                                                href="{{ route('quiz.play', $quiz->uuid) }}"
+                                                class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
                                             >
-                                                Ditutup
-                                            </button>
+                                                Kerjakan Quiz
+                                            </a>
                                         @endif
                                     </div>
-
                                 </div>
                             </div>
-
                         @endforeach
                     </div>
 
@@ -310,7 +303,6 @@
                         Belum ada quiz tersedia.
                     </div>
                 @endif
-
             </div>
         </div>
     </div>

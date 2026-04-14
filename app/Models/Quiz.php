@@ -28,6 +28,20 @@ class Quiz extends Model
         });
     }
 
+    // Scope untuk quiz yang sedang aktif
+    public function scopeActive($query)
+    {
+        return $query
+            ->where(function ($q) {
+                $q->whereNull('start_at')
+                ->orWhere('start_at', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('end_at')
+                ->orWhere('end_at', '>=', now());
+            });
+    }
+
     // Relasi dengan QuizAttempt
     public function attempts()
     {
