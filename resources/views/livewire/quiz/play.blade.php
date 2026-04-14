@@ -98,10 +98,10 @@
                                         Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
                                     </span>
 
-                                    <span class="px-3 py-1 text-xs rounded-full 
+                                    {{-- <span class="px-3 py-1 text-xs rounded-full 
                                         bg-slate-100 text-slate-600 border border-slate-200">
                                         Total attempt: {{ $attemptCount }}x
-                                    </span>
+                                    </span> --}}
 
                                 </div>
 
