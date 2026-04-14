@@ -213,27 +213,6 @@
                     </div>
                 </a>
 
-                {{-- Template 3 --}}
-                {{-- <div class="group flex h-full cursor-pointer flex-col">
-                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-fuchsia-300 hover:shadow-xl">
-                        <div class="h-3 bg-gradient-to-r from-fuchsia-500 to-violet-400"></div>
-                        <div class="flex h-52 flex-col justify-start bg-gradient-to-br from-fuchsia-50 to-white p-4">
-                            <div class="mb-4 h-3 w-1/2 rounded-full bg-fuchsia-200"></div>
-                            <div class="space-y-3">
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-slate-100"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 min-h-[56px]">
-                        <p class="text-base font-semibold text-slate-900">Undangan Pesta</p>
-                        <p class="mt-1 text-sm text-slate-500">Template acara yang lebih menarik</p>
-                    </div>
-                </div> --}}
-
                 {{-- Template 4 --}}
                 {{-- <div class="group flex h-full cursor-pointer flex-col">
                     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
@@ -361,6 +340,39 @@
                     <div class="mt-4 min-h-[56px]">
                         <p class="text-base font-semibold text-slate-900">Form Ditutup</p>
                         <p class="mt-1 text-sm text-slate-500">Daftar formulir yang masa pengisiannya telah berakhir</p>
+                    </div>
+                </a>
+
+                {{-- Quiz Ditutup --}}
+                <a href="{{ route('quiz.closed.admin') }}" class="group flex h-full flex-col">
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-purple-300 hover:shadow-xl">
+
+                        <div class="flex h-52 flex-col justify-center bg-gradient-to-br from-purple-50 via-white to-indigo-50 p-5">
+
+                            <!-- HEADER -->
+                            <div class="mb-4 flex items-center gap-2">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600 text-white shadow">
+                                    🎯
+                                </div>
+                                <div class="h-3 w-1/2 rounded-full bg-purple-200"></div>
+                            </div>
+
+                            <!-- PREVIEW -->
+                            <div class="space-y-3 opacity-70">
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-purple-100"></div>
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-purple-100"></div>
+                                <div class="h-8 rounded-xl bg-white shadow-sm ring-1 ring-purple-100"></div>
+                                <div class="h-9 rounded-xl bg-purple-300"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mt-4 min-h-[56px]">
+                        <p class="text-base font-semibold text-slate-900">Quiz Ditutup</p>
+                        <p class="mt-1 text-sm text-slate-500">
+                            Daftar quiz yang sudah berakhir
+                        </p>
                     </div>
                 </a>
             </div>
