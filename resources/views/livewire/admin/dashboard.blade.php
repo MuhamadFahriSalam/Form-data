@@ -406,72 +406,82 @@
             </div>
         </div>
 
+        {{-- LIST FORM --}}
         @if ($forms->count() > 0)
-            <div class="flex gap-6 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth">
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                 @foreach ($forms as $form)
-                    <div class="min-w-[280px] max-w-[320px] flex-shrink-0 snap-start">
+                <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                        <div class="group rounded-3xl border bg-white p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition">
+                    <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
+                                hover:-translate-y-1 hover:shadow-xl transition duration-300">
 
-                            <div class="flex justify-between mb-4">
+                        {{-- HEADER --}}
+                        <div class="flex items-start justify-between mb-5">
 
-                                <div>
-                                    <h3 class="font-semibold text-slate-900">
-                                        {{ $form->title }}
-                                    </h3>
-                                    <p class="text-sm text-slate-500">
-                                        {{ $form->created_at->format('d M Y') }}
-                                    </p>
-                                </div>
-
-                                @if(!$form->is_active)
-                                    <span class="text-xs bg-gray-100 px-3 py-1 rounded-full">
-                                        Draft
-                                    </span>
-                                @else
-                                    <span class="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
-                                        Published
-                                    </span>
-                                @endif
+                            <div class="pr-2">
+                                <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                    {{ $form->title }}
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    {{ $form->created_at->format('d M Y') }}
+                                </p>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="bg-slate-50 p-3 rounded-xl">
-                                    <p class="text-xs">Pengisi</p>
-                                    <p class="font-bold text-lg">
-                                        {{ $form->submissions_count ?? 0 }}
-                                    </p>
-                                </div>
+                            {{-- STATUS BADGE (FIX SIZE & ALIGN) --}}
+                            @if(!$form->is_active)
+                                <span class="text-[11px] font-medium bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Draft
+                                </span>
+                            @else
+                                <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Published
+                                </span>
+                            @endif
+                        </div>
 
-                                <div class="bg-emerald-50 p-3 rounded-xl">
-                                    <p class="text-xs text-emerald-600">Status</p>
-                                    <p class="text-sm font-semibold">
-                                        {{ ($form->submissions_count ?? 0) > 0 ? 'Ada Respon' : 'Belum Ada' }}
-                                    </p>
-                                </div>
+                        {{-- INFO --}}
+                        <div class="grid grid-cols-2 gap-3">
+
+                            {{-- PENGISI --}}
+                            <div class="rounded-2xl bg-slate-50 px-4 py-3">
+                                <p class="text-xs text-slate-500">Pengisi</p>
+                                <p class="mt-1 text-xl font-bold text-slate-900">
+                                    {{ $form->submissions_count ?? 0 }}
+                                </p>
                             </div>
 
-                            <div class="mt-4 flex gap-2">
-                                <a href="{{ route('forms.edit', $form->uuid) }}"
-                                class="px-3 py-2 text-sm border rounded-xl hover:bg-slate-100">
-                                    Edit
-                                </a>
-
-                                <a href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
-                                class="px-3 py-2 text-sm bg-sky-50 text-sky-700 rounded-xl hover:bg-sky-100">
-                                    Pengisi
-                                </a>
+                            {{-- STATUS --}}
+                            <div class="rounded-2xl bg-emerald-50 px-4 py-3">
+                                <p class="text-xs text-emerald-600">Status</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-700">
+                                    {{ ($form->submissions_count ?? 0) > 0 ? 'Ada Respon' : 'Belum Ada' }}
+                                </p>
                             </div>
+                        </div>
 
+                        {{-- ACTION --}}
+                        <div class="mt-5 flex gap-2">
+
+                            <a href="{{ route('forms.edit', $form->uuid) }}"
+                            class="flex-1 text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
+                                    hover:bg-slate-100 transition">
+                                Edit
+                            </a>
+
+                            <a href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
+                            class="flex-1 text-center text-sm font-medium px-3 py-2 rounded-xl bg-sky-50 text-sky-700 
+                                    hover:bg-sky-100 transition">
+                                Pengisi
+                            </a>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
-        @else
+            @else
             <p class="text-slate-500">Belum ada form</p>
         @endif
-
     </section>
 
     {{-- QUIZ TERBARU --}}
