@@ -504,56 +504,69 @@
             </div>
         </div>
 
+        {{-- LIST QUIZ --}}
         @if ($quizzes->count() > 0)
 
-            <div class="flex gap-6 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth">
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                 @foreach ($quizzes as $quiz)
-                    <div class="min-w-[280px] max-w-[320px] flex-shrink-0 snap-start">
+                <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                        <div class="rounded-3xl border bg-white p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition">
+                    <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
+                                hover:-translate-y-1 hover:shadow-xl transition duration-300">
 
-                            <div class="flex justify-between mb-4">
+                        {{-- HEADER --}}
+                        <div class="flex items-start justify-between mb-5">
 
-                                <div>
-                                    <h3 class="font-semibold text-slate-900">
-                                        {{ $quiz->title }}
-                                    </h3>
-                                    <p class="text-sm text-slate-500">
-                                        {{ $quiz->created_at->format('d M Y') }}
-                                    </p>
-                                </div>
-
-                                <span class="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
-                                    Quiz
-                                </span>
+                            <div class="pr-2">
+                                <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                    {{ $quiz->title }}
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    {{ $quiz->created_at->format('d M Y') }}
+                                </p>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="bg-slate-50 p-3 rounded-xl">
-                                    <p class="text-xs">Pengisi</p>
-                                    <p class="font-bold text-lg">
-                                        {{ $quiz->attempts_count }}
-                                    </p>
-                                </div>
+                            {{-- BADGE --}}
+                            <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                Quiz
+                            </span>
+                        </div>
 
-                                <div class="bg-emerald-50 p-3 rounded-xl">
-                                    <p class="text-xs text-emerald-600">Status</p>
-                                    <p class="text-sm font-semibold">Aktif</p>
-                                </div>
+                        {{-- INFO --}}
+                        <div class="grid grid-cols-2 gap-3">
+
+                            {{-- PENGISI --}}
+                            <div class="rounded-2xl bg-slate-50 px-4 py-3">
+                                <p class="text-xs text-slate-500">Pengisi</p>
+                                <p class="mt-1 text-xl font-bold text-slate-900">
+                                    {{ $quiz->attempts_count }}
+                                </p>
                             </div>
 
-                            <div class="mt-4">
-                                <a href="{{ route('quiz.results', $quiz->uuid) }}"
-                                class="px-4 py-2 text-sm border rounded-xl hover:bg-slate-100">
-                                    Lihat Hasil
-                                </a>
+                            {{-- STATUS --}}
+                            <div class="rounded-2xl bg-emerald-50 px-4 py-3">
+                                <p class="text-xs text-emerald-600">Status</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-700">
+                                    Aktif
+                                </p>
                             </div>
+
+                        </div>
+
+                        {{-- ACTION --}}
+                        <div class="mt-5">
+                            <a href="{{ route('quiz.results', $quiz->uuid) }}"
+                            class="block w-full text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
+                                    hover:bg-slate-100 transition">
+                                Lihat Hasil
+                            </a>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
-        @else
+            @else
             <p class="text-slate-500">Belum ada quiz</p>
         @endif
     </section>
