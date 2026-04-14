@@ -24,10 +24,26 @@
                         </p>
                     </div>
 
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md hover:bg-white/20 transition">
-                        ← Kembali
-                    </a>
+                    <!-- BACK TO DASHBOARD -->
+                    <div>
+                        <a
+                            href="{{ route('admin.dashboard') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl 
+                                bg-white/10 text-white font-semibold text-sm
+                                border border-white/20 backdrop-blur-md
+                                transition duration-300
+                                hover:bg-white/20 hover:-translate-y-0.5"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="h-4 w-4 text-white"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+
+                            Kembali ke Dashboard
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
