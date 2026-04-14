@@ -136,14 +136,13 @@ class Create extends Component
     }
 
     // Method untuk konfirmasi sebelum menyimpan
-    public function save(): void
+    public function save()
     {
         $this->validate();
 
         DB::transaction(function () {
 
             if ($this->formId) {
-                // 🔥 UPDATE MODE
                 $form = Form::findOrFail($this->formId);
 
                 $form->update([
@@ -154,11 +153,9 @@ class Create extends Component
                     'closes_at' => $this->end_at,
                 ]);
 
-                // hapus pertanyaan lama
                 $form->questions()->delete();
 
             } else {
-                // 🔥 CREATE MODE
                 $form = Form::create([
                     'user_id' => auth()->id(),
                     "uuid" => Str::uuid(),
@@ -170,7 +167,6 @@ class Create extends Component
                 ]);
             }
 
-            // insert ulang questions
             foreach ($this->questions as $index => $q) {
                 $options = in_array($q['type'], ['radio', 'checkbox', 'select', 'file','number'])
                     ? array_values(array_filter($q['options'], fn ($item) => trim((string) $item) !== ''))
@@ -186,7 +182,11 @@ class Create extends Component
             }
         });
 
+        // 🔥 Flash message untuk konfirmasi sukses
         session()->flash('success', 'Form berhasil disimpan.');
+
+        // 🔥 Redirect ke dashboard admin setelah simpan
+        return redirect()->route('admin.dashboard'); // ✅ sekarang aman
     }
 
     // Render method

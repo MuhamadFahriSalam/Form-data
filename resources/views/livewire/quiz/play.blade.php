@@ -21,101 +21,214 @@
                     </div>
 
                     <!-- KANAN: Button Kembali -->
-                    <a
-                        href="{{ route('user.dashboard') }}"
-                        class="inline-flex items-center rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 hover:border-white/30 focus:outline-none focus:ring-4 focus:ring-white/20"
-                    >
-                        ← Kembali
-                    </a>
+                    <div>
+                        <a
+                            href="{{ route('user.dashboard') }}"
+                            class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl 
+                                bg-white/10 text-white font-semibold text-sm
+                                border border-white/20 backdrop-blur-md
+                                transition duration-300
+                                hover:bg-white/20 hover:-translate-y-0.5"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="h-4 w-4 text-white"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
 
             {{-- CONTENT --}}
             <div class="px-6 py-8 sm:px-8">
 
-                {{-- PROGRESS --}}
-                <div class="mb-6">
-                    <div class="w-full bg-slate-200 rounded-full h-2">
-                        <div
-                            class="bg-emerald-600 h-2 rounded-full transition-all duration-300"
-                            style="width: {{ (($currentQuestion + 1) / count($quiz->questions)) * 100 }}%"
-                        ></div>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2">
-                        Soal {{ $currentQuestion + 1 }} dari {{ count($quiz->questions) }}
-                    </p>
-                </div>
+                {{-- 🔥 KONFIRMASI ULANG QUIZ --}}
+                @if ($showConfirm)
+                    <div class="mb-6 max-w-xl mx-auto">
+                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                            <!-- ACCENT LINE -->
+                            <div class="h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600"></div>
+                            <div class="p-6 text-center">
 
-                <form wire:submit.prevent="submit">
+                                <!-- ICON -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="flex items-center justify-center w-14 h-14 rounded-2xl 
+                                        bg-blue-100 text-blue-600 shadow-sm">
+                                        
+                                        <!-- ICON -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                            class="w-7 h-7" 
+                                            fill="none" 
+                                            viewBox="0 0 24 24" 
+                                            stroke="currentColor" 
+                                            stroke-width="2">
+                                            
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
 
-                    @php
-                        $question = $quiz->questions[$currentQuestion];
-                    @endphp
+                                    </div>
+                                </div>
+                                
+                                <!-- TITLE -->
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    Anda sudah mengisi quiz ini
+                                </h2>
 
-                    {{-- QUESTION CARD --}}
-                    <div 
-                        wire:key="question-{{ $question->id }}"
-                        class="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-                    >
+                                <!-- DESC -->
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Apakah Anda ingin mengisi quiz lagi?
+                                </p>
 
-                        <p class="mb-4 text-sm font-semibold text-slate-800">
-                            {{ $currentQuestion + 1 }}. {{ $question->question }}
-                        </p>
+                                <!-- SCORE CARD -->
+                                @if($totalScore > 0)
+                                    <div class="mt-5 rounded-2xl bg-slate-50 p-4 border border-slate-200">
 
-                        {{-- ✅ RADIO (HANYA 1 PILIHAN) --}}
-                        <div class="space-y-3">
-                            @foreach ($question->options as $option)
-                                <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 cursor-pointer">
-                                    
-                                    <input
-                                        type="radio"
-                                        name="question_{{ $question->id }}"
-                                        wire:model.live="answers.{{ $question->id }}"
-                                        value="{{ $option->id }}"
-                                        @checked(isset($answers[$question->id]) && $answers[$question->id] == $option->id)
+                                        <p class="text-sm text-slate-600">
+                                            📊 Total Score Anda
+                                        </p>
+
+                                        <p class="text-3xl font-bold text-blue-600 mt-1">
+                                            {{ $totalScore }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-500 mt-1">
+                                            Dari {{ $attemptCount }} percobaan
+                                        </p>
+
+                                    </div>
+                                @endif
+
+                                <!-- ATTEMPT INFO -->
+                                <div class="flex flex-wrap justify-center gap-2 mt-4">
+
+                                    <span class="px-3 py-1 text-xs rounded-full 
+                                        bg-blue-50 text-blue-600 border border-blue-200">
+                                        Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                                    </span>
+
+                                    {{-- <span class="px-3 py-1 text-xs rounded-full 
+                                        bg-slate-100 text-slate-600 border border-slate-200">
+                                        Total attempt: {{ $attemptCount }}x
+                                    </span> --}}
+
+                                </div>
+
+                                <!-- ACTION -->
+                                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
+
+                                    <!-- 🔁 ISI ULANG -->
+                                    <button
+                                        wire:click="startAgain"
+                                        @if($attemptCount >= $maxAttempt) disabled @endif
+                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
+                                        bg-blue-600 text-white font-semibold 
+                                        hover:bg-blue-700 transition shadow-sm
+                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                     >
-                                    <span>{{ $option->text }}</span>
-                                </label>
-                            @endforeach
+                                        🔁 Isi Lagi
+                                    </button>
+
+                                    <!-- ⬅️ KEMBALI -->
+                                    <a
+                                        href="{{ route('user.dashboard') }}"
+                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
+                                        bg-slate-100 text-slate-700 font-medium 
+                                        hover:bg-slate-200 transition"
+                                    >
+                                        ← Kembali
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
+                @else
 
-                    {{-- ACTION --}}
-                    <div class="flex items-center justify-between mt-8">
+                    {{-- ✅ CEK ADA SOAL ATAU TIDAK --}}
+                    @if ($quiz->questions->count() > 0)
 
-                        {{-- KIRI: PREV --}}
-                        <button
-                            type="button"
-                            wire:click="prev"
-                            class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 disabled:opacity-50"
-                            @if($currentQuestion == 0) disabled @endif
-                        >
-                            Sebelumnya
-                        </button>
+                        @php
+                            $question = $quiz->questions[$currentQuestion] ?? null;
+                        @endphp
 
-                        {{-- KANAN: NEXT / SUBMIT --}}
-                        <div>
-                            @if($currentQuestion < count($quiz->questions) - 1)
-                                <button
-                                    type="button"
-                                    wire:click="next"
-                                    class="inline-flex items-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                        @if ($question)
+
+                            <form wire:submit.prevent="submit">
+
+                                {{-- QUESTION --}}
+                                <div 
+                                    wire:key="question-{{ $question->id }}"
+                                    class="rounded-2xl border border-slate-200 bg-slate-50 p-5"
                                 >
-                                    Selanjutnya
-                                </button>
-                            @else
-                                <button
-                                    type="submit"
-                                    class="inline-flex items-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-100"
-                                >
-                                    Submit Jawaban
-                                </button>
-                            @endif
+
+                                    <p class="mb-4 text-sm font-semibold text-slate-800">
+                                        {{ $currentQuestion + 1 }}. {{ $question->question }}
+                                    </p>
+
+                                    <div class="space-y-3">
+                                        @foreach ($question->options as $option)
+                                            <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm cursor-pointer hover:bg-blue-50">
+                                                
+                                                <input
+                                                    type="radio"
+                                                    name="question_{{ $question->id }}"
+                                                    wire:model.live="answers.{{ $question->id }}"
+                                                    value="{{ $option->id }}"
+                                                >
+                                                <span>{{ $option->text }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                {{-- ACTION --}}
+                                <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:justify-between">
+
+                                    {{-- PREV --}}
+                                    <button
+                                        type="button"
+                                        wire:click="prev"
+                                        class="w-full sm:w-auto px-5 py-3 bg-gray-200 text-gray-700 rounded-xl font-medium disabled:opacity-50"
+                                        @if($currentQuestion == 0) disabled @endif
+                                    >
+                                        Sebelumnya
+                                    </button>
+
+                                    {{-- NEXT / SUBMIT --}}
+                                    @if($currentQuestion < count($quiz->questions) - 1)
+                                        <button
+                                            type="button"
+                                            wire:click="next"
+                                            class="w-full sm:w-auto px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition"
+                                        >
+                                            Selanjutnya
+                                        </button>
+                                    @else
+                                        <button
+                                            type="submit"
+                                            class="w-full sm:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold shadow-md transition"
+                                        >
+                                            Submit Jawaban
+                                        </button>
+                                    @endif
+                                </div>
+                            </form>
+                        @else
+                            <div class="text-center text-red-500 font-semibold">
+                                ❌ Soal tidak ditemukan
+                            </div>
+                        @endif
+                        
+                    @else
+                        <div class="text-center text-red-500 font-semibold">
+                            ❌ Quiz ini belum memiliki pertanyaan
                         </div>
-
-                    </div>
-                </form>
+                    @endif
+                @endif
             </div>
         </div>
     </div>

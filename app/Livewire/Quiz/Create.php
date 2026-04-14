@@ -90,11 +90,73 @@ class Create extends Component
     public function save()
     {
         $this->validate([
-            'title' => 'required',
-            'description' => 'nullable',
-            'start_at' => 'nullable|date',
-            'end_at' => 'nullable|date|after_or_equal:start_at',
+            'title' => 'required|string|min:3',
+            'description' => 'required|string|min:5',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after:start_at',
+        ], [
+            'title.required' => 'Judul wajib diisi',
+            'description.required' => 'Deskripsi wajib diisi',
+            'start_at.required' => 'Tanggal mulai wajib diisi',
+            'end_at.required' => 'Tanggal berakhir wajib diisi',
+            'end_at.after' => 'Tanggal berakhir harus setelah tanggal mulai',
         ]);
+
+        // 🔥 VALIDASI SETIAP PERTANYAAN & OPSI
+        foreach ($this->questions as $qIndex => $q) {
+
+            // ❌ Pertanyaan kosong
+            if (trim($q['question']) === '') {
+                $this->addError(
+                    'questions.' . $qIndex . '.question',
+                    'Pertanyaan tidak boleh kosong'
+                );
+            }
+        }
+
+        // 🔥 VALIDASI SETIAP SOAL
+        foreach ($this->questions as $qIndex => $q) {
+
+            $hasCorrect = false;
+
+            // 🔥 VALIDASI PERTANYAAN KOSONG
+            foreach ($q['options'] as $oIndex => $opt) {
+
+                // ❌ VALIDASI OPSI KOSONG
+                if (trim($opt['text']) === '') {
+                    $this->addError(
+                        'questions.' . $qIndex . '.options.' . $oIndex,
+                        'Opsi tidak boleh kosong'
+                    );
+                }
+
+                // ❌ VALIDASI: centang tapi kosong
+                if ($opt['is_correct'] && trim($opt['text']) === '') {
+                    $this->addError(
+                        'questions.' . $qIndex . '.options.' . $oIndex,
+                        'Tidak boleh mencentang opsi kosong'
+                    );
+                }
+
+                // cek jawaban benar
+                if ($opt['is_correct'] && trim($opt['text']) !== '') {
+                    $hasCorrect = true;
+                }
+            }
+
+            // ❌ tidak ada jawaban benar
+            if (!$hasCorrect) {
+                $this->addError(
+                    'questions.' . $qIndex . '.correct',
+                    'Soal ini wajib memiliki minimal 1 jawaban benar ✔'
+                );
+            }
+        }
+
+        // 🔥 STOP kalau ada error
+        if ($this->getErrorBag()->isNotEmpty()) {
+            return;
+        }
 
         // 🔥 SIMPAN QUIZ
         $quiz = Quiz::create([

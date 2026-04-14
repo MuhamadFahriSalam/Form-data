@@ -195,113 +195,115 @@
 
         {{-- ================= QUIZ SECTION ================= --}}
         <div class="mt-12">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-900">
-                    Quiz Tersedia
-                </h2>
-                <p class="mt-1 text-sm text-slate-500">
-                    Kerjakan quiz yang tersedia untuk evaluasi atau psikotes.
-                </p>
-            </div>
 
-            @if ($quizzes->count())
-                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    @foreach ($quizzes as $quiz)
+            {{-- 🔥 Container disatukan (judul + card) --}}
+            <div class="mx-auto max-w-6xl px-2">
 
-                        @php
-                            $now = now();
-                            $status = 'active';
+                {{-- Header --}}
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900">
+                        Quiz Tersedia
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Kerjakan quiz yang tersedia untuk evaluasi atau psikotes.
+                    </p>
+                </div>
 
-                            if ($quiz->start_at && $now->lt($quiz->start_at)) {
-                                $status = 'upcoming';
-                            } elseif ($quiz->end_at && $now->gt($quiz->end_at)) {
-                                $status = 'ended';
-                            }
-                        @endphp
+                @if ($quizzes->count())
 
-                        <div class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                    {{-- Grid Quiz --}}
+                    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                        @foreach ($quizzes as $quiz)
 
-                            {{-- Top Gradient --}}
-                            <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                            @php
+                                $now = now();
+                                $status = 'active';
 
-                            <div class="p-6 flex flex-col flex-1">
+                                if ($quiz->start_at && $now->lt($quiz->start_at)) {
+                                    $status = 'upcoming';
+                                } elseif ($quiz->end_at && $now->gt($quiz->end_at)) {
+                                    $status = 'ended';
+                                }
+                            @endphp
 
-                                {{-- Title --}}
-                                <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">
-                                    {{ $quiz->title }}
-                                </h3>
+                            <div class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
-                                {{-- Description --}}
-                                <p class="mt-2 text-sm text-slate-500 line-clamp-3">
-                                    {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
-                                </p>
+                                {{-- Top Gradient --}}
+                                <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
 
-                                {{-- Info --}}
-                                <div class="mt-4 space-y-1 text-xs text-slate-500">
-                                    <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+                                {{-- Content --}}
+                                <div class="p-6 flex flex-col flex-1">
 
-                                    @if ($quiz->start_at)
-                                        <p>🟢 Mulai: {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
-                                    @endif
+                                    {{-- Title --}}
+                                    <h3 class="text-lg font-semibold text-slate-900 line-clamp-2">
+                                        {{ $quiz->title }}
+                                    </h3>
 
-                                    @if ($quiz->end_at)
-                                        <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
-                                    @endif
+                                    {{-- Description --}}
+                                    <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+                                        {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
+                                    </p>
+
+                                    {{-- Info --}}
+                                    <div class="mt-4 space-y-1 text-xs text-slate-500">
+                                        <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+
+                                        @if ($quiz->start_at)
+                                            <p>🟢 Mulai: {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
+                                        @endif
+
+                                        @if ($quiz->end_at)
+                                            <p>🔴 Deadline: {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
+                                        @endif
+                                    </div>
+
+                                    {{-- Status (TANPA ENDED 🔥) --}}
+                                    @php
+                                        $now = now();
+                                        $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
+                                    @endphp
+
+                                    <div class="mt-4">
+                                        @if ($isUpcoming)
+                                            <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">
+                                                Belum Dimulai
+                                            </span>
+                                        @else
+                                            <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
+                                                Aktif
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    {{-- Button --}}
+                                    <div class="mt-auto pt-4">
+                                        @if ($isUpcoming)
+                                            <button
+                                                disabled
+                                                class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                                            >
+                                                Belum Tersedia
+                                            </button>
+                                        @else
+                                            <a
+                                                href="{{ route('quiz.play', $quiz->uuid) }}"
+                                                class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
+                                            >
+                                                Kerjakan Quiz
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
-
-                                {{-- Status Badge --}}
-                                <div class="mt-4">
-                                    @if ($status === 'upcoming')
-                                        <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">
-                                            Belum Dimulai
-                                        </span>
-                                    @elseif ($status === 'ended')
-                                        <span class="inline-block rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-                                            Sudah Berakhir
-                                        </span>
-                                    @else
-                                        <span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
-                                            Aktif
-                                        </span>
-                                    @endif
-                                </div>
-
-                                {{-- Button --}}
-                                <div class="mt-auto pt-4">
-                                    @if ($status === 'active')
-                                        <a
-                                            href="{{ route('quiz.play', $quiz->uuid) }}"
-                                            class="inline-flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
-                                        >
-                                            Kerjakan Quiz
-                                        </a>
-                                    @elseif ($status === 'upcoming')
-                                        <button
-                                            disabled
-                                            class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
-                                        >
-                                            Belum Tersedia
-                                        </button>
-                                    @else
-                                        <button
-                                            disabled
-                                            class="w-full rounded-2xl bg-red-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed"
-                                        >
-                                            Ditutup
-                                        </button>
-                                    @endif
-                                </div>
-
                             </div>
-                        </div>
+                        @endforeach
+                    </div>
 
-                    @endforeach
-                </div>
-            @else
-                <div class="rounded-2xl bg-white border p-6 text-center text-slate-500">
-                    Belum ada quiz tersedia.
-                </div>
-            @endif
+                @else
+                    <div class="rounded-2xl bg-white border p-6 text-center text-slate-500">
+                        Belum ada quiz tersedia.
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>

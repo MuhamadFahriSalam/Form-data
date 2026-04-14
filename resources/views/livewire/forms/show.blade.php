@@ -18,27 +18,131 @@
 
         <!-- Form Details -->
         <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-700 px-6 py-8 sm:px-8">
-                <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            <div class="relative bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 px-6 py-8 sm:px-8 text-white overflow-hidden rounded-3xl shadow-lg">
+
+                <!-- DECORATION -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+
+                <!-- TITLE -->
+                <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">
                     {{ $form->title }}
                 </h1>
 
+                <!-- DESCRIPTION -->
                 @if ($form->description)
-                    <p class="mt-2 text-sm leading-6 text-slate-200">
+                    <p class="mt-2 text-sm leading-6 text-blue-200">
                         {{ $form->description }}
                     </p>
                 @endif
+
             </div>
 
             <!-- Form Questions -->
             <div class="px-6 py-8 sm:px-8">
-                @if ($alreadySubmitted)
-                    <div class="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 text-sm text-blue-700">
-                        Anda sudah mengisi form ini.
+
+                {{-- 🔥 MODE PILIHAN (SEPERTI QUIZ) --}}
+                @if ($showConfirm)
+                    <div class="mb-6 max-w-xl mx-auto">
+                        <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                            <!-- ACCENT LINE -->
+                            <div class="h-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600"></div>
+
+                            <div class="p-6 text-center">
+
+                                <!-- ICON -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="flex items-center justify-center w-14 h-14 rounded-2xl 
+                                        bg-blue-100 text-blue-600 shadow-sm">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                            class="w-7 h-7" 
+                                            fill="none" 
+                                            viewBox="0 0 24 24" 
+                                            stroke="currentColor" 
+                                            stroke-width="2">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                                d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- TITLE -->
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    Anda sudah mengisi quiz ini
+                                </h2>
+
+                                <!-- DESC -->
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Pilih aksi yang ingin dilakukan
+                                </p>
+
+                                <!-- ATTEMPT -->
+                                <div class="mt-3 inline-block px-3 py-1 rounded-full 
+                                    bg-blue-50 text-blue-600 text-xs border border-blue-200">
+                                    Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                                </div>
+
+                                <!-- ACTION -->
+                                <div class="flex flex-wrap justify-center gap-3 mt-6">
+
+                                    <!-- 🔁 ISI ULANG (PRIMARY) -->
+                                    <button
+                                        wire:click="startAgain"
+                                        @if($attemptCount >= $maxAttempt) disabled @endif
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-blue-600 text-white font-semibold
+                                        hover:bg-blue-700
+                                        shadow-sm hover:shadow-md
+                                        transition-all duration-300
+                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    >
+                                        🔁 Isi Ulang
+                                    </button>
+
+                                    <!-- ✏️ EDIT (SECONDARY) -->
+                                    <button
+                                        wire:click="continueEdit"
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-white text-blue-600 font-medium
+                                        border border-blue-200
+                                        hover:bg-blue-50 hover:border-blue-300
+                                        transition-all duration-300"
+                                    >
+                                        ✏️ Edit Jawaban
+                                    </button>
+
+                                    <!-- ⬅️ KEMBALI (OUTLINE) -->
+                                    <a
+                                        href="{{ route('user.dashboard') }}"
+                                        class="px-5 py-2 rounded-2xl 
+                                        bg-white text-slate-600 font-medium
+                                        border border-slate-200
+                                        hover:bg-slate-50 hover:border-slate-300
+                                        transition-all duration-300"
+                                    >
+                                        ⬅️ Kembali
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @else
+
+                    {{-- ❗ DEBUG kalau pertanyaan kosong --}}
+                    @if ($form->questions->count() == 0)
+                        <div class="mb-6 text-red-500 font-semibold">
+                            ❌ Tidak ada pertanyaan pada form ini
+                        </div>
+                    @endif
+
+                    {{-- ✅ FORM --}}
                     <form wire:submit="submit" class="space-y-6">
+
                         @foreach ($form->questions as $index => $question)
+
                             @php
                                 $options = is_array($question->options)
                                     ? $question->options
@@ -46,6 +150,7 @@
                             @endphp
 
                             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
                                 <label class="mb-3 block text-sm font-semibold text-slate-800">
                                     {{ $index + 1 }}. {{ $question->question }}
                                     @if ($question->is_required)
@@ -53,116 +158,105 @@
                                     @endif
                                 </label>
 
+                                {{-- TEXT --}}
                                 @if ($question->type === 'text')
-                                    <input
-                                        type="text"
+                                    <input type="text"
                                         wire:model.defer="answers.{{ $question->id }}"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                        placeholder="Tulis jawaban Anda"
-                                    >
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- TEXTAREA --}}
                                 @elseif ($question->type === 'textarea')
                                     <textarea
                                         wire:model.defer="answers.{{ $question->id }}"
-                                        rows="4"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                        placeholder="Tulis jawaban Anda"
-                                    ></textarea>
-                                @elseif ($question->type === 'email')
-                                    <input
-                                        type="email"
-                                        wire:model.defer="answers.{{ $question->id }}"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                        placeholder="Masukkan email"
-                                    >
-                                @elseif ($question->type === 'number')
-                                    <input
-                                        type="number"
-                                        wire:model.defer="answers.{{ $question->id }}"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                        placeholder="Masukkan angka"
-                                    >
-                                @elseif ($question->type === 'date')
-                                    <input
-                                        type="date"
-                                        wire:model.defer="answers.{{ $question->id }}"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                    >
-            @elseif ($question->type === 'file')
-                <input
-                    type="file"
-                    wire:model="answers.{{ $question->id }}"
-                    class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-blue-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                >
-                <div wire:loading wire:target="answers.{{ $question->id }}" class="mt-2 text-sm text-blue-600">
-                    Uploading...
-                </div>
+                                        class="w-full rounded-xl border px-4 py-3"></textarea>
 
-            @elseif ($question->type === 'number')
-                <input
-                    type="number"
-                    wire:model.defer="answers.{{ $question->id }}"
-                    class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                    placeholder="Masukkan angka"
-                >
+                                {{-- RADIO --}}
+                                @elseif ($question->type === 'radio')
+                                    @foreach ($options as $option)
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio"
+                                                name="question_{{ $question->id }}"
+                                                wire:model.defer="answers.{{ $question->id }}"
+                                                value="{{ $option }}">
+                                            {{ $option }}
+                                        </label>
+                                    @endforeach
+
+                                {{-- CHECKBOX --}}
+                                @elseif ($question->type === 'checkbox')
+                                    @foreach ($options as $option)
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox"
+                                                wire:model.defer="answers.{{ $question->id }}"
+                                                value="{{ $option }}">
+                                            {{ $option }}
+                                        </label>
+                                    @endforeach
+
+                                {{-- SELECT --}}
                                 @elseif ($question->type === 'select')
                                     <select
                                         wire:model.defer="answers.{{ $question->id }}"
-                                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                                    >
-                                        <option value="">Pilih jawaban</option>
-                                        @foreach ($options ?? [] as $option)
+                                        class="w-full rounded-xl border px-4 py-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($options as $option)
                                             <option value="{{ $option }}">{{ $option }}</option>
                                         @endforeach
                                     </select>
-                            @elseif ($question->type === 'radio')
-                                <div class="space-y-3">
-                                    @foreach ($options ?? [] as $option)
-                                        <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-blue-300 hover:bg-blue-50">
-                                            <input
-                                                type="radio"
-                                                name="question_{{ $question->id }}"
-                                                wire:model.defer="answers.{{ $question->id }}"
-                                                value="{{ $option }}"
-                                                class="h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500"
-                                            >
-                                            <span>{{ $option }}</span>
-                                        </label>
-                                    @endforeach
-                                </div>
-                                @elseif ($question->type === 'checkbox')
-                                    <div class="space-y-3">
-                                        @foreach ($options ?? [] as $option)
-                                            <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition hover:border-blue-300 hover:bg-blue-50">
-                                                <input
-                                                    type="checkbox"
-                                                    wire:model.defer="answers.{{ $question->id }}"
-                                                    value="{{ $option }}"
-                                                    class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                                                >
-                                                <span>{{ $option }}</span>
-                                            </label>
-                                        @endforeach
-                                    </div>
+
+                                {{-- DATE --}}
+                                @elseif ($question->type === 'date')
+                                    <input type="date"
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- NUMBER --}}
+                                @elseif ($question->type === 'number')
+                                    <input type="number"
+                                        wire:model.defer="answers.{{ $question->id }}"
+                                        class="w-full rounded-xl border px-4 py-3">
+
+                                {{-- FILE --}}
+                                @elseif ($question->type === 'file')
+                                    <input type="file"
+                                        wire:model="answers.{{ $question->id }}"
+                                        class="w-full border p-2 rounded-xl">
+
                                 @endif
+
+                                {{-- ERROR --}}
                                 @error('answers.' . $question->id)
-                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         @endforeach
 
-                        <!-- Form Actions -->
-                        <div class="flex justify-between pt-4">
-                            <a
-                                href="{{ route('user.dashboard') }}"
-                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-slate-200"
-                            >
-                                ← Kembali
+                        {{-- ACTION --}}
+                        <div class="flex justify-between items-center">
+
+                            <!-- BUTTON KEMBALI -->
+                            <a href="{{ route('user.dashboard') }}"
+                                class="inline-flex items-center gap-2 px-6 py-3 
+                                    rounded-2xl bg-white text-slate-700 text-sm font-medium
+                                    shadow-md border border-slate-200
+                                    transition duration-300
+                                    hover:shadow-lg hover:bg-slate-50">
+
+                                <!-- ICON -->
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                    class="w-5 h-5 text-slate-500"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+
+                                Kembali
                             </a>
-                            <button
-                                type="submit"
-                                class="inline-flex items-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
-                            >
-                                Kirim Jawaban
+
+                            <!-- BUTTON SUBMIT -->
+                            <button type="submit"
+                                class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition">
+                                {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
                             </button>
                         </div>
                     </form>

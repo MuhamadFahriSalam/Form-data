@@ -101,6 +101,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     })->name('forms.closed');
 
+    // 🔥 Daftar quiz yang sudah ditutup
+    Route::get('/quiz/closed', function () {
+
+        $closedQuiz = \App\Models\Quiz::withCount('questions')
+            ->whereNotNull('end_at')
+            ->where('end_at', '<', now())
+            ->latest('end_at')
+            ->get();
+
+        return view('admin.closed-quiz', compact('closedQuiz'));
+
+    })->name('quiz.closed.admin');
+
     // 🔥 FIX: quiz create tidak konflik lagi
     Route::get('/quiz/create', QuizCreate::class)->name('quiz.create');
 

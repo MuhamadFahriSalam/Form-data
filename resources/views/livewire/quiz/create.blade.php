@@ -6,15 +6,32 @@
             {{-- HEADER --}}
             <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
                 <div class="px-6 py-8 sm:px-8 lg:px-10 flex justify-between items-center">
-                    <div>
-                        <h1 class="text-3xl font-bold text-white">
-                            Buat Quiz
-                        </h1>
-                        <p class="mt-2 text-sm text-slate-200">
-                            Susun pertanyaan dan jawaban quiz
-                        </p>
+                    <div class="flex items-center justify-between">
+
+                        {{-- LEFT --}}
+                        <div class="flex items-center gap-4">
+
+                            {{-- ICON --}}
+                            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M9 12h6m-6 4h6M9 8h6M5 6h.01M5 10h.01M5 14h.01M5 18h.01"/>
+                                </svg>
+                            </div>
+
+                            {{-- TEXT --}}
+                            <div>
+                                <h1 class="text-3xl font-bold tracking-tight text-white">
+                                    Buat Quiz
+                                </h1>
+                                <p class="mt-1 text-sm text-white/70">
+                                    Susun pertanyaan dan jawaban quiz dengan mudah
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
+                    {{-- RIGHT --}}
                     <div class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur-sm">
                         <p class="text-xs text-slate-200">Total Soal</p>
                         <p class="text-2xl font-bold text-white">
@@ -74,7 +91,7 @@
                         
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                Waktu Mulai
+                                Tanggal Mulai
                             </label>
                             <input
                                 type="datetime-local"
@@ -88,7 +105,7 @@
 
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                Batas Akhir
+                                Tanggal Berakhir
                             </label>
                             <input
                                 type="datetime-local"
@@ -142,6 +159,20 @@
                                 placeholder="Tulis pertanyaan..."
                             ></textarea>
 
+                            {{-- VALIDASI PERTANYAAN KOSONG --}}
+                            @error('questions.' . $qIndex . '.question')
+                                <div class="text-sm text-red-500 font-semibold mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                            {{-- VALIDASI JAWABAN BENAR --}}
+                            @error('questions.' . $qIndex . '.correct')
+                                <div class="text-sm text-red-500 font-semibold mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
                             {{-- OPSI --}}
                             <div class="space-y-3">
                                 @foreach ($question['options'] as $oIndex => $option)
@@ -153,6 +184,13 @@
                                             class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm shadow-sm focus:border-violet-400 focus:ring-2 focus:ring-violet-100 outline-none"
                                             placeholder="Opsi jawaban"
                                         >
+
+                                        {{-- VALIDASI OPSI KOSONG --}}
+                                        @error('questions.' . $qIndex . '.options.' . $oIndex)
+                                            <div class="text-xs text-red-500 font-semibold">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
 
                                         <button
                                             type="button"
@@ -232,10 +270,10 @@
                     <button
                         type="submit"
                         class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                        wire:loading.attr="disabled"
                     >
                         Simpan Quiz
                     </button>
-
                 </div>
             </div>
         </form>
