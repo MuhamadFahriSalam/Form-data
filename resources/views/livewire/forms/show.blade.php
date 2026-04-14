@@ -233,12 +233,29 @@
 
                         {{-- ACTION --}}
                         <div class="flex justify-between items-center">
-                            <a href="{{ route('user.dashboard') }}" class="text-sm text-slate-600 hover:underline">
-                                ← Kembali
+
+                            <!-- BUTTON KEMBALI -->
+                            <a href="{{ route('user.dashboard') }}"
+                                class="inline-flex items-center gap-2 px-6 py-3 
+                                    rounded-2xl bg-white text-slate-700 text-sm font-medium
+                                    shadow-md border border-slate-200
+                                    transition duration-300
+                                    hover:shadow-lg hover:bg-slate-50">
+
+                                <!-- ICON -->
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                    class="w-5 h-5 text-slate-500"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+
+                                Kembali
                             </a>
 
+                            <!-- BUTTON SUBMIT -->
                             <button type="submit"
-                                class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700">
+                                class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition">
                                 {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
                             </button>
                         </div>
