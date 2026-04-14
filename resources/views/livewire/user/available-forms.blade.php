@@ -121,7 +121,7 @@
                                         </span>
                                     @else
                                         <span class="shrink-0 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
-                                            Sedang Dibuka
+                                            Aktif
                                         </span>
                                     @endif
                                 </div>
