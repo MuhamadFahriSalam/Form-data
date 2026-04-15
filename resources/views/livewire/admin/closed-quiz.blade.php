@@ -70,114 +70,114 @@
         <!-- LIST QUIZ -->
         @if ($closedQuiz->count())
 
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                 @foreach ($closedQuiz as $quiz)
 
-                <!-- CARD -->
                 <a href="{{ route('quiz.results', $quiz->uuid) }}"
-                   class="group relative overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white/90 p-6 shadow transition duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+                class="min-w-[320px] max-w-[320px] h-[420px] flex-shrink-0 snap-start
+                        flex flex-col justify-between
+                        group relative overflow-hidden rounded-[1.75rem]
+                        border border-slate-200/70 bg-white/90 p-6 shadow
+                        transition duration-300 hover:-translate-y-1.5 hover:shadow-xl">
 
                     <!-- TOP LINE -->
                     <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-fuchsia-500 to-violet-400"></div>
 
-                    <!-- HEADER -->
-                    <div class="mb-5 flex justify-between items-start">
+                    <!-- CONTENT ATAS -->
+                    <div>
 
-                        <!-- ICON + TITLE -->
-                        <div class="flex gap-4">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600">
-                                
-                                <svg xmlns="http://www.w3.org/2000/svg" 
-                                    class="h-6 w-6"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                        d="M9 12h6M9 16h4M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                        d="M15 3v6h6" />
-                                </svg>
+                        <!-- HEADER -->
+                        <div class="mb-4 flex justify-between items-start">
 
+                            <div class="flex gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-5 w-5"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 12h6M9 16h4M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M15 3v6h6" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-base font-bold text-slate-900 line-clamp-2 group-hover:text-violet-700 transition">
+                                        {{ $quiz->title }}
+                                    </h3>
+
+                                    <p class="text-xs text-slate-500">
+                                        {{ $quiz->created_at->format('d M Y') }}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-violet-700 transition">
-                                    {{ $quiz->title }}
-                                </h3>
+                            <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded-full font-semibold">
+                                Ditutup
+                            </span>
 
-                                <p class="text-sm text-slate-500">
-                                    Dibuat {{ $quiz->created_at->format('d M Y') }}
+                        </div>
+
+                        <!-- DESC -->
+                        <div class="bg-slate-50 p-3 rounded-xl text-xs text-slate-600 line-clamp-2">
+                            {{ $quiz->description ?: 'Tidak ada deskripsi quiz.' }}
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="mt-4 border rounded-xl p-3 text-xs bg-white">
+
+                            <div class="flex justify-between border-b pb-1">
+                                <span>Mulai</span>
+                                <span>
+                                    {{ $quiz->start_at ? \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') : '-' }}
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between pt-1">
+                                <span>Ditutup</span>
+                                <span class="text-red-600">
+                                    {{ $quiz->end_at ? \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') : '-' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- STATS -->
+                        <div class="mt-4 grid grid-cols-2 gap-2">
+
+                            <div class="bg-slate-50 p-3 rounded-xl border">
+                                <p class="text-[11px]">Soal</p>
+                                <p class="text-lg font-bold">{{ $quiz->questions_count }}</p>
+                            </div>
+
+                            <div class="bg-violet-50 p-3 rounded-xl border border-violet-100">
+                                <p class="text-[11px] text-violet-600">Status</p>
+                                <p class="text-xs font-bold text-violet-700">
+                                    Selesai
                                 </p>
                             </div>
                         </div>
-
-                        <span class="text-xs bg-red-50 text-red-600 px-3 py-1 rounded-full font-semibold">
-                            Ditutup
-                        </span>
-
                     </div>
 
-                    <!-- DESC -->
-                    <div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600">
-                        {{ $quiz->description ?: 'Tidak ada deskripsi quiz.' }}
-                    </div>
-
-                    <!-- INFO -->
-                    <div class="mt-5 border rounded-2xl p-4 text-sm bg-white">
-
-                        <div class="flex justify-between border-b pb-2">
-                            <span class="text-slate-500">Mulai</span>
-                            <span class="font-semibold">
-                                {{ $quiz->start_at ? \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') : '-' }}
-                            </span>
-                        </div>
-
-                        <div class="flex justify-between pt-2">
-                            <span class="text-slate-500">Ditutup</span>
-                            <span class="text-red-600 font-semibold">
-                                {{ $quiz->end_at ? \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') : '-' }}
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <!-- STATS -->
-                    <div class="mt-5 grid grid-cols-2 gap-3">
-
-                        <div class="bg-slate-50 p-4 rounded-2xl border">
-                            <p class="text-xs text-slate-500 uppercase">Soal</p>
-                            <p class="text-xl font-bold">{{ $quiz->questions_count }}</p>
-                        </div>
-
-                        <div class="bg-violet-50 p-4 rounded-2xl border border-violet-100">
-                            <p class="text-xs text-violet-600 uppercase">Status</p>
-                            <p class="text-sm font-bold text-violet-700">
-                                Selesai
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <!-- ACTION -->
-                    <div class="mt-6">
-                        <span class="block text-center bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white py-2.5 rounded-xl text-sm font-semibold">
+                    <!-- BUTTON (PASTI RATA BAWAH) -->
+                    <div class="mt-4">
+                        <span class="block text-center bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white py-2 rounded-xl text-sm font-semibold">
                             Lihat Hasil →
                         </span>
                     </div>
                 </a>
                 @endforeach
             </div>
-        @else
 
-        <!-- EMPTY -->
-        <div class="text-center py-20 bg-white rounded-3xl shadow">
-            <h3 class="text-2xl font-bold text-slate-800">
-                Belum ada quiz ditutup
-            </h3>
-            <p class="text-slate-500 mt-2">
-                Quiz yang selesai akan muncul di sini.
-            </p>
-        </div>
+        @else
+            <div class="text-center py-20 bg-white rounded-3xl shadow">
+                <h3 class="text-2xl font-bold text-slate-800">
+                    Belum ada quiz ditutup
+                </h3>
+                <p class="text-slate-500 mt-2">
+                    Quiz yang selesai akan muncul di sini.
+                </p>
+            </div>
         @endif
     </div>
 </div>
