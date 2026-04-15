@@ -60,7 +60,7 @@
                 </p>
             </div>
 
-            <div class="inline-flex items-center gap-2 rounded-2xl border border-purple-100 bg-white px-4 py-2 text-sm shadow-sm">
+            <div class="inline-flex w-fit items-center gap-2 rounded-2xl border border-red-100 bg-white px-4 py-2 text-sm shadow-sm">
                 <span class="h-2.5 w-2.5 rounded-full bg-purple-500"></span>
                 <span class="font-medium text-slate-600">Total:</span>
                 <span class="font-bold text-slate-900">{{ $closedQuiz->count() }} quiz</span>
