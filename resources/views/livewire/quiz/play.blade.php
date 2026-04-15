@@ -96,27 +96,27 @@
                                             {{ $totalScore }}
                                         </p>
 
-                                        <p class="text-xs text-slate-500 mt-1">
+                                        {{-- <p class="text-xs text-slate-500 mt-1">
                                             Dari {{ $attemptCount }} percobaan
-                                        </p>
+                                        </p> --}}
 
                                     </div>
                                 @endif
 
                                 <!-- ATTEMPT INFO -->
-                                <div class="flex flex-wrap justify-center gap-2 mt-4">
+                                {{-- <div class="flex flex-wrap justify-center gap-2 mt-4">
 
                                     <span class="px-3 py-1 text-xs rounded-full 
                                         bg-blue-50 text-blue-600 border border-blue-200">
                                         Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
                                     </span>
 
-                                    {{-- <span class="px-3 py-1 text-xs rounded-full 
+                                    <span class="px-3 py-1 text-xs rounded-full 
                                         bg-slate-100 text-slate-600 border border-slate-200">
                                         Total attempt: {{ $attemptCount }}x
-                                    </span> --}}
+                                    </span>
 
-                                </div>
+                                </div> --}}
 
                                 <!-- ACTION -->
                                 <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
