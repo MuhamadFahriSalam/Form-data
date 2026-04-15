@@ -45,9 +45,7 @@
                                     })->count() }}
                                 </p>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -94,146 +92,149 @@
                     </button>
                 </div>
             </div>
-        </div>
+            
+            </div>
 
-            {{-- Form List --}} 
-            @if ($forms->count())
+                {{-- Form List --}} 
+                @if ($forms->count())
 
-                <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
-                    @foreach ($forms as $form)
-                    <div x-data="{ openModal: false }" class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
+                        @foreach ($forms as $form)
+                        <div x-data="{ openModal: false }" class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                        <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
-                                    hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                            <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
-                            {{-- HEADER --}}
-                            <div class="flex items-start justify-between mb-4">
+                                <!-- TOP GRADIENT (BARU) -->
+                                <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
 
-                                <div class="pr-2">
-                                    <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
-                                        {{ $form->title }}
-                                    </h3>
+                                {{-- HEADER --}}
+                                <div class="flex items-start justify-between mb-4">
+
+                                    <div class="pr-2">
+                                        <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                            {{ $form->title }}
+                                        </h3>
+                                    </div>
+
+                                    {{-- STATUS --}}
+                                    @if ($form->status === 'upcoming')
+                                        <span class="text-[11px] bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                            Belum Dibuka
+                                        </span>
+                                    @elseif ($form->status === 'closed')
+                                        <span class="text-[11px] bg-red-100 text-red-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                            Ditutup
+                                        </span>
+                                    @else
+                                        <span class="text-[11px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                            Aktif
+                                        </span>
+                                    @endif
                                 </div>
 
-                                {{-- STATUS --}}
-                                @if ($form->status === 'upcoming')
-                                    <span class="text-[11px] bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full whitespace-nowrap">
-                                        Belum Dibuka
-                                    </span>
-                                @elseif ($form->status === 'closed')
-                                    <span class="text-[11px] bg-red-100 text-red-700 px-3 py-1 rounded-full whitespace-nowrap">
-                                        Ditutup
-                                    </span>
-                                @else
-                                    <span class="text-[11px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
-                                        Aktif
-                                    </span>
-                                @endif
-                            </div>
-
-                            {{-- DESKRIPSI --}}
-                            <p class="text-sm text-slate-500 line-clamp-2 mb-4">
-                                {{ $form->description ?: 'Tidak ada deskripsi.' }}
-                            </p>
-
-                            {{-- INFO --}}
-                            <div class="space-y-2 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
-
-                                <div class="flex justify-between">
-                                    <span>Mulai</span>
-                                    <span>
-                                        {{ $form->opens_at ? $form->opens_at->format('d M Y') : '-' }}
-                                    </span>
-                                </div>
-
-                                <div class="flex justify-between">
-                                    <span>Selesai</span>
-                                    <span>
-                                        {{ $form->closes_at ? $form->closes_at->format('d M Y') : '-' }}
-                                    </span>
-                                </div>
-
-                            </div>
-
-                            {{-- ACTION --}}
-                            <div class="mt-5">
-
-                                @if ($form->status === 'open')
-                                    <!-- 🔥 UBAH JADI BUTTON -->
-                                    <button @click="openModal = true"
-                                        class="block w-full text-center text-sm font-semibold bg-violet-600 text-white py-2.5 rounded-xl hover:bg-violet-700 transition">
-                                        Isi Form
-                                    </button>
-
-                                @elseif ($form->status === 'upcoming')
-                                    <button disabled
-                                        class="w-full text-sm font-semibold bg-yellow-500 text-white py-2.5 rounded-xl opacity-80">
-                                        Belum Dibuka
-                                    </button>
-
-                                @else
-                                    <button disabled
-                                        class="w-full text-sm font-semibold bg-red-500 text-white py-2.5 rounded-xl opacity-80">
-                                        Sudah Ditutup
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{-- 🔥 MODAL FORM --}}
-                        <div x-show="openModal" x-transition.scale
-                            class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
-
-                            <div @click.outside="openModal = false"
-                                class="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md shadow-xl">
-
-                                <h2 class="text-base sm:text-lg font-bold mb-2">
-                                    ⚠️ Perhatian
-                                </h2>
-
-                                <p class="text-sm mb-3">
-                                    Sebelum mengisi form, harap baca instruksi dengan teliti.
+                                {{-- DESKRIPSI --}}
+                                <p class="text-sm text-slate-500 line-clamp-2 mb-4">
+                                    {{ $form->description ?: 'Tidak ada deskripsi.' }}
                                 </p>
 
-                                <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
-                                    <li>Pastikan data yang diisi sudah benar</li>
-                                    <li>Form bisa diisi tiga kali</li>
-                                    <li>Periksa kembali sebelum submit</li>
-                                </ul>
+                                {{-- INFO --}}
+                                <div class="space-y-2 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
 
-                                <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
-                                    <button @click="openModal = false"
-                                        class="w-full sm:w-auto px-4 py-2 bg-gray-200 rounded-xl">
-                                        Batal
-                                    </button>
+                                    <div class="flex justify-between">
+                                        <span>Mulai</span>
+                                        <span>
+                                            {{ $form->opens_at ? $form->opens_at->format('d M Y') : '-' }}
+                                        </span>
+                                    </div>
 
-                                    <a href="{{ route('forms.show', $form->uuid) }}"
-                                        class="w-full sm:w-auto text-center px-4 py-2 bg-violet-600 text-white rounded-xl">
-                                        Lanjutkan
-                                    </a>
+                                    <div class="flex justify-between">
+                                        <span>Selesai</span>
+                                        <span>
+                                            {{ $form->closes_at ? $form->closes_at->format('d M Y') : '-' }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                {{-- ACTION --}}
+                                <div class="mt-5">
+
+                                    @if ($form->status === 'open')
+                                        <!-- 🔥 UBAH JADI BUTTON -->
+                                        <button @click="openModal = true"
+                                            class="block w-full text-center text-sm font-semibold bg-violet-600 text-white py-2.5 rounded-xl hover:bg-violet-700 transition">
+                                            Isi Form
+                                        </button>
+
+                                    @elseif ($form->status === 'upcoming')
+                                        <button disabled
+                                            class="w-full text-sm font-semibold bg-yellow-500 text-white py-2.5 rounded-xl opacity-80">
+                                            Belum Dibuka
+                                        </button>
+
+                                    @else
+                                        <button disabled
+                                            class="w-full text-sm font-semibold bg-red-500 text-white py-2.5 rounded-xl opacity-80">
+                                            Sudah Ditutup
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{-- 🔥 MODAL FORM --}}
+                            <div x-show="openModal" x-transition.scale
+                                class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
+
+                                <div @click.outside="openModal = false"
+                                    class="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md shadow-xl">
+
+                                    <h2 class="text-base sm:text-lg font-bold mb-2">
+                                        ⚠️ Perhatian
+                                    </h2>
+
+                                    <p class="text-sm mb-3">
+                                        Sebelum mengisi form, harap baca instruksi dengan teliti.
+                                    </p>
+
+                                    <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
+                                        <li>Pastikan data yang diisi sudah benar</li>
+                                        <li>Form bisa diisi tiga kali</li>
+                                        <li>Periksa kembali sebelum submit</li>
+                                    </ul>
+
+                                    <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
+                                        <button @click="openModal = false"
+                                            class="w-full sm:w-auto px-4 py-2 bg-gray-200 rounded-xl">
+                                            Batal
+                                        </button>
+
+                                        <a href="{{ route('forms.show', $form->uuid) }}"
+                                            class="w-full sm:w-auto text-center px-4 py-2 bg-violet-600 text-white rounded-xl">
+                                            Lanjutkan
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
-                </div>
-
-            @else
-                <div class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
-                    <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
-                        📄
+                        @endforeach
                     </div>
 
-                    <h3 class="text-lg font-semibold text-slate-800">
-                        Belum ada form tersedia
-                    </h3>
+                @else
+                    <div class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
+                        <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
+                            📄
+                        </div>
 
-                    <p class="mt-2 max-w-md text-sm text-slate-500">
-                        Form akan muncul di sini ketika admin membuat form baru.
-                    </p>
-                </div>
-            @endif
+                        <h3 class="text-lg font-semibold text-slate-800">
+                            Belum ada form tersedia
+                        </h3>
+
+                        <p class="mt-2 max-w-md text-sm text-slate-500">
+                            Form akan muncul di sini ketika admin membuat form baru.
+                        </p>
+                    </div>
+                @endif
         </div>
 
         {{-- ================= QUIZ SECTION ================= --}}
@@ -281,8 +282,7 @@
                             <div x-data="{ openModal: false }"
                                 class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                                <div
-                                    class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                                <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
                                     {{-- Top Gradient --}}
                                     <div class="h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
