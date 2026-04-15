@@ -235,6 +235,13 @@
                                 }
 
                                 $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
+
+                                // 🔥 AMBIL ATTEMPT USER
+                                $attempt = $quiz->attempts
+                                    ->where('user_id', auth()->id())
+                                    ->first();
+
+                                $hasAttempt = $attempt !== null;
                             @endphp
 
                             {{-- WRAPPER --}}
@@ -250,18 +257,15 @@
                                     {{-- STATUS --}}
                                     <div class="absolute top-4 right-4">
                                         @if ($isUpcoming)
-                                            <span
-                                                class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-medium text-yellow-600 shadow">
+                                            <span class="rounded-full bg-yellow-100 px-3 py-1 text-[11px] text-yellow-600">
                                                 Belum Dimulai
                                             </span>
                                         @elseif ($status === 'ended')
-                                            <span
-                                                class="inline-block rounded-full bg-red-100 px-3 py-1 text-[11px] font-medium text-red-600 shadow">
+                                            <span class="rounded-full bg-red-100 px-3 py-1 text-[11px] text-red-600">
                                                 Selesai
                                             </span>
                                         @else
-                                            <span
-                                                class="inline-block rounded-full bg-green-100 px-3 py-1 text-[11px] font-medium text-green-600 shadow">
+                                            <span class="rounded-full bg-green-100 px-3 py-1 text-[11px] text-green-600">
                                                 Aktif
                                             </span>
                                         @endif
@@ -271,48 +275,66 @@
                                     <div class="p-6 flex flex-col flex-1">
 
                                         {{-- Title --}}
-                                        <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 pr-16">
+                                        <h3 class="text-lg font-semibold text-slate-900 pr-16">
                                             {{ $quiz->title }}
                                         </h3>
 
                                         {{-- Description --}}
-                                        <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+                                        <p class="mt-2 text-sm text-slate-500">
                                             {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
                                         </p>
 
                                         {{-- Info --}}
-                                        <div class="mt-4 space-y-1 text-xs text-slate-500">
+                                        <div class="mt-4 text-xs text-slate-500 space-y-1">
                                             <p>📌 Soal: {{ $quiz->questions->count() }}</p>
-
-                                            @if ($quiz->start_at)
-                                                <p>🟢 Mulai:
-                                                    {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
-                                            @endif
-
-                                            @if ($quiz->end_at)
-                                                <p>🔴 Deadline:
-                                                    {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
-                                            @endif
                                         </div>
 
-                                        {{-- Button --}}
+                                        {{-- 🔥 SCORE --}}
+                                        @if ($hasAttempt)
+                                            <div class="mt-3 p-3 bg-green-50 border border-green-200 rounded-xl text-center">
+                                                <p class="text-xs text-green-600">Score Kamu</p>
+                                                <p class="text-2xl font-bold text-green-700">
+                                                    {{ $attempt->score }}
+                                                </p>
+
+                                                <!-- Progress Bar -->
+                                                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                                    <div class="bg-green-500 h-2 rounded-full"
+                                                        style="width: {{ $attempt->score }}%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        {{-- BUTTON --}}
                                         <div class="mt-auto pt-4">
                                             @if ($isUpcoming)
                                                 <button disabled
-                                                    class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed">
+                                                    class="w-full bg-gray-300 py-3 rounded-2xl text-white">
                                                     Belum Tersedia
                                                 </button>
+
                                             @elseif ($status === 'ended')
                                                 <button disabled
-                                                    class="w-full rounded-2xl bg-red-400 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed">
+                                                    class="w-full bg-red-400 py-3 rounded-2xl text-white">
                                                     Sudah Selesai
                                                 </button>
+
                                             @else
-                                                <!-- TRIGGER MODAL -->
-                                                <button @click="openModal = true"
-                                                    class="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
-                                                    Kerjakan Quiz
-                                                </button>
+
+                                                @if ($hasAttempt)
+                                                    <!-- ✅ SUDAH MENGISI -->
+                                                    <button disabled
+                                                        class="w-full bg-green-500 py-3 rounded-2xl text-white cursor-not-allowed">
+                                                        ✔ Sudah Dikerjakan
+                                                    </button>
+                                                @else
+                                                    <!-- BELUM -->
+                                                    <button @click="openModal = true"
+                                                        class="w-full bg-indigo-600 py-3 rounded-2xl text-white hover:bg-indigo-700">
+                                                        Kerjakan Quiz
+                                                    </button>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -320,33 +342,32 @@
 
                                 {{-- MODAL --}}
                                 <div x-show="openModal" x-transition
-                                    class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50">
+                                    class="fixed inset-0 z-50 flex items-center justify-center px-4">
 
                                     <div @click.outside="openModal = false"
                                         class="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md shadow-xl">
 
-                                        <h2 class="text-base sm:text-lg font-bold text-slate-800 mb-2 sm:mb-3">
+                                        <h2 class="text-base sm:text-lg font-bold mb-2">
                                             ⚠️ Perhatian
                                         </h2>
 
-                                        <p class="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
+                                        <p class="text-sm mb-3">
                                             Sebelum mengerjakan quiz, harap baca instruksi dengan teliti.
                                         </p>
 
-                                        <ul class="text-xs sm:text-sm text-slate-500 list-disc pl-5 mb-3 sm:mb-4 space-y-1">
+                                        <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
                                             <li>Quiz hanya bisa dikerjakan sekali</li>
                                             <li>Jawaban tidak bisa diubah setelah submit</li>
                                         </ul>
 
-                                        <!-- BUTTON RESPONSIVE -->
-                                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end">
+                                        <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
                                             <button @click="openModal = false"
-                                                class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-sm">
+                                                class="w-full sm:w-auto px-4 py-2 bg-gray-200 rounded-xl">
                                                 Batal
                                             </button>
 
                                             <a href="{{ route('quiz.play', $quiz->uuid) }}"
-                                                class="w-full sm:w-auto text-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 text-sm">
+                                                class="w-full sm:w-auto text-center px-4 py-2 bg-indigo-600 text-white rounded-xl">
                                                 Lanjutkan
                                             </a>
                                         </div>
@@ -355,21 +376,10 @@
                             </div>
                         @endforeach
                     </div>
+
                 @else
-                    <div
-                        class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
-                        <div
-                            class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
-                            📄
-                        </div>
-
-                        <h3 class="text-lg font-semibold text-slate-800">
-                            Belum ada quiz tersedia
-                        </h3>
-
-                        <p class="mt-2 max-w-md text-sm text-slate-500">
-                            Quiz akan muncul di sini ketika admin membuat quiz baru.
-                        </p>
+                    <div class="text-center py-10">
+                        <p class="text-slate-500">Belum ada quiz tersedia</p>
                     </div>
                 @endif
             </div>
