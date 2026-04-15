@@ -4,22 +4,39 @@
             
             <!-- Left Section -->
             <div class="flex items-center gap-8">
-                <!-- Logo / Brand -->
+
+                <!-- 🔥 Logo / Brand -->
+                <div class="flex items-center gap-2">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold shadow">
+                        FQ
+                    </div>
+
+                    <div class="leading-tight">
+                        <h1 class="text-sm font-bold text-slate-900">
+                            FoQuz
+                        </h1>
+                        
+                        {{-- <p class="text-[10px] text-slate-500">
+                            Form + Quiz
+                        </p> --}}
+                    </div>
+                </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden items-center gap-2 sm:flex">
+
                     @if(Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}"
-                           class="rounded-lg px-4 py-2 text-sm font-medium transition duration-200
-                           {{ request()->routeIs('admin.dashboard') 
+                        class="rounded-lg px-4 py-2 text-sm font-medium transition duration-200
+                        {{ request()->routeIs('admin.dashboard') 
                                 ? 'bg-indigo-50 text-indigo-600 shadow-sm' 
                                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                             Dashboard
                         </a>
 
                         <a href="{{ route('user.dashboard') }}"
-                           class="rounded-lg px-4 py-2 text-sm font-medium transition duration-200
-                           {{ request()->routeIs('user.dashboard') 
+                        class="rounded-lg px-4 py-2 text-sm font-medium transition duration-200
+                        {{ request()->routeIs('user.dashboard') 
                                 ? 'bg-indigo-50 text-indigo-600 shadow-sm' 
                                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                             User Page
