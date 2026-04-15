@@ -122,7 +122,7 @@
                                 <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
 
                                     <!-- 🔁 ISI ULANG -->
-                                    <button
+                                    {{-- <button
                                         wire:click="startAgain"
                                         @if($attemptCount >= $maxAttempt) disabled @endif
                                         class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
@@ -131,7 +131,7 @@
                                         disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                     >
                                         🔁 Isi Lagi
-                                    </button>
+                                    </button> --}}
 
                                     <!-- ⬅️ KEMBALI -->
                                     <a

@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        {{-- Section --}}
+        {{-- ================= FORM SECTION ================= --}}
         <div class="mt-8">
 
             {{-- Header & Filter --}}
@@ -160,10 +160,11 @@
                             <div class="mt-5">
 
                                 @if ($form->status === 'open')
-                                    <a href="{{ route('forms.show', $form->uuid) }}"
-                                    class="block w-full text-center text-sm font-semibold bg-violet-600 text-white py-2.5 rounded-xl hover:bg-violet-700 transition">
+                                    <!-- 🔥 UBAH JADI BUTTON -->
+                                    <button @click="openModal = true"
+                                        class="block w-full text-center text-sm font-semibold bg-violet-600 text-white py-2.5 rounded-xl hover:bg-violet-700 transition">
                                         Isi Form
-                                    </a>
+                                    </button>
 
                                 @elseif ($form->status === 'upcoming')
                                     <button disabled
@@ -179,11 +180,46 @@
                                 @endif
                             </div>
                         </div>
+
+                        {{-- 🔥 MODAL FORM --}}
+                        <div x-show="openModal" x-transition.scale
+                            class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
+
+                            <div @click.outside="openModal = false"
+                                class="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md shadow-xl">
+
+                                <h2 class="text-base sm:text-lg font-bold mb-2">
+                                    ⚠️ Perhatian
+                                </h2>
+
+                                <p class="text-sm mb-3">
+                                    Sebelum mengisi form, harap baca instruksi dengan teliti.
+                                </p>
+
+                                <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
+                                    <li>Pastikan data yang diisi sudah benar</li>
+                                    <li>Form bisa diisi tiga kali</li>
+                                    <li>Periksa kembali sebelum submit</li>
+                                </ul>
+
+                                <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
+                                    <button @click="openModal = false"
+                                        class="w-full sm:w-auto px-4 py-2 bg-gray-200 rounded-xl">
+                                        Batal
+                                    </button>
+
+                                    <a href="{{ route('forms.show', $form->uuid) }}"
+                                        class="w-full sm:w-auto text-center px-4 py-2 bg-violet-600 text-white rounded-xl">
+                                        Lanjutkan
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>
-                @else
 
+            @else
                 <div class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
                     <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
                         📄
@@ -367,6 +403,7 @@
                             </div>
                         @endforeach
                     </div>
+                    
                 @else
                     <div
                         class="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
