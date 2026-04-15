@@ -80,9 +80,9 @@
                                 </h2>
 
                                 <!-- DESC -->
-                                <p class="text-sm text-slate-500 mt-2">
+                                {{-- <p class="text-sm text-slate-500 mt-2">
                                     Apakah Anda ingin mengisi quiz lagi?
-                                </p>
+                                </p> --}}
 
                                 <!-- SCORE CARD -->
                                 @if($totalScore > 0)
