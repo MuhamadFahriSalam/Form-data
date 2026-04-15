@@ -18,7 +18,7 @@ class Play extends Component
     public $hasAttempt = false;
     public $showConfirm = false;
     public int $attemptCount = 0;
-    public int $maxAttempt = 3;
+    public int $maxAttempt = 1;
     public $totalScore = 0;
 
     // Load quiz dan inisialisasi jawaban

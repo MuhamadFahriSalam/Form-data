@@ -388,9 +388,10 @@
 
     {{-- Recent Forms --}}
     <section class="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
+        <div class="mb-8 flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
+                <h2 class="text-2xl font-semibold text-slate-900 md:text-3xl">
                     Formulir terbaru
                 </h2>
                 <p class="mt-2 text-sm text-slate-500">
@@ -398,121 +399,97 @@
                 </p>
             </div>
 
-            <div class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm">
-                Total: {{ $forms->count() }} form
+            <div class="flex items-center gap-4">
+                <div class="px-4 py-2 text-sm bg-white border rounded-xl shadow-sm">
+                    Total: {{ $forms->count() }} form
+                </div>
             </div>
         </div>
 
+        {{-- LIST FORM --}}
         @if ($forms->count() > 0)
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+
                 @foreach ($forms as $form)
-                    <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-[0_18px_50px_rgba(15,23,42,0.10)]">
-                        <div class="mb-5 flex items-start justify-between gap-4">
-                            {{-- KIRI: ICON + TITLE --}}
-                            <div class="flex items-center gap-3">
-                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l3.414 3.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z" />
-                                    </svg>
-                                </div>
+                <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                                {{-- TITLE + CREATED AT --}}
-                                <div>
-                                    <h3 class="text-lg font-semibold text-slate-900 transition group-hover:text-violet-700">
-                                        {{ $form->title }}
-                                    </h3>
-                                    <p class="mt-1 text-sm text-slate-500">
-                                        Dibuat {{ $form->created_at->format('d M Y') }}
-                                    </p>
-                                </div>
+                    <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
+                                hover:-translate-y-1 hover:shadow-xl transition duration-300">
+
+                        {{-- HEADER --}}
+                        <div class="flex items-start justify-between mb-5">
+
+                            <div class="pr-2">
+                                <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                    {{ $form->title }}
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    {{ $form->created_at->format('d M Y') }}
+                                </p>
                             </div>
 
-                            {{-- KANAN: STATUS --}}
-                            <div>
-                                @if(!$form->is_active)
-                                    <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">
-                                        Draft
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                        Published
-                                    </span>
-                                @endif
-                            </div>
+                            {{-- STATUS BADGE (FIX SIZE & ALIGN) --}}
+                            @if(!$form->is_active)
+                                <span class="text-[11px] font-medium bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Draft
+                                </span>
+                            @else
+                                <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Published
+                                </span>
+                            @endif
                         </div>
 
+                        {{-- INFO --}}
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                                <p class="text-xs font-medium uppercase tracking-wide text-slate-500">
-                                    Total Pengisi
-                                </p>
-                                <p class="mt-2 text-2xl font-bold text-slate-900">
+
+                            {{-- PENGISI --}}
+                            <div class="rounded-2xl bg-slate-50 px-4 py-3">
+                                <p class="text-xs text-slate-500">Pengisi</p>
+                                <p class="mt-1 text-xl font-bold text-slate-900">
                                     {{ $form->submissions_count ?? 0 }}
                                 </p>
                             </div>
 
-                            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-                                <p class="text-xs font-medium uppercase tracking-wide text-emerald-600">
-                                    Status
-                                </p>
-                                <p class="mt-2 text-sm font-semibold text-emerald-700">
+                            {{-- STATUS --}}
+                            <div class="rounded-2xl bg-emerald-50 px-4 py-3">
+                                <p class="text-xs text-emerald-600">Status</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-700">
                                     {{ ($form->submissions_count ?? 0) > 0 ? 'Ada Respon' : 'Belum Ada' }}
                                 </p>
                             </div>
                         </div>
 
-                        {{-- ACTIONS --}}
-                        <div class="mt-6 flex flex-wrap items-center gap-3">
+                        {{-- ACTION --}}
+                        <div class="mt-5 flex gap-2">
 
-                            {{-- BUTTON EDIT --}}
-                            <a
-                                href="{{ route('forms.edit', $form->uuid) }}"
-                                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
-                            >
+                            <a href="{{ route('forms.edit', $form->uuid) }}"
+                            class="flex-1 text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
+                                    hover:bg-slate-100 transition">
                                 Edit
                             </a>
 
-                            {{-- LIHAT PENGISI --}}
-                            <a
-                                href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
-                                class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100"
-                            >
-                                Lihat Pengisi
+                            <a href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
+                            class="flex-1 text-center text-sm font-medium px-3 py-2 rounded-xl bg-sky-50 text-sky-700 
+                                    hover:bg-sky-100 transition">
+                                Pengisi
                             </a>
-
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
-        @else
-            <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-                <div class="relative px-6 py-20 text-center sm:px-10 sm:py-24">
-                    <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-sky-500/10"></div>
-
-                    <div class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-violet-100 text-violet-600 shadow-inner">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M19.5 14.25v-8.625a1.125 1.125 0 0 0-1.125-1.125H5.625A1.125 1.125 0 0 0 4.5 5.625v12.75A1.125 1.125 0 0 0 5.625 19.5H12m3-8.25h-6m6 3h-6m3 3h-3m9 1.5 3-3m0 0-3-3m3 3H15" />
-                        </svg>
-                    </div>
-
-                    <h3 class="relative mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-                        Belum ada formulir
-                    </h3>
-
-                    <p class="relative mx-auto mt-3 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
-                        Semua form yang baru dibuat akan tampil di bagian ini.
-                    </p>
-                </div>
-            </div>
+            @else
+            <p class="text-slate-500">Belum ada form</p>
         @endif
     </section>
 
     {{-- QUIZ TERBARU --}}
     <section class="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        
+
         <div class="mb-8 flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
+                <h2 class="text-2xl font-semibold text-slate-900 md:text-3xl">
                     Quiz terbaru
                 </h2>
                 <p class="mt-2 text-sm text-slate-500">
@@ -520,88 +497,78 @@
                 </p>
             </div>
 
-            <div class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm">
-                Total: {{ $quizzes->count() }} quiz
+            <div class="flex items-center gap-4">
+                <div class="px-4 py-2 text-sm bg-white border rounded-xl shadow-sm">
+                    Total: {{ $quizzes->count() }} quiz
+                </div>
             </div>
         </div>
 
+        {{-- LIST QUIZ --}}
         @if ($quizzes->count() > 0)
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                 @foreach ($quizzes as $quiz)
-                    <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl">
+                <div class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
+
+                    <div class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm 
+                                hover:-translate-y-1 hover:shadow-xl transition duration-300">
 
                         {{-- HEADER --}}
-                        <div class="mb-5 flex items-start justify-between gap-4">
-                            
-                            <div class="flex items-center gap-3">
-                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
-                                    ❓
-                                </div>
+                        <div class="flex items-start justify-between mb-5">
 
-                                <div>
-                                    <h3 class="text-lg font-semibold text-slate-900">
-                                        {{ $quiz->title }}
-                                    </h3>
-                                    <p class="text-sm text-slate-500">
-                                        Dibuat {{ $quiz->created_at->format('d M Y') }}
-                                    </p>
-                                </div>
+                            <div class="pr-2">
+                                <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                    {{ $quiz->title }}
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    {{ $quiz->created_at->format('d M Y') }}
+                                </p>
                             </div>
 
-                            {{-- STATUS --}}
-                            <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                            {{-- BADGE --}}
+                            <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
                                 Quiz
                             </span>
                         </div>
 
                         {{-- INFO --}}
                         <div class="grid grid-cols-2 gap-3">
-                            
-                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                                <p class="text-xs text-slate-500">Total Pengisi</p>
+
+                            {{-- PENGISI --}}
+                            <div class="rounded-2xl bg-slate-50 px-4 py-3">
+                                <p class="text-xs text-slate-500">Pengisi</p>
                                 <p class="mt-1 text-xl font-bold text-slate-900">
                                     {{ $quiz->attempts_count }}
                                 </p>
                             </div>
 
-                            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                            {{-- STATUS --}}
+                            <div class="rounded-2xl bg-emerald-50 px-4 py-3">
                                 <p class="text-xs text-emerald-600">Status</p>
                                 <p class="mt-1 text-sm font-semibold text-emerald-700">
                                     Aktif
                                 </p>
                             </div>
+
                         </div>
 
                         {{-- ACTION --}}
-                        <div class="mt-6 flex gap-3">
-
-                            <a
-                                href="{{ route('quiz.results', $quiz->uuid) }}"
-                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
-                            >
+                        <div class="mt-5">
+                            <a href="{{ route('quiz.results', $quiz->uuid) }}"
+                            class="block w-full text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
+                                    hover:bg-slate-100 transition">
                                 Lihat Hasil
                             </a>
-
-                            {{-- <a
-                                href="{{ route('quiz.play', $quiz->uuid) }}"
-                                class="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-                            >
-                                Preview
-                            </a> --}}
-
                         </div>
-
                     </div>
+                </div>
                 @endforeach
-
             </div>
-        @else
-            <div class="text-center text-slate-500">
-                Belum ada quiz
-            </div>
+            @else
+            <p class="text-slate-500">Belum ada quiz</p>
         @endif
-
     </section>
 
     {{-- Modal User Pengisi --}}

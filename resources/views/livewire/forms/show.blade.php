@@ -81,7 +81,7 @@
                                 <!-- ATTEMPT -->
                                 <div class="mt-3 inline-block px-3 py-1 rounded-full 
                                     bg-blue-50 text-blue-600 text-xs border border-blue-200">
-                                    Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
+                                    Pengisian: {{ $attemptCount }} / {{ $maxAttempt }}
                                 </div>
 
                                 <!-- ACTION -->
