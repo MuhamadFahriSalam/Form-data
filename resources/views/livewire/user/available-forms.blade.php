@@ -235,6 +235,10 @@
                                 }
 
                                 $isUpcoming = $quiz->start_at && $now->lt($quiz->start_at);
+
+                                // ✅ PINDAHKAN KE SINI (TIDAK NESTED)
+                                $attempt = $quiz->attempts->first();
+                                $hasAttempt = $attempt !== null;
                             @endphp
 
                             {{-- WRAPPER --}}
@@ -309,10 +313,19 @@
                                                 </button>
                                             @else
                                                 <!-- TRIGGER MODAL -->
-                                                <button @click="openModal = true"
-                                                    class="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
-                                                    Kerjakan Quiz
-                                                </button>
+                                                @if ($hasAttempt)
+                                                    <!-- ✅ SUDAH MENGISI -->
+                                                    <a href="{{ route('quiz.play', $quiz->uuid) }}"
+                                                        class="w-full rounded-2xl bg-green-600 px-4 py-3 text-sm font-semibold text-white text-center">
+                                                        📊 Lihat Score
+                                                    </a>
+                                                @else
+                                                    <!-- BELUM -->
+                                                    <button @click="openModal = true"
+                                                        class="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
+                                                        Kerjakan Quiz
+                                                    </button>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
