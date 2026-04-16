@@ -96,11 +96,11 @@
             {{-- Form List --}}
             @if ($forms->count())
 
-                <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                     @foreach ($forms as $form)
                     <div x-data="{ openModal: false }"
-                        class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
+                        class="min-w-[85%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                         <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -254,7 +254,7 @@
                 {{-- List Quiz --}}
                 @if ($quizzes->count())
 
-                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                    <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                         @foreach ($quizzes->filter(function ($quiz) {
                             return !$quiz->end_at || \Carbon\Carbon::now()->lte($quiz->end_at);
@@ -279,7 +279,7 @@
 
                             {{-- WRAPPER --}}
                             <div x-data="{ openModal: false }"
-                                class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
+                                class="min-w-[85%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                                 <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
