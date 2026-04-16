@@ -243,12 +243,12 @@
             </div>
 
             {{-- ACTION --}}
-            <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6">
+            <div class="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
 
                 {{-- Kiri --}}
                 <a
                     href="{{ route('admin.dashboard') }}"
-                    class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+                    class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
@@ -257,19 +257,19 @@
                 </a>
 
                 {{-- Kanan --}}
-                <div class="flex flex-wrap items-center gap-4">
+                <div class="flex flex-col gap-3 w-full sm:w-auto sm:flex-row sm:items-center sm:gap-4">
 
                     <button
                         type="button"
                         wire:click="addQuestion"
-                        class="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-violet-300 hover:text-violet-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-slate-100"
                     >
                         + Tambah Pertanyaan
                     </button>
 
                     <button
                         type="submit"
-                        class="inline-flex items-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
                         wire:loading.attr="disabled"
                     >
                         Simpan Quiz
