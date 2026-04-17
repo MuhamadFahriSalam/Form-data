@@ -192,9 +192,10 @@ class Create extends Component
         }
 
         // 🔥 FLASH MESSAGE
-        session()->flash('success', 'Quiz berhasil dibuat!');
+        session()->flash('quiz_success', true);
 
-        return redirect()->route('admin.dashboard');
+        // 🔥 DISPATCH EVENT untuk menangkap di frontend
+        $this->dispatch('quiz-saved');
     }
 
     // Render method untuk menampilkan form create quiz

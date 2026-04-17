@@ -96,13 +96,22 @@
             {{-- Form List --}}
             @if ($forms->count())
 
-                <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                     @foreach ($forms as $form)
-                    <div x-data="{ openModal: false }"
-                        class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
 
-                        <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                    {{-- LOGIKA FILTERING: pertama filter berdasarkan status (upcoming, active, closed), lalu filter berdasarkan apakah sudah diisi atau belum (filled, empty) --}}
+                    @php
+                        $hasFilled = $form->submissions
+                            ->where('user_id', auth()->id())
+                            ->count() > 0;
+                    @endphp
+
+                    {{--  WRAPPER --}}
+                    <div x-data="{ openModal: false }"
+                        class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+
+                        <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
                             {{-- TOP GRADIENT --}}
                             <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
@@ -156,14 +165,22 @@
                                 </div>
                             </div>
 
-                            {{-- ACTION --}}
+                            {{-- BUTTONS --}}
                             <div class="mt-5">
 
                                 @if ($form->status === 'open')
-                                    <button @click="openModal = true"
-                                        class="block w-full rounded-xl bg-violet-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-violet-700">
-                                        Isi Form
-                                    </button>
+
+                                    @if ($hasFilled)
+                                        <button @click="openModal = true"
+                                            class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
+                                            Isi Kembali
+                                        </button>
+                                    @else
+                                        <button @click="openModal = true"
+                                            class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
+                                            Isi Form
+                                        </button>
+                                    @endif
 
                                 @elseif ($form->status === 'upcoming')
                                     <button disabled
@@ -181,7 +198,7 @@
                         </div>
 
                         {{-- MODAL --}}
-                        <div x-show="openModal" x-transition.scale
+                        <div x-cloak x-show="openModal" x-transition.scale
                             class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
 
                             <div @click.outside="openModal = false"
@@ -252,14 +269,38 @@
                 </div>
 
                 {{-- List Quiz --}}
-                @if ($quizzes->count())
+                {{-- ✅ LOGIKA FILTERING: pertama filter berdasarkan status (upcoming, active, ended), lalu filter berdasarkan apakah sudah diisi atau belum (filled, empty) --}}
+                @php
+                    $filteredQuizzes = $quizzes->filter(function ($quiz) use ($filter) {
 
-                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+                        $now = now();
 
-                        @foreach ($quizzes->filter(function ($quiz) {
-                            return !$quiz->end_at || \Carbon\Carbon::now()->lte($quiz->end_at);
-                        }) as $quiz)
+                        // skip kalau sudah selesai
+                        if ($quiz->end_at && $now->gt($quiz->end_at)) {
+                            return false;
+                        }
 
+                        $hasAttempt = $quiz->attempts->isNotEmpty();
+
+                        if ($filter === 'filled') {
+                            return $hasAttempt;
+                        }
+
+                        if ($filter === 'empty') {
+                            return !$hasAttempt;
+                        }
+
+                        return true;
+                    });
+                @endphp
+                
+                @if ($filteredQuizzes->count())
+
+                    <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
+
+                    @foreach ($filteredQuizzes as $quiz)
+
+                            {{-- LOGIKA STATUS QUIZ: upcoming kalau start_at > now, ended kalau end_at < now, active kalau start_at <= now <= end_at (atau kalau start_at/end_at null) --}}
                             @php
                                 $now = now();
                                 $status = 'active';
@@ -279,7 +320,7 @@
 
                             {{-- WRAPPER --}}
                             <div x-data="{ openModal: false }"
-                                class="min-w-[300px] max-w-[320px] flex-shrink-0 snap-start">
+                                class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                                 <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -338,26 +379,25 @@
                                         <div class="mt-auto pt-4">
                                             @if ($isUpcoming)
                                                 <button disabled
-                                                    class="w-full rounded-2xl bg-gray-300 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed">
+                                                    class="w-full rounded-xl bg-gray-300 py-2.5 text-sm font-semibold text-white cursor-not-allowed">
                                                     Belum Tersedia
                                                 </button>
+
                                             @elseif ($status === 'ended')
                                                 <button disabled
-                                                    class="w-full rounded-2xl bg-red-400 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed">
+                                                    class="w-full rounded-xl bg-red-500 py-2.5 text-sm font-semibold text-white cursor-not-allowed">
                                                     Sudah Selesai
                                                 </button>
+
                                             @else
-                                                <!-- TRIGGER MODAL -->
                                                 @if ($hasAttempt)
-                                                    <!-- ✅ SUDAH MENGISI -->
                                                     <a href="{{ route('quiz.play', $quiz->uuid) }}"
-                                                        class="w-full rounded-2xl bg-green-600 px-4 py-3 text-sm font-semibold text-white text-center">
+                                                        class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
                                                         📊 Lihat Score
                                                     </a>
                                                 @else
-                                                    <!-- BELUM -->
                                                     <button @click="openModal = true"
-                                                        class="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
+                                                        class="w-full rounded-xl bg-indigo-600 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700">
                                                         Kerjakan Quiz
                                                     </button>
                                                 @endif
@@ -367,7 +407,7 @@
                                 </div>
 
                                 {{-- MODAL --}}
-                                <div x-show="openModal" x-transition.scale
+                                <div x-cloak x-show="openModal" x-transition.scale
                                     class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
 
                                     <div @click.outside="openModal = false"

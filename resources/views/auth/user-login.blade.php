@@ -138,13 +138,23 @@
                         class="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 text-sm sm:text-base font-semibold shadow-md sm:shadow-lg transition active:scale-[0.97] flex items-center justify-center gap-2"
                         :disabled="loading"
                     >
+                        <!-- NORMAL -->
                         <span x-show="!loading">Login</span>
 
-                        <span x-show="loading" class="flex items-center gap-2">
+                        <!-- SPINNER -->
+                        <span x-show="loading" class="flex items-center justify-center">
                             <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="4"></circle>
+                                <circle 
+                                    class="opacity-25"
+                                    cx="12" cy="12" r="10"
+                                    stroke="white" stroke-width="4" fill="none">
+                                </circle>
+                                <path 
+                                    class="opacity-75"
+                                    fill="white"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                                </path>
                             </svg>
-                            Loading...
                         </span>
                     </button>
                 </form>
