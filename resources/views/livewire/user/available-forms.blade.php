@@ -269,7 +269,6 @@
                 </div>
 
                 {{-- List Quiz --}}
-
                 {{-- ✅ LOGIKA FILTERING: pertama filter berdasarkan status (upcoming, active, ended), lalu filter berdasarkan apakah sudah diisi atau belum (filled, empty) --}}
                 @php
                     $filteredQuizzes = $quizzes->filter(function ($quiz) use ($filter) {
