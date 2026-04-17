@@ -163,19 +163,19 @@
                                 </div>
                             </div>
 
-                            {{-- ACTION --}}
+                            {{-- BUTTONS --}}
                             <div class="mt-5">
 
                                 @if ($form->status === 'open')
 
                                     @if ($hasFilled)
                                         <button @click="openModal = true"
-                                            class="block w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg">
+                                            class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
                                             Isi Kembali
                                         </button>
                                     @else
                                         <button @click="openModal = true"
-                                            class="block w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg">
+                                            class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
                                             Isi Form
                                         </button>
                                     @endif
