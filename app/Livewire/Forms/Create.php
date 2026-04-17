@@ -183,9 +183,9 @@ class Create extends Component
         });
 
         // 🔥 Flash message untuk konfirmasi sukses
-        session()->flash('success', 'Form berhasil disimpan.');
+        session()->flash('form_success', true);
 
-        // 🔥 Redirect ke dashboard admin setelah simpan
+        // 🔥 DISPATCH EVENT untuk menangkap di frontend
         $this->dispatch('form-saved');
     }
 

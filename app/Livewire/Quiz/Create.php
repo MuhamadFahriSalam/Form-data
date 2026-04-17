@@ -194,6 +194,7 @@ class Create extends Component
         // 🔥 FLASH MESSAGE
         session()->flash('quiz_success', true);
 
+        // 🔥 DISPATCH EVENT untuk menangkap di frontend
         $this->dispatch('quiz-saved');
     }
 

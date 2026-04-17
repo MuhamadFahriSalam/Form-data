@@ -356,20 +356,21 @@
     </div>
 
     {{-- TOAST SUCCESS FORM --}}
-    <div 
-        x-data="{ show: false }"
-        x-on:form-saved.window="
-            show = true;
-            setTimeout(() => {
-                show = false;
-                window.location.href = '{{ route('admin.dashboard') }}';
-            }, 2000)
-        "
-        x-show="show"
-        x-transition
-        class="fixed top-5 right-5 z-50 rounded-xl bg-emerald-500 px-5 py-3 text-white shadow-lg"
-    >
-        ✅ Form berhasil disimpan
-    </div>
+    @if (session('form_success'))
+        <div 
+            x-data="{ show: true }"
+            x-init="
+                setTimeout(() => {
+                    show = false;
+                    window.location.href = '{{ route('admin.dashboard') }}';
+                }, 2000)
+            "
+            x-show="show"
+            x-transition
+            class="fixed top-5 right-5 z-50 rounded-xl bg-emerald-500 px-5 py-3 text-white shadow-lg"
+        >
+            ✅ Form berhasil disimpan
+        </div>
+    @endif
 </div>
 
