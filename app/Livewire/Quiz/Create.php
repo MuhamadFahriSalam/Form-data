@@ -192,7 +192,7 @@ class Create extends Component
         }
 
         // 🔥 FLASH MESSAGE
-        session()->flash('success', 'Quiz berhasil dibuat!');
+        session()->flash('quiz_success', true);
 
         $this->dispatch('quiz-saved');
     }

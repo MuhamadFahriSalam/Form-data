@@ -280,19 +280,20 @@
     </div>
 
     {{-- TOAST SUCCESS QUIZ --}}
-    <div 
-        x-data="{ show: false }"
-        x-on:quiz-saved.window="
-            show = true;
-            setTimeout(() => {
-                show = false;
-                window.location.href = '{{ route('admin.dashboard') }}';
-            }, 2000)
-        "
-        x-show="show"
-        x-transition
-        class="fixed top-5 right-5 z-50 rounded-xl bg-indigo-600 px-5 py-3 text-white shadow-lg"
-    >
-        ✅ Quiz berhasil dibuat
-    </div>
+    @if (session('quiz_success'))
+        <div 
+            x-data="{ show: true }"
+            x-init="
+                setTimeout(() => {
+                    show = false;
+                    window.location.href = '{{ route('admin.dashboard') }}';
+                }, 2000)
+            "
+            x-show="show"
+            x-transition
+            class="fixed top-5 right-5 z-50 rounded-xl bg-indigo-600 px-5 py-3 text-white shadow-lg"
+        >
+            ✅ Quiz berhasil dibuat
+        </div>
+    @endif
 </div>
