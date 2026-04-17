@@ -268,14 +268,36 @@
                 </div>
 
                 {{-- List Quiz --}}
-                @if ($quizzes->count())
+                @php
+                    $filteredQuizzes = $quizzes->filter(function ($quiz) use ($filter) {
+
+                        $now = now();
+
+                        // skip kalau sudah selesai
+                        if ($quiz->end_at && $now->gt($quiz->end_at)) {
+                            return false;
+                        }
+
+                        $hasAttempt = $quiz->attempts->isNotEmpty();
+
+                        if ($filter === 'filled') {
+                            return $hasAttempt;
+                        }
+
+                        if ($filter === 'empty') {
+                            return !$hasAttempt;
+                        }
+
+                        return true;
+                    });
+                @endphp
+                
+                @if ($filteredQuizzes->count())
 
                     <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
-                        @foreach ($quizzes->filter(function ($quiz) {
-                            return !$quiz->end_at || \Carbon\Carbon::now()->lte($quiz->end_at);
-                        }) as $quiz)
-
+                    @foreach ($filteredQuizzes as $quiz)
+                    
                             @php
                                 $now = now();
                                 $status = 'active';
