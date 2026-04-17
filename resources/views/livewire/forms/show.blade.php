@@ -87,7 +87,7 @@
                                 <!-- ACTION -->
                                 <div class="flex flex-wrap justify-center gap-3 mt-6">
 
-                                    <!-- 🔁 ISI ULANG (PRIMARY) -->
+                                    <!-- 🔁 ISI KEMBALI (PRIMARY) -->
                                     <button
                                         wire:click="startAgain"
                                         @if($attemptCount >= $maxAttempt) disabled @endif
@@ -98,17 +98,19 @@
                                         transition-all duration-300
                                         disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                     >
-                                        🔁 Isi Ulang
+                                        🔁 Isi Kembali
                                     </button>
 
                                     <!-- ✏️ EDIT (SECONDARY) -->
                                     <button
                                         wire:click="continueEdit"
+                                        @if($attemptCount >= $maxAttempt) disabled @endif
                                         class="px-5 py-2 rounded-2xl 
                                         bg-white text-blue-600 font-medium
                                         border border-blue-200
                                         hover:bg-blue-50 hover:border-blue-300
-                                        transition-all duration-300"
+                                        transition-all duration-300
+                                        disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
                                     >
                                         ✏️ Edit Jawaban
                                     </button>
@@ -124,7 +126,6 @@
                                     >
                                         ⬅️ Kembali
                                     </a>
-
                                 </div>
                             </div>
                         </div>
