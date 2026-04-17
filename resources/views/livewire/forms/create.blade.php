@@ -355,7 +355,7 @@
         </div>
     </div>
 
-    {{-- TOAST SUCCESS --}}
+    {{-- TOAST SUCCESS FORM --}}
     <div 
         x-data="{ show: false }"
         x-on:form-saved.window="
