@@ -99,6 +99,13 @@
                 <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                     @foreach ($forms as $form)
+
+                    @php
+                        $hasFilled = $form->submissions
+                            ->where('user_id', auth()->id())
+                            ->count() > 0;
+                    @endphp
+
                     <div x-data="{ openModal: false }"
                         class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
@@ -160,10 +167,18 @@
                             <div class="mt-5">
 
                                 @if ($form->status === 'open')
-                                    <button @click="openModal = true"
-                                        class="block w-full rounded-xl bg-violet-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-violet-700">
-                                        Isi Form
-                                    </button>
+
+                                    @if ($hasFilled)
+                                        <button @click="openModal = true"
+                                            class="block w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg">
+                                            Isi Kembali
+                                        </button>
+                                    @else
+                                        <button @click="openModal = true"
+                                            class="block w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg">
+                                            Isi Form
+                                        </button>
+                                    @endif
 
                                 @elseif ($form->status === 'upcoming')
                                     <button disabled
@@ -351,7 +366,7 @@
                                             @else
                                                 @if ($hasAttempt)
                                                     <a href="{{ route('quiz.play', $quiz->uuid) }}"
-                                                        class="block w-full rounded-xl bg-green-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-green-700">
+                                                        class="block w-full rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-700">
                                                         📊 Lihat Score
                                                     </a>
                                                 @else
