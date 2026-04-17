@@ -106,6 +106,7 @@
                             ->count() > 0;
                     @endphp
 
+                    {{--  WRAPPER --}}
                     <div x-data="{ openModal: false }"
                         class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
@@ -196,7 +197,7 @@
                         </div>
 
                         {{-- MODAL --}}
-                        <div x-show="openModal" x-transition.scale
+                        <div x-cloak x-show="openModal" x-transition.scale
                             class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
 
                             <div @click.outside="openModal = false"
@@ -381,7 +382,7 @@
                                 </div>
 
                                 {{-- MODAL --}}
-                                <div x-show="openModal" x-transition.scale
+                                <div x-cloak x-show="openModal" x-transition.scale
                                     class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20 backdrop-blur-md">
 
                                     <div @click.outside="openModal = false"
