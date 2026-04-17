@@ -100,6 +100,7 @@
 
                     @foreach ($forms as $form)
 
+                    {{-- LOGIKA FILTERING: pertama filter berdasarkan status (upcoming, active, closed), lalu filter berdasarkan apakah sudah diisi atau belum (filled, empty) --}}
                     @php
                         $hasFilled = $form->submissions
                             ->where('user_id', auth()->id())
@@ -268,6 +269,8 @@
                 </div>
 
                 {{-- List Quiz --}}
+
+                {{-- ✅ LOGIKA FILTERING: pertama filter berdasarkan status (upcoming, active, ended), lalu filter berdasarkan apakah sudah diisi atau belum (filled, empty) --}}
                 @php
                     $filteredQuizzes = $quizzes->filter(function ($quiz) use ($filter) {
 
@@ -297,7 +300,8 @@
                     <div class="flex gap-4 px-1 sm:px-0 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
 
                     @foreach ($filteredQuizzes as $quiz)
-                    
+
+                            {{-- LOGIKA STATUS QUIZ: upcoming kalau start_at > now, ended kalau end_at < now, active kalau start_at <= now <= end_at (atau kalau start_at/end_at null) --}}
                             @php
                                 $now = now();
                                 $status = 'active';
