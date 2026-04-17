@@ -186,7 +186,7 @@ class Create extends Component
         session()->flash('success', 'Form berhasil disimpan.');
 
         // 🔥 Redirect ke dashboard admin setelah simpan
-        return redirect()->route('admin.dashboard'); // ✅ sekarang aman
+        $this->dispatch('form-saved');
     }
 
     // Render method

@@ -3,12 +3,6 @@
 <div class="min-h-screen bg-slate-50">
     <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
 
-        @if (session('success'))
-            <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 shadow-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
         {{-- Hero Header --}}
         <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
             <div class="px-6 py-8 sm:px-8 lg:px-10">
@@ -360,4 +354,22 @@
             </div>
         </div>
     </div>
+
+    {{-- TOAST SUCCESS --}}
+    <div 
+        x-data="{ show: false }"
+        x-on:form-saved.window="
+            show = true;
+            setTimeout(() => {
+                show = false;
+                window.location.href = '{{ route('admin.dashboard') }}';
+            }, 2000)
+        "
+        x-show="show"
+        x-transition
+        class="fixed top-5 right-5 z-50 rounded-xl bg-emerald-500 px-5 py-3 text-white shadow-lg"
+    >
+        ✅ Form berhasil disimpan
+    </div>
 </div>
+
