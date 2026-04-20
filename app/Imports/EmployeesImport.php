@@ -5,7 +5,6 @@ namespace App\Imports;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -15,6 +14,7 @@ class EmployeesImport implements ToModel, WithHeadingRow, WithValidation
 {
     public function model(array $row)
     {
+        // ✅ SIMPAN / UPDATE EMPLOYEE
         $employee = Employee::updateOrCreate(
             ['npk' => $row['npk']],
             [
@@ -28,15 +28,19 @@ class EmployeesImport implements ToModel, WithHeadingRow, WithValidation
             ]
         );
 
-        User::updateOrCreate(
-            ['npk' => $row['npk']],
-            [
+        // 🔥 CEK USER SUDAH ADA ATAU BELUM
+        $user = User::where('npk', $row['npk'])->first();
+
+        if (!$user) {
+            // ✅ BUAT USER BARU
+            User::create([
+                'npk' => $row['npk'],
                 'name' => $row['nama'] ?? null,
                 'email' => $row['email'] ?? null,
-                'password' => Hash::make('aiia'),
+                'password' => Hash::make($row['npk']), // 🔥 password = NPK
                 'role' => 'user',
-            ]
-        );
+            ]);
+        }
 
         return $employee;
     }

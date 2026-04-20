@@ -288,7 +288,7 @@
 
                     <div class="mt-4 min-h-[56px]">
                         <p class="text-base font-semibold text-slate-900">Kelola Karyawan</p>
-                        <p class="mt-1 text-sm text-slate-500">Daftar Karyawan yang sudah mengisi formulir</p>
+                        <p class="mt-1 text-sm text-slate-500">Buat akun karyawan berdasarkan NPK dan list karyawan yang sudah terdaftar</p>
                     </div>
                 </a>
 
