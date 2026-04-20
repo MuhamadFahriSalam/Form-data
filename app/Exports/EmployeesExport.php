@@ -59,36 +59,24 @@ class EmployeesExport implements
             ? 'Sudah Mengisi'
             : 'Belum Mengisi';
 
-        // 🔥 DETAIL QUIZ (BATASI 2)
+        // 🔥 DETAIL QUIZ (SEMUA)
         $quizTitles = '-';
         if ($user && $user->quizAttempts->count() > 0) {
-            $titles = $user->quizAttempts
+            $quizTitles = $user->quizAttempts
                 ->pluck('quiz.title')
                 ->filter()
-                ->take(2);
-
-            $more = $user->quizAttempts->count() - $titles->count();
-
-            $quizTitles = $titles->implode(', ');
-            if ($more > 0) {
-                $quizTitles .= " (+$more lainnya)";
-            }
+                ->unique()
+                ->implode(', ');
         }
 
-        // 🔥 DETAIL FORM (BATASI 2)
+        // 🔥 DETAIL FORM (SEMUA)
         $formTitles = '-';
         if ($user && $user->formSubmissions->count() > 0) {
-            $titles = $user->formSubmissions
+            $formTitles = $user->formSubmissions
                 ->pluck('form.title')
                 ->filter()
-                ->take(2);
-
-            $more = $user->formSubmissions->count() - $titles->count();
-
-            $formTitles = $titles->implode(', ');
-            if ($more > 0) {
-                $formTitles .= " (+$more lainnya)";
-            }
+                ->unique()
+                ->implode(', ');
         }
 
         return [
@@ -111,7 +99,6 @@ class EmployeesExport implements
     public function styles(Worksheet $sheet)
     {
         return [
-            // HEADER
             1 => [
                 'font' => ['bold' => true],
                 'alignment' => [
@@ -120,7 +107,6 @@ class EmployeesExport implements
                 ],
             ],
 
-            // SEMUA DATA
             'A:L' => [
                 'alignment' => [
                     'vertical' => 'center',
