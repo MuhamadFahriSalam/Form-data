@@ -57,4 +57,16 @@ class User extends Authenticatable
     {
         return $this->role === 'user';
     }
+
+    // Relasi dengan Employee (1-1)
+    public function quizAttempts()
+    {
+        return $this->hasMany(\App\Models\QuizAttempt::class);
+    }
+
+    // Relasi dengan FormSubmission (1-N)
+    public function formSubmissions()
+    {
+        return $this->hasMany(\App\Models\FormSubmission::class);
+    }
 }

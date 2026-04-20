@@ -107,6 +107,8 @@
                     <th class="px-6 py-3 font-medium">Jabatan</th>
                     <th class="px-6 py-3 font-medium">Departemen</th>
                     <th class="px-6 py-3 font-medium">Status</th>
+                    <th class="px-6 py-3 font-medium">Form</th>
+                    <th class="px-6 py-3 font-medium">Quiz</th>
                     <th class="px-6 py-3 font-medium text-center">Aksi</th>
                 </tr>
             </thead>
@@ -122,14 +124,38 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->jabatan }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->departemen }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->status }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if ($e->user && $e->user->quizAttempts->count() > 0)
+                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold">
+                                    Sudah
+                                </span>
+                            @else
+                                <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
+                                    Belum
+                                </span>
+                            @endif
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if ($e->user && $e->user->formSubmissions->count() > 0)
+                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold">
+                                    Sudah
+                                </span>
+                            @else
+                                <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
+                                    Belum
+                                </span>
+                            @endif
+                        </td>
+
                         <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <button
+                            {{-- <button
                                 type="button"
                                 class="font-medium text-blue-600 hover:underline mr-3"
                                 wire:click="edit({{ $e->id }})"
                             >
                                 Edit
-                            </button>
+                            </button> --}}
 
                             <button
                                 type="button"

@@ -203,9 +203,13 @@ class Index extends Component
     public function render()
     {
         $employees = Employee::query()
+            ->with([
+                'user.quizAttempts',
+                'user.formSubmissions'
+            ])
             ->when($this->search !== '', function ($q) {
                 $q->where(function ($qq) {
-                    $qq->where('nik', 'like', "%{$this->search}%")
+                    $qq->where('npk', 'like', "%{$this->search}%")
                         ->orWhere('nama', 'like', "%{$this->search}%")
                         ->orWhere('email', 'like', "%{$this->search}%")
                         ->orWhere('departemen', 'like', "%{$this->search}%")
