@@ -135,12 +135,12 @@
                                     class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold cursor-pointer"
                                     title="{{ $titles }}"
                                 >
-                                    {{ $e->user->quizAttempts->count() }} Quiz
+                                  Sudah Mengisi: {{ $e->user->quizAttempts->count() }} Quiz
                                 </span>
 
                             @else
                                 <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
-                                    Belum
+                                    Belum Mengisi Quiz
                                 </span>
                             @endif
                         </td>
@@ -155,12 +155,12 @@
                                     class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-600 font-semibold cursor-pointer"
                                     title="{{ $titles }}"
                                 >
-                                    {{ $e->user->formSubmissions->count() }} Form
+                                  Sudah Mengisi: {{ $e->user->formSubmissions->count() }} Form
                                 </span>
 
                             @else
                                 <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
-                                    Belum
+                                    Belum Mengisi Form
                                 </span>
                             @endif
                         </td>
