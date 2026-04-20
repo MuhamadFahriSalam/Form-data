@@ -107,8 +107,8 @@
                     <th class="px-6 py-3 font-medium">Jabatan</th>
                     <th class="px-6 py-3 font-medium">Departemen</th>
                     <th class="px-6 py-3 font-medium">Status</th>
-                    <th class="px-6 py-3 font-medium">Form</th>
                     <th class="px-6 py-3 font-medium">Quiz</th>
+                    <th class="px-6 py-3 font-medium">Form</th>
                     <th class="px-6 py-3 font-medium text-center">Aksi</th>
                 </tr>
             </thead>
