@@ -204,8 +204,8 @@ class Index extends Component
     {
         $employees = Employee::query()
             ->with([
-                'user.quizAttempts',
-                'user.formSubmissions'
+                'user.quizAttempts.quiz',
+                'user.formSubmissions.form'
             ])
             ->when($this->search !== '', function ($q) {
                 $q->where(function ($qq) {

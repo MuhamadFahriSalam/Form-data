@@ -20,8 +20,8 @@ class EmployeesExport implements
     public function collection()
     {
         return Employee::with([
-                'user.quizAttempts',
-                'user.formSubmissions'
+                'user.quizAttempts.quiz',
+                'user.formSubmissions.form'
             ])
             ->orderBy('id', 'desc')
             ->get();
@@ -39,7 +39,9 @@ class EmployeesExport implements
             'Tanggal Masuk',
             'Status Karyawan',
             'Status Quiz',
+            'Detail Quiz',
             'Status Form',
+            'Detail Form',
         ];
     }
 
@@ -47,13 +49,47 @@ class EmployeesExport implements
     {
         $user = $employee->user;
 
+        // ✅ STATUS QUIZ
         $quizStatus = ($user && $user->quizAttempts->count() > 0)
-            ? 'Sudah'
-            : 'Belum';
+            ? 'Sudah Mengisi'
+            : 'Belum Mengisi';
 
+        // ✅ STATUS FORM
         $formStatus = ($user && $user->formSubmissions->count() > 0)
-            ? 'Sudah'
-            : 'Belum';
+            ? 'Sudah Mengisi'
+            : 'Belum Mengisi';
+
+        // 🔥 DETAIL QUIZ (BATASI 2)
+        $quizTitles = '-';
+        if ($user && $user->quizAttempts->count() > 0) {
+            $titles = $user->quizAttempts
+                ->pluck('quiz.title')
+                ->filter()
+                ->take(2);
+
+            $more = $user->quizAttempts->count() - $titles->count();
+
+            $quizTitles = $titles->implode(', ');
+            if ($more > 0) {
+                $quizTitles .= " (+$more lainnya)";
+            }
+        }
+
+        // 🔥 DETAIL FORM (BATASI 2)
+        $formTitles = '-';
+        if ($user && $user->formSubmissions->count() > 0) {
+            $titles = $user->formSubmissions
+                ->pluck('form.title')
+                ->filter()
+                ->take(2);
+
+            $more = $user->formSubmissions->count() - $titles->count();
+
+            $formTitles = $titles->implode(', ');
+            if ($more > 0) {
+                $formTitles .= " (+$more lainnya)";
+            }
+        }
 
         return [
             $employee->npk,
@@ -65,11 +101,13 @@ class EmployeesExport implements
             optional($employee->tanggal_masuk)->format('d-m-Y'),
             $employee->status,
             $quizStatus,
+            $quizTitles,
             $formStatus,
+            $formTitles,
         ];
     }
 
-    // 🔥 STYLE EXCEL
+    // 🎨 STYLE EXCEL
     public function styles(Worksheet $sheet)
     {
         return [
@@ -83,7 +121,7 @@ class EmployeesExport implements
             ],
 
             // SEMUA DATA
-            'A:J' => [
+            'A:L' => [
                 'alignment' => [
                     'vertical' => 'center',
                 ],

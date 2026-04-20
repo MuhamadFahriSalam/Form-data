@@ -126,28 +126,44 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->status }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($e->user && $e->user->quizAttempts->count() > 0)
-                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold">
-                                    Sudah
+
+                                @php
+                                    $titles = $e->user->quizAttempts->pluck('quiz.title')->implode(', ');
+                                @endphp
+
+                                <span 
+                                    class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold cursor-pointer"
+                                    title="{{ $titles }}"
+                                >
+                                    {{ $e->user->quizAttempts->count() }} Quiz
                                 </span>
+
                             @else
                                 <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
                                     Belum
                                 </span>
                             @endif
                         </td>
-
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($e->user && $e->user->formSubmissions->count() > 0)
-                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold">
-                                    Sudah
+
+                                @php
+                                    $titles = $e->user->formSubmissions->pluck('form.title')->implode(', ');
+                                @endphp
+
+                                <span 
+                                    class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-600 font-semibold cursor-pointer"
+                                    title="{{ $titles }}"
+                                >
+                                    {{ $e->user->formSubmissions->count() }} Form
                                 </span>
+
                             @else
                                 <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
                                     Belum
                                 </span>
                             @endif
                         </td>
-
                         <td class="px-6 py-4 text-center whitespace-nowrap">
                             {{-- <button
                                 type="button"
