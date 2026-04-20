@@ -176,7 +176,7 @@ class Index extends Component
     // Export employee data to Excel
     public function exportExcel()
     {
-        return Excel::download(new EmployeesExport, 'data-karyawan.xlsx');
+        return Excel::download(new EmployeesExport, 'data_karyawan_pengsisi_form & quiz.xlsx');
     }
 
     // Import employee data from Excel
