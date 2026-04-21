@@ -325,10 +325,15 @@
                                             hover:bg-blue-700 
                                             transition shadow-sm ml-auto">
 
-                                        <span wire:loading.remove>Ya, Kirim</span>
-                                        <span wire:loading>Mengirim...</span>
-                                    </button>
+                                        <!-- hanya aktif saat submit -->
+                                        <span wire:loading.remove wire:target="submit">
+                                            Ya, Kirim
+                                        </span>
 
+                                        <span wire:loading wire:target="submit">
+                                            Mengirim...
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
