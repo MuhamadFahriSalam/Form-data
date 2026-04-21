@@ -85,7 +85,7 @@
                                 </p> --}}
 
                                 <!-- SCORE CARD -->
-                                @if($totalScore > 0)
+                                @if($hasAttempt)
                                     <div class="mt-5 rounded-2xl bg-slate-50 p-4 border border-slate-200">
 
                                         <p class="text-sm text-slate-600">
