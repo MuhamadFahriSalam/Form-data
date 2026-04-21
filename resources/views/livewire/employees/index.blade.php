@@ -107,8 +107,10 @@
                     <th class="px-6 py-3 font-medium">Jabatan</th>
                     <th class="px-6 py-3 font-medium">Departemen</th>
                     <th class="px-6 py-3 font-medium">Status</th>
-                    <th class="px-6 py-3 font-medium">Quiz</th>
-                    <th class="px-6 py-3 font-medium">Form</th>
+
+                    {{-- <th class="px-6 py-3 font-medium">Quiz</th>
+                    <th class="px-6 py-3 font-medium">Form</th> --}}
+
                     <th class="px-6 py-3 font-medium text-center">Aksi</th>
                 </tr>
             </thead>
@@ -123,7 +125,22 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->no_hp }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->jabatan }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->departemen }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $e->status }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @php
+                                $colors = [
+                                    'Tetap' => 'bg-green-100 text-green-700',
+                                    'Kontrak' => 'bg-yellow-100 text-yellow-700',
+                                    'Magang' => 'bg-blue-100 text-blue-700',
+                                ];
+                            @endphp
+
+                            <span class="px-3 py-1 text-xs rounded-full font-semibold shadow-sm
+                                {{ $colors[$e->status] ?? 'bg-gray-100 text-gray-600' }}">
+                                {{ $e->status ?? '-' }}
+                            </span>
+                        </td>
+                        
+                        {{-- 
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($e->user && $e->user->quizAttempts->count() > 0)
 
@@ -163,7 +180,8 @@
                                     Belum Mengisi Form
                                 </span>
                             @endif
-                        </td>
+                        </td> --}}
+
                         <td class="px-6 py-4 text-center whitespace-nowrap">
                             {{-- <button
                                 type="button"
