@@ -267,12 +267,19 @@
                     @if($showConfirm)
                         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
 
-                            <div class="w-full max-w-md rounded-2xl bg-white shadow-2xl border border-slate-200 p-6">
+                            <div class="
+                                w-full max-w-md 
+                                mx-4
+                                bg-white 
+                                rounded-2xl 
+                                shadow-2xl border border-slate-200 
+                                p-5 sm:p-6
+                                animate-scale-in
+                            ">
 
                                 <!-- HEADER -->
                                 <div class="flex items-start gap-3 mb-4">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600">
-                                        <!-- ICON -->
+                                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600 shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -281,10 +288,10 @@
                                     </div>
 
                                     <div>
-                                        <h2 class="text-base font-semibold text-slate-800">
+                                        <h2 class="text-sm sm:text-base font-semibold text-slate-800">
                                             Konfirmasi Pengiriman
                                         </h2>
-                                        <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+                                        <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
                                             Anda akan mengirim jawaban yang telah diisi.
                                         </p>
                                     </div>
@@ -293,32 +300,35 @@
                                 <!-- INFO -->
                                 <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 mb-5">
                                     <p class="text-xs text-amber-700 leading-relaxed">
-                                        Pastikan seluruh jawaban sudah diperiksa dengan benar.
+                                        Pastikan seluruh jawaban sudah diperiksa dengan benar sebelum dikirim.
                                     </p>
                                 </div>
 
                                 <!-- ACTION -->
-                                <div class="flex justify-end gap-3">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
 
+                                    <!-- BATAL (KIRI) -->
                                     <button 
                                         wire:click="$set('showConfirm', false)"
-                                        class="px-4 py-2 rounded-xl text-sm font-medium 
+                                        class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-medium 
                                             bg-slate-100 text-slate-700 
                                             hover:bg-slate-200 transition">
                                         Batal
                                     </button>
 
+                                    <!-- KIRIM (KANAN) -->
                                     <button 
                                         wire:click="submit"
                                         wire:loading.attr="disabled"
-                                        class="px-4 py-2 rounded-xl text-sm font-medium 
+                                        class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-sm font-medium 
                                             bg-blue-600 text-white 
                                             hover:bg-blue-700 
-                                            transition shadow-sm">
+                                            transition shadow-sm ml-auto">
 
                                         <span wire:loading.remove>Ya, Kirim</span>
                                         <span wire:loading>Mengirim...</span>
                                     </button>
+
                                 </div>
                             </div>
                         </div>
