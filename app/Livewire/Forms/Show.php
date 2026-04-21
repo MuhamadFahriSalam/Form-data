@@ -196,8 +196,8 @@ class Show extends Component
 
         $this->isEditMode = false;
         $this->showConfirm = false;
-
         $this->showResult = false;
+        $this->alreadySubmitted = false;
     }
         
     // Method untuk membatalkan edit dan tetap melihat jawaban lama

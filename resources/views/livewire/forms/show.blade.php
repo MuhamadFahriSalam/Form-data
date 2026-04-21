@@ -258,7 +258,7 @@
                             <button type="button"
                                 wire:click="$set('showConfirm', true)"
                                 class="bg-blue-600 text-white px-5 py-2 rounded-xl">
-                                {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
+                                {{ $isEditMode ? 'Update Jawaban' : 'Kirim Jawaban' }}
                             </button>
                         </div>
                     </form>
