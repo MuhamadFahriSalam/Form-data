@@ -139,7 +139,7 @@
                                 {{ $e->status ?? '-' }}
                             </span>
                         </td>
-                        
+
                         {{-- 
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($e->user && $e->user->quizAttempts->count() > 0)
@@ -161,6 +161,7 @@
                                 </span>
                             @endif
                         </td>
+                        
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($e->user && $e->user->formSubmissions->count() > 0)
 
