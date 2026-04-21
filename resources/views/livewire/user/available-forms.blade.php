@@ -361,18 +361,34 @@
                                         </p>
 
                                         {{-- Info --}}
-                                        <div class="mt-4 space-y-1 text-xs text-slate-500">
-                                            <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+                                        <div class="mt-4 space-y-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-500">
 
-                                            @if ($quiz->start_at)
-                                                <p>🟢 Mulai:
-                                                    {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
-                                            @endif
+                                            <!-- Jumlah Soal -->
+                                            <div class="flex justify-between">
+                                                <span>Soal</span>
+                                                <span>{{ $quiz->questions->count() }}</span>
+                                            </div>
 
-                                            @if ($quiz->end_at)
-                                                <p>🔴 Deadline:
-                                                    {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
-                                            @endif
+                                            <!-- Mulai -->
+                                            <div class="flex justify-between">
+                                                <span>Mulai</span>
+                                                <span>
+                                                    {{ $quiz->start_at 
+                                                        ? \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') 
+                                                        : '-' }}
+                                                </span>
+                                            </div>
+
+                                            <!-- Selesai -->
+                                            <div class="flex justify-between">
+                                                <span>Selesai</span>
+                                                <span>
+                                                    {{ $quiz->end_at 
+                                                        ? \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') 
+                                                        : '-' }}
+                                                </span>
+                                            </div>
+
                                         </div>
 
                                         {{-- Button --}}
