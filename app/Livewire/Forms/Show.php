@@ -170,6 +170,11 @@ class Show extends Component
             }
         });
 
+        // ✅ UPDATE COUNT LANGSUNG
+        $this->attemptCount = FormSubmission::where('form_id', $this->form->id)
+            ->where('user_id', auth()->id())
+            ->count();
+
         // Flash message sukses
         session()->flash('success', 'Jawaban berhasil diperbarui!');
 
