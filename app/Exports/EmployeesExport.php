@@ -17,6 +17,7 @@ class EmployeesExport implements
     ShouldAutoSize,
     WithStyles
 {
+    // 🔥 AMBIL DATA EMPLOYEE + RELASI USER + QUIZ ATTEMPTS + FORM SUBMISSIONS
     public function collection()
     {
         return Employee::with([
@@ -27,6 +28,7 @@ class EmployeesExport implements
             ->get();
     }
 
+    // 🔥 SESUAIKAN KOLOM EXCEL
     public function headings(): array
     {
         return [
@@ -39,12 +41,13 @@ class EmployeesExport implements
             // 'Tanggal Masuk',
             'Status Karyawan',
             'Status Quiz',
-            'Detail Quiz',
+            // 'Detail Quiz',
             'Status Form',
-            'Detail Form',
+            // 'Detail Form',
         ];
     }
 
+    // 🔥 SESUAIKAN KOLOM EXCEL
     public function map($employee): array
     {
         $user = $employee->user;
@@ -89,9 +92,9 @@ class EmployeesExport implements
             // optional($employee->tanggal_masuk)->format('d-m-Y'),
             $employee->status,
             $quizStatus,
-            $quizTitles,
+            // $quizTitles,
             $formStatus,
-            $formTitles,
+            // $formTitles,
         ];
     }
 
