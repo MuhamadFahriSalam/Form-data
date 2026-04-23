@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="mt-2 flex items-center text-sm text-gray-300">
-                        Form: {{ $form->title }}
+                        Judul: {{ $form->title }}
                     </div>
                     
                     <div class="mt-2 flex items-center text-sm text-gray-300">
