@@ -63,7 +63,7 @@
                         Form Tersedia
                     </h2>
                     <p class="mt-1 text-sm text-slate-500">
-                        Lihat form yang sedang dibuka untuk diisi. Form yang belum dibuka atau sudah ditutup tidak akan muncul di sini.
+                        Lihat form yang sedang dibuka untuk diisi.
                     </p>
                 </div>
 
