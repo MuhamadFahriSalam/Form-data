@@ -480,7 +480,24 @@
                 @endforeach
             </div>
             @else
-            <p class="text-slate-500">Belum ada form</p>
+            <div class="flex flex-col items-center justify-center py-16 bg-white border border-slate-200 rounded-3xl shadow-sm">
+
+                {{-- ICON --}}
+                <div class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-blue-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M9 12h6m-6 4h6M9 8h6M5 4h14a2 2 0 012 2v14l-4-3H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                    </svg>
+                </div>
+
+                {{-- TEXT --}}
+                <h3 class="text-lg font-semibold text-slate-800">
+                    Belum ada form tersedia
+                </h3>
+                <p class="mt-2 text-sm text-slate-500 text-center max-w-md">
+                    Form akan muncul di sini setelah admin membuat form baru.
+                </p>
+            </div>
         @endif
     </section>
 
@@ -567,7 +584,24 @@
                 @endforeach
             </div>
             @else
-            <p class="text-slate-500">Belum ada quiz</p>
+            <div class="flex flex-col items-center justify-center py-16 bg-white border border-slate-200 rounded-3xl shadow-sm">
+
+                {{-- ICON --}}
+                <div class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-blue-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M9 12h6m-6 4h6M9 8h6M5 4h14a2 2 0 012 2v14l-4-3H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                    </svg>
+                </div>
+
+                {{-- TEXT --}}
+                <h3 class="text-lg font-semibold text-slate-800">
+                    Belum ada quiz tersedia
+                </h3>
+                <p class="mt-2 text-sm text-slate-500 text-center max-w-md">
+                    Quiz akan muncul di sini setelah admin membuat quiz baru.
+                </p>
+            </div>
         @endif
     </section>
 
