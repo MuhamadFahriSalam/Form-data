@@ -109,7 +109,7 @@
 
                     {{--  WRAPPER --}}
                     <div x-data="{ openModal: false }"
-                        class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                        class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px]sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                         <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -320,7 +320,7 @@
 
                             {{-- WRAPPER --}}
                             <div x-data="{ openModal: false }"
-                                class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                                class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                                 <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
