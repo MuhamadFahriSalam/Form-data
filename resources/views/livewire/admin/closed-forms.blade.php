@@ -140,11 +140,14 @@
                 </div>
 
             @else
-
-                <div class="text-center py-10 text-slate-500">
-                    Belum ada form yang ditutup
+                <div class="text-center py-20 bg-white rounded-3xl shadow">
+                    <h3 class="text-2xl font-bold text-slate-800">
+                        Belum ada form ditutup
+                    </h3>
+                    <p class="text-slate-500 mt-2">
+                        Form yang selesai akan muncul di sini.
+                    </p>
                 </div>
-
             @endif
         </div>
     </div>
