@@ -3,14 +3,28 @@
 {{-- content --}}
 <div class="max-w-7xl mx-auto p-6 space-y-6">
 
+    {{-- success --}}
     @if (session('success'))
-        <div class="p-3 bg-green-100 text-green-800 rounded">
+        <div 
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition
+            class="fixed top-20 right-5 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm"
+        >
             {{ session('success') }}
         </div>
     @endif
 
+    {{-- error --}}
     @if (session('error'))
-        <div class="p-3 bg-red-100 text-red-800 rounded">
+        <div 
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition
+            class="fixed top-32 right-5 z-50 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm"
+        >
             {{ session('error') }}
         </div>
     @endif
@@ -88,11 +102,19 @@
             <div class="mx-4 mt-4 text-sm text-red-600">{{ $message }}</div>
         @enderror
 
-        <div wire:loading wire:target="importFile" class="mx-4 mt-4 text-sm text-blue-600">
+        <div 
+            wire:loading 
+            wire:target="importFile"
+            class="fixed top-20 right-5 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm animate-pulse"
+        >
             Mengunggah file...
         </div>
 
-        <div wire:loading wire:target="importExcel" class="mx-4 mt-4 text-sm text-blue-600">
+        <div 
+            wire:loading 
+            wire:target="importExcel"
+            class="fixed top-32 right-5 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm animate-pulse"
+        >
             Mengimpor data Excel...
         </div>
 
