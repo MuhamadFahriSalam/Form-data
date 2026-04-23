@@ -133,7 +133,7 @@
                         {{-- HEADER --}}
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase {{ $attempts->count() > 5 ? 'sticky top-0 z-10' : '' }}">
                             <tr>
-                                <th class="px-6 py-4">#</th>
+                                <th class="px-6 py-4 text-left">No</th>
                                 <th class="px-6 py-4 text-left">Peserta</th>
                                 <th class="px-6 py-4 text-left">Score</th>
                                 <th class="px-6 py-4 text-left">Tanggal</th>
