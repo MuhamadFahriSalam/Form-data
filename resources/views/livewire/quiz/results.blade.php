@@ -140,47 +140,75 @@
                             </tr>
                         </thead>
 
+                        {{-- BODY --}}
                         <tbody class="divide-y">
 
-                            @foreach ($attempts as $index => $attempt)
-                                <tr
-                                    x-show="'{{ strtolower($attempt->user->name ?? '') }}'.includes(search.toLowerCase())"
-                                    class="hover:bg-slate-50 transition"
-                                >
+                            @if ($attempts->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="px-6 py-12 text-center">
 
-                                    <td class="px-6 py-4 font-bold text-slate-600">
-                                        {{ $index + 1 }}
-                                    </td>
+                                        <!-- EMPTY STATE -->
+                                        <div class="flex flex-col items-center justify-center text-center space-y-3">
 
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-
-                                            <div class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700">
-                                                {{ strtoupper(substr($attempt->user->name ?? 'U', 0, 1)) }}
+                                            <!-- ICON -->
+                                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 text-2xl shadow">
+                                                📝
                                             </div>
 
-                                            <div>
-                                                <p class="font-semibold text-slate-800">
-                                                    {{ $attempt->user->name ?? '-' }}
-                                                </p>
-                                                <p class="text-xs text-slate-500">
-                                                    {{ $attempt->user->email ?? '-' }}
-                                                </p>
-                                            </div>
+                                            <!-- TITLE -->
+                                            <h3 class="text-lg font-semibold text-slate-700">
+                                                Belum ada yang mengisi quiz
+                                            </h3>
+
+                                            <!-- DESC -->
+                                            <p class="text-sm text-slate-500 max-w-xs">
+                                                Data akan muncul setelah peserta mengerjakan quiz.
+                                            </p>
                                         </div>
                                     </td>
-
-                                    <td class="px-6 py-4">
-                                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
-                                            {{ $attempt->score }}
-                                        </span>
-                                    </td>
-
-                                    <td class="px-6 py-4 text-slate-500">
-                                        {{ $attempt->created_at->format('d M Y H:i') }}
-                                    </td>
                                 </tr>
-                            @endforeach
+                            @else
+
+                                @foreach ($attempts as $index => $attempt)
+                                    <tr
+                                        x-show="'{{ strtolower($attempt->user->name ?? '') }}'.includes(search.toLowerCase())"
+                                        class="hover:bg-slate-50 transition"
+                                    >
+
+                                        <td class="px-6 py-4 font-bold text-slate-600">
+                                            {{ $index + 1 }}
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+
+                                                <div class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700">
+                                                    {{ strtoupper(substr($attempt->user->name ?? 'U', 0, 1)) }}
+                                                </div>
+
+                                                <div>
+                                                    <p class="font-semibold text-slate-800">
+                                                        {{ $attempt->user->name ?? '-' }}
+                                                    </p>
+                                                    <p class="text-xs text-slate-500">
+                                                        {{ $attempt->user->email ?? '-' }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+                                                {{ $attempt->score }}
+                                            </span>
+                                        </td>
+
+                                        <td class="px-6 py-4 text-slate-500">
+                                            {{ $attempt->created_at->format('d M Y H:i') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
