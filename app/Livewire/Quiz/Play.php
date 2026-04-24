@@ -64,11 +64,11 @@ class Play extends Component
     }
 
     // 🔥 Checkbox hanya 1 pilihan
-    public function selectSingleCheckbox($questionId, $optionId)
-    {
-        $this->answers[$questionId] = [];
-        $this->answers[$questionId][$optionId] = 1;
-    }
+    // public function selectSingleCheckbox($questionId, $optionId)
+    // {
+    //     $this->answers[$questionId] = [];
+    //     $this->answers[$questionId][$optionId] = 1;
+    // }
 
     // SUBMIT
     public function submit()
@@ -103,12 +103,15 @@ class Play extends Component
                     ->pluck('id')
                     ->toArray();
 
-                // 🔥 FIX: handle jawaban kosong
+                // 🔥 FIX: handle jawaban user
                 if (is_array($answer)) {
-                    $selectedOptions = array_keys(array_filter($answer));
+                    $selectedOptions = $answer; // langsung ambil
                 } else {
                     $selectedOptions = !is_null($answer) ? [$answer] : [];
                 }
+
+                // 🔥 bersihkan null
+                $selectedOptions = array_filter($selectedOptions);
 
                 // 🔥 safety extra (hindari null)
                 $selectedOptions = array_filter($selectedOptions);

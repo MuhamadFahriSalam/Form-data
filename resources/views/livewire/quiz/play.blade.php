@@ -170,18 +170,41 @@
                                     </p>
 
                                     <div class="space-y-3">
+
+                                        {{-- INFO MULTIPLE --}}
+                                        @if($question->is_multiple)
+                                            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
+                                                Pilih lebih dari satu jawaban
+                                            </span>
+                                        @endif
+
+                                        {{-- OPTIONS --}}
                                         @foreach ($question->options as $option)
                                             <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm cursor-pointer hover:bg-blue-50">
-                                                
-                                                <input
-                                                    type="radio"
-                                                    name="question_{{ $question->id }}"
-                                                    wire:model.live="answers.{{ $question->id }}"
-                                                    value="{{ $option->id }}"
-                                                >
+
+                                                @if ($question->is_multiple)
+                                                    <!-- MULTIPLE -->
+                                                    <input
+                                                        type="checkbox"
+                                                        wire:model="answers.{{ $question->id }}"
+                                                        value="{{ $option->id }}"
+                                                        class="accent-blue-600"
+                                                    >
+                                                @else
+                                                    <!-- SINGLE -->
+                                                    <input
+                                                        type="radio"
+                                                        name="question_{{ $question->id }}"
+                                                        wire:model="answers.{{ $question->id }}"
+                                                        value="{{ $option->id }}"
+                                                        class="accent-blue-600"
+                                                    >
+                                                @endif
+
                                                 <span>{{ $option->text }}</span>
                                             </label>
                                         @endforeach
+
                                     </div>
                                 </div>
 
