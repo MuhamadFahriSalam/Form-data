@@ -70,7 +70,7 @@
 
                                 <!-- TITLE -->
                                 <h2 class="text-lg font-semibold text-slate-900">
-                                    Anda sudah mengisi quiz ini
+                                    Anda sudah mengisi form ini
                                 </h2>
 
                                 <!-- DESC -->
