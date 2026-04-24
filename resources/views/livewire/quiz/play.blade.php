@@ -215,7 +215,10 @@
                                     <button
                                         type="button"
                                         wire:click="prev"
-                                        class="w-full sm:w-auto px-5 py-3 bg-gray-200 text-gray-700 rounded-xl font-medium disabled:opacity-50"
+                                        class="w-full sm:w-auto px-5 py-3 rounded-xl font-medium transition
+                                        {{ $currentQuestion == 0 
+                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 shadow-sm' }}"
                                         @if($currentQuestion == 0) disabled @endif
                                     >
                                         Sebelumnya
