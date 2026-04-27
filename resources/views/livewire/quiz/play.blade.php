@@ -85,7 +85,7 @@
                                 </p> --}}
 
                                 <!-- SCORE CARD -->
-                                @if($totalScore > 0)
+                                @if($hasAttempt)
                                     <div class="mt-5 rounded-2xl bg-slate-50 p-4 border border-slate-200">
 
                                         <p class="text-sm text-slate-600">
@@ -170,18 +170,41 @@
                                     </p>
 
                                     <div class="space-y-3">
+
+                                        {{-- INFO MULTIPLE --}}
+                                        @if($question->is_multiple)
+                                            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
+                                                Pilih lebih dari satu jawaban
+                                            </span>
+                                        @endif
+
+                                        {{-- OPTIONS --}}
                                         @foreach ($question->options as $option)
                                             <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm cursor-pointer hover:bg-blue-50">
-                                                
-                                                <input
-                                                    type="radio"
-                                                    name="question_{{ $question->id }}"
-                                                    wire:model.live="answers.{{ $question->id }}"
-                                                    value="{{ $option->id }}"
-                                                >
+
+                                                @if ($question->is_multiple)
+                                                    <!-- MULTIPLE -->
+                                                    <input
+                                                        type="checkbox"
+                                                        wire:model="answers.{{ $question->id }}"
+                                                        value="{{ $option->id }}"
+                                                        class="accent-blue-600"
+                                                    >
+                                                @else
+                                                    <!-- SINGLE -->
+                                                    <input
+                                                        type="radio"
+                                                        name="question_{{ $question->id }}"
+                                                        wire:model="answers.{{ $question->id }}"
+                                                        value="{{ $option->id }}"
+                                                        class="accent-blue-600"
+                                                    >
+                                                @endif
+
                                                 <span>{{ $option->text }}</span>
                                             </label>
                                         @endforeach
+
                                     </div>
                                 </div>
 
@@ -192,7 +215,10 @@
                                     <button
                                         type="button"
                                         wire:click="prev"
-                                        class="w-full sm:w-auto px-5 py-3 bg-gray-200 text-gray-700 rounded-xl font-medium disabled:opacity-50"
+                                        class="w-full sm:w-auto px-5 py-3 rounded-xl font-medium transition
+                                        {{ $currentQuestion == 0 
+                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 shadow-sm' }}"
                                         @if($currentQuestion == 0) disabled @endif
                                     >
                                         Sebelumnya

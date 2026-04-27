@@ -42,7 +42,7 @@
             <div class="px-6 py-8 sm:px-8">
 
                 {{-- 🔥 MODE PILIHAN (SEPERTI QUIZ) --}}
-                @if ($showConfirm)
+                @if ($showResult)
                     <div class="mb-6 max-w-xl mx-auto">
                         <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
                             <!-- ACCENT LINE -->
@@ -70,7 +70,7 @@
 
                                 <!-- TITLE -->
                                 <h2 class="text-lg font-semibold text-slate-900">
-                                    Anda sudah mengisi quiz ini
+                                    Anda sudah mengisi form ini
                                 </h2>
 
                                 <!-- DESC -->
@@ -255,12 +255,89 @@
                             </a>
 
                             <!-- BUTTON SUBMIT -->
-                            <button type="submit"
-                                class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition">
-                                {{ $alreadySubmitted ? 'Update Jawaban' : 'Kirim Jawaban' }}
+                            <button type="button"
+                                wire:click="$set('showConfirm', true)"
+                                class="bg-blue-600 text-white px-5 py-2 rounded-xl">
+                                {{ $isEditMode ? 'Update Jawaban' : 'Kirim Jawaban' }}
                             </button>
                         </div>
                     </form>
+
+                    <!-- MODAL KONFIRMASI -->
+                    @if($showConfirm)
+                        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+
+                            <div class="
+                                w-full max-w-md 
+                                mx-4
+                                bg-white 
+                                rounded-2xl 
+                                shadow-2xl border border-slate-200 
+                                p-5 sm:p-6
+                                animate-scale-in
+                            ">
+
+                                <!-- HEADER -->
+                                <div class="flex items-start gap-3 mb-4">
+                                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600 shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                                        </svg>
+                                    </div>
+
+                                    <div>
+                                        <h2 class="text-sm sm:text-base font-semibold text-slate-800">
+                                            Konfirmasi Pengiriman
+                                        </h2>
+                                        <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
+                                            Anda akan mengirim jawaban yang telah diisi.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- INFO -->
+                                <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 mb-5">
+                                    <p class="text-xs text-amber-700 leading-relaxed">
+                                        Pastikan seluruh jawaban sudah diperiksa dengan benar sebelum dikirim.
+                                    </p>
+                                </div>
+
+                                <!-- ACTION -->
+                                <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+
+                                    <!-- BATAL (KIRI) -->
+                                    <button 
+                                        wire:click="$set('showConfirm', false)"
+                                        class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-medium 
+                                            bg-slate-100 text-slate-700 
+                                            hover:bg-slate-200 transition">
+                                        Batal
+                                    </button>
+
+                                    <!-- KIRIM (KANAN) -->
+                                    <button 
+                                        wire:click="submit"
+                                        wire:loading.attr="disabled"
+                                        class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-sm font-medium 
+                                            bg-blue-600 text-white 
+                                            hover:bg-blue-700 
+                                            transition shadow-sm ml-auto">
+
+                                        <!-- hanya aktif saat submit -->
+                                        <span wire:loading.remove wire:target="submit">
+                                            Ya, Kirim
+                                        </span>
+
+                                        <span wire:loading wire:target="submit">
+                                            Mengirim...
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

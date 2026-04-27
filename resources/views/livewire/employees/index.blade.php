@@ -3,14 +3,28 @@
 {{-- content --}}
 <div class="max-w-7xl mx-auto p-6 space-y-6">
 
+    {{-- success --}}
     @if (session('success'))
-        <div class="p-3 bg-green-100 text-green-800 rounded">
+        <div 
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition
+            class="fixed top-20 right-5 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm"
+        >
             {{ session('success') }}
         </div>
     @endif
 
+    {{-- error --}}
     @if (session('error'))
-        <div class="p-3 bg-red-100 text-red-800 rounded">
+        <div 
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition
+            class="fixed top-32 right-5 z-50 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm"
+        >
             {{ session('error') }}
         </div>
     @endif
@@ -36,7 +50,7 @@
                     <input
                         type="text"
                         wire:model.live="search"
-                        placeholder="Cari NIK, nama, email, departemen..."
+                        placeholder="Cari NPK, nama, email, departemen..."
                         class="w-80 rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm text-white placeholder:text-gray-300 focus:border-white/40 focus:outline-none"
                     >
                 </div>
@@ -88,11 +102,19 @@
             <div class="mx-4 mt-4 text-sm text-red-600">{{ $message }}</div>
         @enderror
 
-        <div wire:loading wire:target="importFile" class="mx-4 mt-4 text-sm text-blue-600">
+        <div 
+            wire:loading 
+            wire:target="importFile"
+            class="fixed top-20 right-5 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm animate-pulse"
+        >
             Mengunggah file...
         </div>
 
-        <div wire:loading wire:target="importExcel" class="mx-4 mt-4 text-sm text-blue-600">
+        <div 
+            wire:loading 
+            wire:target="importExcel"
+            class="fixed top-32 right-5 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm animate-pulse"
+        >
             Mengimpor data Excel...
         </div>
 
@@ -107,6 +129,10 @@
                     <th class="px-6 py-3 font-medium">Jabatan</th>
                     <th class="px-6 py-3 font-medium">Departemen</th>
                     <th class="px-6 py-3 font-medium">Status</th>
+
+                    {{-- <th class="px-6 py-3 font-medium">Quiz</th>
+                    <th class="px-6 py-3 font-medium">Form</th> --}}
+
                     <th class="px-6 py-3 font-medium text-center">Aksi</th>
                 </tr>
             </thead>
@@ -121,15 +147,72 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->no_hp }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->jabatan }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $e->departemen }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $e->status }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @php
+                                $colors = [
+                                    'Tetap' => 'bg-green-100 text-green-700',
+                                    'Kontrak' => 'bg-yellow-100 text-yellow-700',
+                                    'Magang' => 'bg-blue-100 text-blue-700',
+                                ];
+                            @endphp
+
+                            <span class="px-3 py-1 text-xs rounded-full font-semibold shadow-sm
+                                {{ $colors[$e->status] ?? 'bg-gray-100 text-gray-600' }}">
+                                {{ $e->status ?? '-' }}
+                            </span>
+                        </td>
+
+                        {{-- 
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if ($e->user && $e->user->quizAttempts->count() > 0)
+
+                                @php
+                                    $titles = $e->user->quizAttempts->pluck('quiz.title')->implode(', ');
+                                @endphp
+
+                                <span 
+                                    class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold cursor-pointer"
+                                    title="{{ $titles }}"
+                                >
+                                  Sudah Mengisi: {{ $e->user->quizAttempts->count() }} Quiz
+                                </span>
+
+                            @else
+                                <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
+                                    Belum Mengisi Quiz
+                                </span>
+                            @endif
+                        </td>
+                        
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if ($e->user && $e->user->formSubmissions->count() > 0)
+
+                                @php
+                                    $titles = $e->user->formSubmissions->pluck('form.title')->implode(', ');
+                                @endphp
+
+                                <span 
+                                    class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-600 font-semibold cursor-pointer"
+                                    title="{{ $titles }}"
+                                >
+                                  Sudah Mengisi: {{ $e->user->formSubmissions->count() }} Form
+                                </span>
+
+                            @else
+                                <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600 font-semibold">
+                                    Belum Mengisi Form
+                                </span>
+                            @endif
+                        </td> --}}
+
                         <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <button
+                            {{-- <button
                                 type="button"
                                 class="font-medium text-blue-600 hover:underline mr-3"
                                 wire:click="edit({{ $e->id }})"
                             >
                                 Edit
-                            </button>
+                            </button> --}}
 
                             <button
                                 type="button"

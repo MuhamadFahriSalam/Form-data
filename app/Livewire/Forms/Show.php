@@ -16,6 +16,7 @@ class Show extends Component
     public array $answers = [];
     public bool $alreadySubmitted = false;
     public bool $showConfirm = false;
+    public bool $showResult = false;
     public bool $isEditMode = false;
     public int $attemptCount = 0;
     public int $maxAttempt = 3;
@@ -46,7 +47,7 @@ class Show extends Component
         // kalau ada submission
         if ($submission) {
             $this->alreadySubmitted = true;
-            $this->showConfirm = true;
+            $this->showResult = true;
 
             foreach ($submission->answers as $answer) {
                 $value = json_decode($answer->answer, true);
@@ -169,11 +170,20 @@ class Show extends Component
             }
         });
 
+        // ✅ UPDATE COUNT LANGSUNG
+        $this->attemptCount = FormSubmission::where('form_id', $this->form->id)
+            ->where('user_id', auth()->id())
+            ->count();
+
         // Flash message sukses
         session()->flash('success', 'Jawaban berhasil diperbarui!');
 
+        $this->showConfirm = false;
+        $this->showResult = true;
+        session()->flash('success', 'Jawaban berhasil dikirim!');
+
         // ✅ Livewire redirect (tanpa return)
-        $this->redirect(route('user.dashboard'));
+        // $this->redirect(route('user.dashboard'));
     }
 
     // Method untuk memulai ulang form (reset jawaban)
@@ -191,6 +201,8 @@ class Show extends Component
 
         $this->isEditMode = false;
         $this->showConfirm = false;
+        $this->showResult = false;
+        $this->alreadySubmitted = false;
     }
         
     // Method untuk membatalkan edit dan tetap melihat jawaban lama
@@ -198,6 +210,8 @@ class Show extends Component
     {
         $this->isEditMode = true;
         $this->showConfirm = false;
+
+        $this->showResult = false;
     }
 
     // Method untuk menampilkan detail jawaban responden

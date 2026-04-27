@@ -63,7 +63,7 @@
                         Form Tersedia
                     </h2>
                     <p class="mt-1 text-sm text-slate-500">
-                        Lihat form yang sedang dibuka untuk diisi. Form yang belum dibuka atau sudah ditutup tidak akan muncul di sini.
+                        Lihat form yang sedang dibuka untuk diisi.
                     </p>
                 </div>
 
@@ -109,7 +109,7 @@
 
                     {{--  WRAPPER --}}
                     <div x-data="{ openModal: false }"
-                        class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                        class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px]sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                         <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -320,7 +320,7 @@
 
                             {{-- WRAPPER --}}
                             <div x-data="{ openModal: false }"
-                                class="min-w-[100%] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                                class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                                 <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -361,18 +361,34 @@
                                         </p>
 
                                         {{-- Info --}}
-                                        <div class="mt-4 space-y-1 text-xs text-slate-500">
-                                            <p>📌 Soal: {{ $quiz->questions->count() }}</p>
+                                        <div class="mt-4 space-y-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-500">
 
-                                            @if ($quiz->start_at)
-                                                <p>🟢 Mulai:
-                                                    {{ \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') }}</p>
-                                            @endif
+                                            <!-- Jumlah Soal -->
+                                            <div class="flex justify-between">
+                                                <span>Soal</span>
+                                                <span>{{ $quiz->questions->count() }}</span>
+                                            </div>
 
-                                            @if ($quiz->end_at)
-                                                <p>🔴 Deadline:
-                                                    {{ \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') }}</p>
-                                            @endif
+                                            <!-- Mulai -->
+                                            <div class="flex justify-between">
+                                                <span>Mulai</span>
+                                                <span>
+                                                    {{ $quiz->start_at 
+                                                        ? \Carbon\Carbon::parse($quiz->start_at)->format('d M Y H:i') 
+                                                        : '-' }}
+                                                </span>
+                                            </div>
+
+                                            <!-- Selesai -->
+                                            <div class="flex justify-between">
+                                                <span>Selesai</span>
+                                                <span>
+                                                    {{ $quiz->end_at 
+                                                        ? \Carbon\Carbon::parse($quiz->end_at)->format('d M Y H:i') 
+                                                        : '-' }}
+                                                </span>
+                                            </div>
+
                                         </div>
 
                                         {{-- Button --}}

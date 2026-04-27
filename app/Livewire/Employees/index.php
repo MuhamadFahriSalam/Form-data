@@ -176,7 +176,7 @@ class Index extends Component
     // Export employee data to Excel
     public function exportExcel()
     {
-        return Excel::download(new EmployeesExport, 'data-karyawan.xlsx');
+        return Excel::download(new EmployeesExport, 'data_karyawan_pengsisi_form & quiz.xlsx');
     }
 
     // Import employee data from Excel
@@ -203,9 +203,13 @@ class Index extends Component
     public function render()
     {
         $employees = Employee::query()
+            ->with([
+                'user.quizAttempts.quiz',
+                'user.formSubmissions.form'
+            ])
             ->when($this->search !== '', function ($q) {
                 $q->where(function ($qq) {
-                    $qq->where('nik', 'like', "%{$this->search}%")
+                    $qq->where('npk', 'like', "%{$this->search}%")
                         ->orWhere('nama', 'like', "%{$this->search}%")
                         ->orWhere('email', 'like', "%{$this->search}%")
                         ->orWhere('departemen', 'like', "%{$this->search}%")

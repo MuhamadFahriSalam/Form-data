@@ -1,4 +1,12 @@
-<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md shadow-sm">
+<nav 
+    x-data="{ open: false }"
+    x-init="
+        open = false;
+        document.addEventListener('livewire:navigated', () => open = false);
+    "
+    x-effect="document.body.classList.toggle('overflow-hidden', open)"
+    class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md shadow-sm"
+    >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             
@@ -101,7 +109,13 @@
     </div>
 
     <!-- Mobile Navigation -->
-    <div x-show="open" x-transition class="border-t border-slate-200 bg-white/95 backdrop-blur sm:hidden">
+    <div 
+        x-show="open"
+        x-transition
+        x-cloak
+        @click.outside="open = false"
+        class="border-t border-slate-200 bg-white/95 backdrop-blur sm:hidden"
+        >
         <div class="space-y-2 px-4 py-4">
             @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.dashboard') }}"
