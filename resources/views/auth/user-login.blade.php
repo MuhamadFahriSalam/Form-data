@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    
-    <!-- Favicon -->
-    @vite('resources/css/app.css')
 
-    <!-- Tailwind CSS -->
+    <!-- Vite (CSS + JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Font -->
@@ -15,6 +12,9 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
+
+        /* Hide sebelum Alpine jalan */
+        [x-cloak] { display: none !important; }
 
         /* Shake animation */
         @keyframes shake {
@@ -28,7 +28,8 @@
 
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-blue-100 flex items-center justify-center px-4">
 
-    <div class="w-full max-w-md sm:max-w-lg lg:max-w-md" x-data="{ show: false, loading: false }">
+    <div class="w-full max-w-md sm:max-w-lg lg:max-w-md"
+         x-data="{ show: false, loading: false }">
 
         <!-- Card -->
         <div class="backdrop-blur-xl bg-white/90 shadow-xl sm:shadow-2xl rounded-2xl sm:rounded-3xl border border-white/40 overflow-hidden transition-all duration-300">
@@ -39,7 +40,7 @@
 
                 <div class="relative flex flex-col items-center gap-3">
 
-                    <!-- 🔥 LOGO -->
+                    <!-- Logo -->
                     <div class="flex items-center gap-2">
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl 
                             bg-white/20 backdrop-blur-md border border-white/30 
@@ -54,7 +55,6 @@
                         </div>
                     </div>
 
-                    <!-- TEXT -->
                     <div class="text-center">
                         <h2 class="text-lg sm:text-2xl font-semibold tracking-wide">
                             Welcome Back 👋
@@ -75,8 +75,10 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('website.login') }}" class="space-y-5 sm:space-y-6"
-                    @submit="loading = true">
+                <form method="POST"
+                      action="{{ route('website.login') }}"
+                      class="space-y-5 sm:space-y-6"
+                      @submit="loading = true">
                     @csrf
 
                     <!-- NPK -->
@@ -138,14 +140,15 @@
                     <!-- Button -->
                     <button
                         type="submit"
-                        class="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 text-sm sm:text-base font-semibold shadow-md sm:shadow-lg transition active:scale-[0.97] flex items-center justify-center gap-2"
+                        @click="loading = true"
                         :disabled="loading"
+                        class="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 text-sm sm:text-base font-semibold shadow-md sm:shadow-lg transition active:scale-[0.97] flex items-center justify-center gap-2"
                     >
-                        <!-- NORMAL -->
-                        <span x-show="!loading">Login</span>
+                        <!-- TEXT -->
+                        <span x-show="!loading" x-cloak>Login</span>
 
                         <!-- SPINNER -->
-                        <span x-show="loading" class="flex items-center justify-center">
+                        <span x-show="loading" x-cloak class="flex items-center justify-center">
                             <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
                                 <circle 
                                     class="opacity-25"
