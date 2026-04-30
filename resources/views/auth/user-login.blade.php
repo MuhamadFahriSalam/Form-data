@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <!-- Vite (CSS + JS) -->
+    <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Font -->
@@ -13,7 +13,6 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
 
-        /* Hide sebelum Alpine jalan */
         [x-cloak] { display: none !important; }
 
         /* Shake animation */
@@ -28,8 +27,7 @@
 
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-blue-100 flex items-center justify-center px-4">
 
-    <div class="w-full max-w-md sm:max-w-lg lg:max-w-md"
-         x-data="{ show: false, loading: false }">
+    <div class="w-full max-w-md sm:max-w-lg lg:max-w-md" x-data="{ show: false, loading: false }">
 
         <!-- Card -->
         <div class="backdrop-blur-xl bg-white/90 shadow-xl sm:shadow-2xl rounded-2xl sm:rounded-3xl border border-white/40 overflow-hidden transition-all duration-300">
@@ -40,7 +38,7 @@
 
                 <div class="relative flex flex-col items-center gap-3">
 
-                    <!-- Logo -->
+                    <!-- 🔥 LOGO -->
                     <div class="flex items-center gap-2">
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl 
                             bg-white/20 backdrop-blur-md border border-white/30 
@@ -55,6 +53,7 @@
                         </div>
                     </div>
 
+                    <!-- TEXT -->
                     <div class="text-center">
                         <h2 class="text-lg sm:text-2xl font-semibold tracking-wide">
                             Welcome Back 👋
@@ -75,95 +74,72 @@
                     </div>
                 @endif
 
-                <form method="POST"
-                      action="{{ route('website.login') }}"
-                      class="space-y-5 sm:space-y-6"
-                      @submit="loading = true">
-                    @csrf
+            <form method="POST"
+                action="{{ route('website.login') }}"
+                class="space-y-5 sm:space-y-6"
+                @submit.prevent="loading = true; $el.submit()">
+                @csrf
 
-                    <!-- NPK -->
-                    <div class="relative">
-                        <input
-                            type="text"
-                            name="npk"
-                            value="{{ old('npk') }}"
-                            maxlength="6"
-                            inputmode="numeric"
-                            placeholder=" "
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6)"
-                            class="peer w-full rounded-xl border border-slate-200 px-4 pt-5 pb-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                        >
-                        <label class="absolute left-4 top-2 text-xs text-slate-500 
-                                    peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm 
-                                    peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500">
-                            NPK
-                        </label>
-                    </div>
-
-                    <!-- Password -->
-                    <div class="relative">
-                        <input
-                            type="password"
-                            :type="show ? 'text' : 'password'"
-                            name="password"
-                            placeholder=" "
-                            class="peer w-full rounded-xl border border-slate-200 px-4 pt-5 pb-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                        >
-
-                        <label class="absolute left-4 top-2 text-xs text-slate-500 
-                                    peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm 
-                                    peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500">
-                            Password
-                        </label>
-
-                        <!-- Toggle -->
-                        <button type="button"
-                                @click="show = !show"
-                                class="absolute right-3 top-3 text-slate-400 hover:text-blue-500">
-                            👁
-                        </button>
-                    </div>
-
-                    <!-- Remember -->
-                    <div class="flex items-center justify-between text-xs sm:text-sm">
-                        <label class="flex items-center gap-2 text-slate-500">
-                            <input type="checkbox" name="remember"
-                                class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
-                            Remember me
-                        </label>
-
-                        <a href="#" class="text-blue-500 hover:underline">
-                            Lupa password?
-                        </a>
-                    </div>
-
-                    <!-- Button -->
-                    <button
-                        type="submit"
-                        @click="loading = true"
-                        :disabled="loading"
-                        class="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 text-sm sm:text-base font-semibold shadow-md sm:shadow-lg transition active:scale-[0.97] flex items-center justify-center gap-2"
+                <!-- NPK -->
+                <div class="relative">
+                    <input
+                        type="text"
+                        name="npk"
+                        value="{{ old('npk') }}"
+                        maxlength="6"
+                        inputmode="numeric"
+                        placeholder=" "
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6)"
+                        class="peer w-full rounded-xl border border-slate-200 px-4 pt-5 pb-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                     >
-                        <!-- TEXT -->
-                        <span x-show="!loading" x-cloak>Login</span>
+                    <label class="absolute left-4 top-2 text-xs text-slate-500 
+                                peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm 
+                                peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500">
+                        NPK
+                    </label>
+                </div>
 
-                        <!-- SPINNER -->
-                        <span x-show="loading" x-cloak class="flex items-center justify-center">
-                            <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                <circle 
-                                    class="opacity-25"
-                                    cx="12" cy="12" r="10"
-                                    stroke="white" stroke-width="4" fill="none">
-                                </circle>
-                                <path 
-                                    class="opacity-75"
-                                    fill="white"
-                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
-                                </path>
-                            </svg>
-                        </span>
+                <!-- Password -->
+                <div class="relative">
+                    <input
+                        type="password"
+                        :type="show ? 'text' : 'password'"
+                        name="password"
+                        placeholder=" "
+                        class="peer w-full rounded-xl border border-slate-200 px-4 pt-5 pb-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    >
+
+                    <label class="absolute left-4 top-2 text-xs text-slate-500 
+                                peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm 
+                                peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500">
+                        Password
+                    </label>
+
+                    <button type="button"
+                            @click="show = !show"
+                            class="absolute right-3 top-3 text-slate-400 hover:text-blue-500">
+                        👁
                     </button>
-                </form>
+                </div>
+
+                <!-- Button -->
+                <button
+                    type="submit"
+                    :disabled="loading"
+                    class="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 font-semibold flex items-center justify-center gap-2"
+                >
+                    <!-- TEXT -->
+                    <span x-show="!loading" x-cloak>Login</span>
+
+                    <!-- SPINNER -->
+                    <span x-show="loading" x-cloak class="flex items-center justify-center">
+                        <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="4" fill="none"></circle>
+                            <path fill="white" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                    </span>
+                </button>
+            </form>
             </div>
         </div>
 
