@@ -121,6 +121,18 @@
                         👁
                     </button>
                 </div>
+                <!-- Remember -->
+                <div class="flex items-center justify-between text-xs sm:text-sm">
+                    <label class="flex items-center gap-2 text-slate-500">
+                        <input type="checkbox" name="remember"
+                            class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                         Remember me
+                    </label>
+
+                    <a href="#" class="text-blue-500 hover:underline">
+                        Lupa password?
+                    </a>
+                </div>
 
                 <!-- Button -->
                 <button
@@ -139,6 +151,7 @@
                         </svg>
                     </span>
                 </button>
+
             </form>
             </div>
         </div>
