@@ -14,11 +14,8 @@ class Create extends Component
     public string $description = '';
     public ?string $start_at = null;
     public ?string $end_at = null;
-
     public ?int $formId = null;
-
     public array $questions = [];
-
     public string $status = 'draft'; // default draft
 
     // Initialize with one empty question
