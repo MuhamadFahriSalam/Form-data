@@ -15,6 +15,29 @@
         body{
             font-family: 'Poppins', sans-serif;
         }
+
+        @keyframes heroMove {
+
+            0%{
+                transform: scale(1.05) translateX(0px) translateY(0px);
+            }
+
+            25%{
+                transform: scale(1.1) translateX(-20px) translateY(-10px);
+            }
+
+            50%{
+                transform: scale(1.12) translateX(20px) translateY(10px);
+            }
+
+            75%{
+                transform: scale(1.08) translateX(-15px) translateY(5px);
+            }
+
+            100%{
+                transform: scale(1.15) translateX(10px) translateY(-5px);
+            }
+        }
     </style>
 </head>
 
@@ -85,18 +108,23 @@
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-        <!-- Background Image -->
-        <div class="absolute inset-0">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 overflow-hidden">
 
+            <!-- Moving Image -->
             <img
                 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600"
                 alt="Background"
-                class="w-full h-full object-cover"
+                class="absolute inset-0 w-[110%] h-[110%] object-cover
+                    animate-[heroMove_20s_ease-in-out_infinite_alternate]"
             >
-
+            
             <!-- Overlay -->
-            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="absolute inset-0 bg-black/55"></div>
 
+            <!-- Floating Glow -->
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl animate-pulse"></div>
         </div>
 
         <!-- Hero Content -->
@@ -104,13 +132,10 @@
 
             <!-- Heading -->
             <h1 class="mt-8 text-5xl md:text-7xl font-bold leading-tight text-white">
-
                 <span class="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent drop-shadow-lg">
                     AISIN
                 </span>
-
-                    Modern Form &
-
+                Modern Form &
                 <span class="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
                     Quiz Management
                 </span>
@@ -118,11 +143,9 @@
 
             <!-- Description -->
             <p class="mt-8 text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto">
-
                 Platform modern untuk membuat quiz, survey,
                 evaluasi, dan form management perusahaan
                 secara cepat, efisien, dan professional.
-
             </p>
 
             <!-- Buttons -->
@@ -130,13 +153,13 @@
 
                 <!-- Button Login -->
                 <a href="{{ route('login') }}"
-                class="bg-gradient-to-r from-blue-500 to-cyan-400 hover:scale-105 duration-300 text-white px-8 py-4 rounded-2xl shadow-2xl text-lg font-semibold">
+                    class="bg-gradient-to-r from-blue-500 to-cyan-400 hover:scale-105 duration-300 text-white px-8 py-4 rounded-2xl shadow-2xl text-lg font-semibold">
                     Get Started
                 </a>
 
                 <!-- Button Learn -->
                 <a href="#features"
-                class="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 duration-300 text-white px-8 py-4 rounded-2xl text-lg">
+                    class="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 duration-300 text-white px-8 py-4 rounded-2xl text-lg">
                     Learn More
                 </a>
             </div>
