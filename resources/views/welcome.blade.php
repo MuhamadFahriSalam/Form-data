@@ -118,7 +118,7 @@
                 class="absolute inset-0 w-[110%] h-[110%] object-cover
                     animate-[heroMove_20s_ease-in-out_infinite_alternate]"
             >
-            
+
             <!-- Overlay -->
             <div class="absolute inset-0 bg-black/55"></div>
 
@@ -143,7 +143,7 @@
 
             <!-- Description -->
             <p class="mt-8 text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto">
-                Platform modern untuk membuat quiz, survey,
+                Platform untuk membuat quiz, survey,
                 evaluasi, dan form management perusahaan
                 secara cepat, efisien, dan professional.
             </p>
