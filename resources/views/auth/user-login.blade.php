@@ -35,11 +35,12 @@
             <!-- Navbar Content -->
             <div class="flex items-center justify-between h-20">
 
-                <!-- Left Side -->
-                <div class="flex items-center gap-4">
+                <!-- Clickable Branding -->
+                <a href="{{ route('landing') }}"
+                class="flex items-center gap-4 group">
 
                     <!-- Company Logo -->
-                    <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm group-hover:shadow-md transition duration-300">
 
                         <img
                             src="{{ asset('images/LOGO AIIA 2.png') }}"
@@ -55,7 +56,7 @@
                     <div class="flex items-center gap-3">
 
                         <!-- Icon -->
-                        <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg overflow-hidden">
+                        <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg overflow-hidden group-hover:scale-105 transition duration-300">
 
                             <!-- Inner Effect -->
                             <div class="absolute inset-[2px] rounded-[14px] bg-white/10 border border-white/20 backdrop-blur-md"></div>
@@ -69,31 +70,15 @@
                         <!-- Text -->
                         <div>
 
-                            <h1 class="text-xl font-bold tracking-tight text-slate-800 leading-none">
+                            <h1 class="text-xl font-bold tracking-tight text-slate-800 leading-none group-hover:text-blue-600 transition duration-300">
                                 FoQuz
                             </h1>
+
+                            <p class="text-xs text-slate-500 mt-1">
+                                Smart Form & Quiz Platform
+                            </p>
                         </div>
                     </div>
-                </div>
-
-                <!-- Right Side -->
-                <a href="{{ route('landing') }}"
-                   class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:text-blue-600 transition-all duration-300">
-
-                    <!-- Arrow -->
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="h-4 w-4 group-hover:-translate-x-1 transition duration-300"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M15 19l-7-7 7-7" />
-
-                    </svg>
-                    Landing Page
                 </a>
             </div>
         </div>

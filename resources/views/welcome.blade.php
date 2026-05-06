@@ -104,9 +104,7 @@
 
             <!-- Heading -->
             <h1 class="mt-8 text-5xl md:text-7xl font-bold leading-tight text-white">
-
-                Modern Form &
-
+                    AISIN Modern Form &
                 <span class="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
                     Quiz Management
                 </span>
