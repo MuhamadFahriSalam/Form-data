@@ -27,6 +27,64 @@
 
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-blue-100 flex items-center justify-center px-4">
 
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-white/75 backdrop-blur-xl border-b border-gray-100 shadow-sm">
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+            <!-- Navbar Content -->
+            <div class="flex items-center justify-between h-20">
+
+                <!-- Clickable Branding -->
+                <a href="{{ route('landing') }}"
+                class="flex items-center gap-4 group">
+
+                    <!-- Company Logo -->
+                    <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm group-hover:shadow-md transition duration-300">
+
+                        <img
+                            src="{{ asset('images/LOGO AIIA 2.png') }}"
+                            alt="AIIA Logo"
+                            class="h-6 w-auto object-contain"
+                        >
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="hidden md:block w-px h-8 bg-slate-200"></div>
+
+                    <!-- FoQuz Branding -->
+                    <div class="flex items-center gap-3">
+
+                        <!-- Icon -->
+                        <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg overflow-hidden group-hover:scale-105 transition duration-300">
+
+                            <!-- Inner Effect -->
+                            <div class="absolute inset-[2px] rounded-[14px] bg-white/10 border border-white/20 backdrop-blur-md"></div>
+
+                            <!-- Text -->
+                            <span class="relative text-white font-bold text-sm tracking-wide">
+                                FQ
+                            </span>
+                        </div>
+
+                        <!-- Text -->
+                        <div>
+
+                            <h1 class="text-xl font-bold tracking-tight text-slate-800 leading-none group-hover:text-blue-600 transition duration-300">
+                                FoQuz
+                            </h1>
+
+                            <p class="text-xs text-slate-500 mt-1">
+                                Smart Form & Quiz Platform
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Card -->
     <div class="w-full max-w-md sm:max-w-lg lg:max-w-md" x-data="{ show: false, loading: false }">
 
         <!-- Card -->
@@ -39,7 +97,7 @@
                 <div class="relative flex flex-col items-center gap-3">
 
                     <!-- 🔥 LOGO -->
-                    <div class="flex items-center gap-2">
+                    {{-- <div class="flex items-center gap-2">
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl 
                             bg-white/20 backdrop-blur-md border border-white/30 
                             text-white font-bold shadow-md">
@@ -51,7 +109,7 @@
                                 FoQuz
                             </h1>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- TEXT -->
                     <div class="text-center">
@@ -157,7 +215,7 @@
 
         <!-- Footer -->
         <p class="text-center text-xs text-slate-400 mt-5">
-            © {{ date('Y') }} Sistem form dan quiz.
+            © 2026 Developed by FIREFOX ITD AIIA.
         </p>
     </div>
 </body>

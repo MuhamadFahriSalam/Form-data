@@ -16,79 +16,89 @@ use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
-| ROOT REDIRECT
+| LANDING PAGE
 |--------------------------------------------------------------------------
 */
-// Redirect root URL ke dashboard jika sudah login, atau ke login jika belum
+
 Route::get('/', function () {
-    return auth()->check()
-        ? redirect()->route('dashboard')
-        : redirect()->route('login');
-});
+    return view('welcome');
+})->name('landing');
 
 /*
 |--------------------------------------------------------------------------
 | AUTH ROUTES
 |--------------------------------------------------------------------------
 */
-// User login routes
-Route::get('/login', [LoginController::class, 'showUserLogin'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('website.login');
 
-// Admin login routes
-Route::get('/admin/login', [LoginController::class, 'showAdminLogin'])->name('admin.login');
-Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('admin.login.submit');
+// User Login
+Route::get('/login', [LoginController::class, 'showUserLogin'])
+    ->name('login');
 
-// Logout route (bisa digunakan untuk user maupun admin)
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/login', [LoginController::class, 'login'])
+    ->name('website.login');
 
+// Admin Login
+Route::get('/admin/login', [LoginController::class, 'showAdminLogin'])
+    ->name('admin.login');
+
+Route::post('/admin/login', [LoginController::class, 'adminLogin'])
+    ->name('admin.login.submit');
+
+// Logout
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout');
 
 /*
 |--------------------------------------------------------------------------
-| USER ROUTES (AUTH)
+| USER ROUTES
 |--------------------------------------------------------------------------
 */
+
 Route::middleware(['auth'])->group(function () {
 
-    // 🔥 Dashboard umum (bisa diisi dengan info quiz yang sudah diikuti, dll)
+    // Dashboard User
     Route::get('/dashboard', function () {
         return view('user.dashboard');
     })->name('dashboard');
 
-    // 🔥 Dashboard user (bisa diisi dengan info quiz yang sudah diikuti, dll)
     Route::get('/user', function () {
         return view('user.dashboard');
     })->name('user.dashboard');
 
-    // 🔥 Lihat form untuk user
-    Route::get('/form/{form}', FormsShow::class)->name('forms.show');
+    // Form User
+    Route::get('/form/{form}', FormsShow::class)
+        ->name('forms.show');
 
-    // 🔥 Quiz Play untuk user
-    Route::get('/quiz/play/{quiz}', Play::class)->name('quiz.play');
+    // Quiz Play
+    Route::get('/quiz/play/{quiz}', Play::class)
+        ->name('quiz.play');
 });
-
 
 /*
 |--------------------------------------------------------------------------
 | ADMIN ROUTES
 |--------------------------------------------------------------------------
 */
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    // 🔥 Dashboard admin
-    Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
+    // Dashboard Admin
+    Route::get('/admin/dashboard', Dashboard::class)
+        ->name('admin.dashboard');
 
-    // 🔥 Daftar karyawan
-    Route::get('/employees', EmployeesIndex::class)->name('employees.index');
+    // Employees
+    Route::get('/employees', EmployeesIndex::class)
+        ->name('employees.index');
 
-    // 🔥 Buat form baru
-    Route::get('/forms/create', FormsCreate::class)->name('forms.create');
+    // Create Form
+    Route::get('/forms/create', FormsCreate::class)
+        ->name('forms.create');
 
-    // 🔥 Daftar responden untuk setiap form
+    // Form Respondents
     Route::get('/forms/{form}/respondents', Respondents::class)
         ->name('forms.respondents');
 
-    // 🔥 Daftar form yang sudah ditutup
+    // Closed Forms
     Route::get('/forms/closed', function () {
 
         $closedForms = \App\Models\Form::withCount('submissions')
@@ -101,7 +111,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     })->name('forms.closed');
 
-    // 🔥 Daftar quiz yang sudah ditutup
+    // Closed Quiz
     Route::get('/quiz/closed', function () {
 
         $closedQuiz = \App\Models\Quiz::withCount('questions')
@@ -114,24 +124,29 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     })->name('quiz.closed.admin');
 
-    // 🔥 FIX: quiz create tidak konflik lagi
-    Route::get('/quiz/create', QuizCreate::class)->name('quiz.create');
+    // Quiz Create
+    Route::get('/quiz/create', QuizCreate::class)
+        ->name('quiz.create');
 
-    // 🔥 ADMIN PLAY (opsional, beda URL)
-    Route::get('/quiz/manage/{quiz}', Play::class)->name('quiz.manage');
+    // Quiz Manage
+    Route::get('/quiz/manage/{quiz}', Play::class)
+        ->name('quiz.manage');
 
-    // 🔥 Edit form (reusing Create component)
-    Route::get('/forms/{form}/edit', Create::class)->name('forms.edit');
+    // Edit Form
+    Route::get('/forms/{form}/edit', Create::class)
+        ->name('forms.edit');
 
-    // 🔥 Quiz results
+    // Quiz Results
     Route::get('/quiz/{quiz}/results', Results::class)
-    ->name('quiz.results');
+        ->name('quiz.results');
 
-    // 🔥 Export hasil quiz ke Excel
+    // Export Quiz Result
     Route::get('/quiz/{quiz}/export', function ($quizId) {
+
         return Excel::download(
             new QuizResultsExport($quizId),
             'hasil-quiz.xlsx'
         );
+
     })->name('quiz.export');
 });
