@@ -77,13 +77,9 @@
                 class="bg-gradient-to-r from-blue-500 to-cyan-400 hover:scale-105 duration-300 text-white px-5 py-2.5 rounded-xl shadow-md text-sm font-medium">
 
                     Login
-
                 </a>
-
             </div>
-
         </div>
-
     </nav>
 
     <!-- Hero Section -->
@@ -171,52 +167,106 @@
             <!-- Cards -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Card -->
-                <div class="bg-white p-8 rounded-3xl shadow-lg hover:-translate-y-2 hover:shadow-2xl duration-300 border border-gray-100">
+                <!-- Card 1 -->
+                <div class="group relative overflow-hidden rounded-[2rem] bg-white/80 backdrop-blur-xl border border-white/40 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:translate-x-2">
 
-                    <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-3xl">
-                        📝
+                    <!-- Gradient Glow -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-blue-200 rounded-full blur-3xl opacity-0 group-hover:opacity-70 transition duration-500"></div>
+
+                    <!-- Content -->
+                    <div class="relative p-8">
+
+                        <!-- Icon -->
+                        <div class="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition duration-500">
+                            📝
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-2xl font-bold mt-6 text-slate-800 group-hover:text-blue-600 transition duration-300">
+                            Quiz Management
+                        </h3>
+
+                        <!-- Description -->
+                        <p class="text-slate-500 mt-4 leading-relaxed">
+                            Create and manage quizzes easily with a modern dashboard.
+                        </p>
+
+                        <!-- Arrow -->
+                        <div class="mt-6 flex items-center gap-2 text-blue-500 font-medium opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
+                            Explore More
+                            <span>
+                                →
+                            </span>
+                        </div>
                     </div>
-
-                    <h3 class="text-2xl font-semibold mt-6 text-gray-900">
-                        Quiz Management
-                    </h3>
-
-                    <p class="text-gray-500 mt-4 leading-relaxed">
-                        Create and manage quizzes easily with a modern dashboard.
-                    </p>
                 </div>
 
-                <!-- Card -->
-                <div class="bg-white p-8 rounded-3xl shadow-lg hover:-translate-y-2 hover:shadow-2xl duration-300 border border-gray-100">
+                <!-- Card 2 -->
+                <div class="group relative overflow-hidden rounded-[2rem] bg-white/80 backdrop-blur-xl border border-white/40 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:translate-x-2">
 
-                    <div class="w-16 h-16 rounded-2xl bg-cyan-100 flex items-center justify-center text-3xl">
-                        📋
+                    <!-- Glow -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-cyan-200 rounded-full blur-3xl opacity-0 group-hover:opacity-70 transition duration-500"></div>
+
+                    <!-- Content -->
+                    <div class="relative p-8">
+
+                        <!-- Icon -->
+                        <div class="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-400 text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition duration-500">
+                            📋
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-2xl font-bold mt-6 text-slate-800 group-hover:text-cyan-600 transition duration-300">
+                            Smart Forms
+                        </h3>
+
+                        <!-- Description -->
+                        <p class="text-slate-500 mt-4 leading-relaxed">
+                            Digital forms with automatic data collection and evaluation.
+                        </p>
+
+                        <!-- Arrow -->
+                        <div class="mt-6 flex items-center gap-2 text-cyan-500 font-medium opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
+                            Explore More
+                            <span>
+                                →
+                            </span>
+                        </div>
                     </div>
-
-                    <h3 class="text-2xl font-semibold mt-6 text-gray-900">
-                        Smart Forms
-                    </h3>
-
-                    <p class="text-gray-500 mt-4 leading-relaxed">
-                        Digital forms with automatic data collection and evaluation.
-                    </p>
                 </div>
 
-                <!-- Card -->
-                <div class="bg-white p-8 rounded-3xl shadow-lg hover:-translate-y-2 hover:shadow-2xl duration-300 border border-gray-100">
+                <!-- Card 3 -->
+                <div class="group relative overflow-hidden rounded-[2rem] bg-white/80 backdrop-blur-xl border border-white/40 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:translate-x-2">
 
-                    <div class="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center text-3xl">
-                        📈
+                    <!-- Glow -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-200 rounded-full blur-3xl opacity-0 group-hover:opacity-70 transition duration-500"></div>
+
+                    <!-- Content -->
+                    <div class="relative p-8">
+
+                        <!-- Icon -->
+                        <div class="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-400 text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition duration-500">
+                            📈
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-2xl font-bold mt-6 text-slate-800 group-hover:text-indigo-600 transition duration-300">
+                            Analytics
+                        </h3>
+
+                        <!-- Description -->
+                        <p class="text-slate-500 mt-4 leading-relaxed">
+                            Real-time statistics and monitoring dashboard.
+                        </p>
+
+                        <!-- Arrow -->
+                        <div class="mt-6 flex items-center gap-2 text-indigo-500 font-medium opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
+                            Explore More
+                            <span>
+                                →
+                            </span>
+                        </div>
                     </div>
-
-                    <h3 class="text-2xl font-semibold mt-6 text-gray-900">
-                        Analytics
-                    </h3>
-
-                    <p class="text-gray-500 mt-4 leading-relaxed">
-                        Real-time statistics and monitoring dashboard.
-                    </p>
                 </div>
             </div>
         </div>

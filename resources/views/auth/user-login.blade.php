@@ -28,40 +28,59 @@
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-blue-100 flex items-center justify-center px-4">
 
     <!-- Navbar -->
-    <nav class="w-full fixed top-0 left-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6">
+    <nav class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
 
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+            <!-- Navbar Content -->
             <div class="flex items-center justify-between h-20">
 
-                <!-- Logo -->
+                <!-- Left Side -->
                 <div class="flex items-center gap-4">
 
-                    <!-- Icon -->
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg">
+                    <!-- Company Logo -->
+                    <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm hover:shadow-md transition duration-300">
 
-                        <span class="text-white font-bold text-sm">
-                            FQ
-                        </span>
+                        <img
+                            src="{{ asset('images/LOGO AIIA 2.png') }}"
+                            alt="AIIA Logo"
+                            class="h-6 w-auto object-contain"
+                        >
                     </div>
 
-                    <!-- Text -->
-                    <div>
+                    <!-- Divider -->
+                    <div class="hidden md:block w-px h-8 bg-slate-200"></div>
 
-                        <h1 class="text-xl font-bold text-slate-800 leading-tight">
-                            FoQuz
-                        </h1>
+                    <!-- FoQuz Branding -->
+                    <div class="flex items-center gap-3">
 
-                        <p class="text-xs text-slate-500">
-                            Smart Form & Quiz Platform
-                        </p>
+                        <!-- Icon -->
+                        <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg overflow-hidden">
+
+                            <!-- Inner Effect -->
+                            <div class="absolute inset-[2px] rounded-[14px] bg-white/10 border border-white/20 backdrop-blur-md"></div>
+
+                            <!-- Text -->
+                            <span class="relative text-white font-bold text-sm tracking-wide">
+                                FQ
+                            </span>
+                        </div>
+
+                        <!-- Text -->
+                        <div>
+
+                            <h1 class="text-xl font-bold tracking-tight text-slate-800 leading-none">
+                                FoQuz
+                            </h1>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Back Button -->
+                <!-- Right Side -->
                 <a href="{{ route('landing') }}"
-                   class="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:text-blue-600 transition-all duration-300">
+                   class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:text-blue-600 transition-all duration-300">
 
-                    <!-- Icon -->
+                    <!-- Arrow -->
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="h-4 w-4 group-hover:-translate-x-1 transition duration-300"
                          fill="none"
