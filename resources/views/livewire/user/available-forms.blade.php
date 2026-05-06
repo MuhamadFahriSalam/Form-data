@@ -477,5 +477,26 @@
                 @endif
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="mt-12">
+
+            <div class="rounded-3xl border border-slate-200/80 bg-white/80 backdrop-blur-xl shadow-sm">
+
+                <div class="px-6 py-6">
+
+                    <div class="flex flex-col items-center justify-center gap-3 text-center">
+
+                        <!-- Copyright -->
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            © 2026 Developed by
+                            <span class="font-semibold text-indigo-600">
+                                FIREFOX ITD AIIA
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </div>

@@ -27,6 +27,60 @@
 
 <body class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-blue-100 flex items-center justify-center px-4">
 
+    <!-- Navbar -->
+    <nav class="w-full fixed top-0 left-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="flex items-center justify-between h-20">
+
+                <!-- Logo -->
+                <div class="flex items-center gap-4">
+
+                    <!-- Icon -->
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg">
+
+                        <span class="text-white font-bold text-sm">
+                            FQ
+                        </span>
+                    </div>
+
+                    <!-- Text -->
+                    <div>
+
+                        <h1 class="text-xl font-bold text-slate-800 leading-tight">
+                            FoQuz
+                        </h1>
+
+                        <p class="text-xs text-slate-500">
+                            Smart Form & Quiz Platform
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Back Button -->
+                <a href="{{ route('landing') }}"
+                   class="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:text-blue-600 transition-all duration-300">
+
+                    <!-- Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-4 w-4 group-hover:-translate-x-1 transition duration-300"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 19l-7-7 7-7" />
+
+                    </svg>
+                    Landing Page
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Card -->
     <div class="w-full max-w-md sm:max-w-lg lg:max-w-md" x-data="{ show: false, loading: false }">
 
         <!-- Card -->
@@ -39,7 +93,7 @@
                 <div class="relative flex flex-col items-center gap-3">
 
                     <!-- 🔥 LOGO -->
-                    <div class="flex items-center gap-2">
+                    {{-- <div class="flex items-center gap-2">
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl 
                             bg-white/20 backdrop-blur-md border border-white/30 
                             text-white font-bold shadow-md">
@@ -51,7 +105,7 @@
                                 FoQuz
                             </h1>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- TEXT -->
                     <div class="text-center">
@@ -157,7 +211,7 @@
 
         <!-- Footer -->
         <p class="text-center text-xs text-slate-400 mt-5">
-            © {{ date('Y') }} Sistem form dan quiz.
+            © 2026 Developed by FIREFOX ITD AIIA.
         </p>
     </div>
 </body>
