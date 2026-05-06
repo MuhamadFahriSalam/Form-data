@@ -73,10 +73,6 @@
                             <h1 class="text-xl font-bold tracking-tight text-slate-800 leading-none group-hover:text-blue-600 transition duration-300">
                                 FoQuz
                             </h1>
-
-                            <p class="text-xs text-slate-500 mt-1">
-                                Smart Form & Quiz Platform
-                            </p>
                         </div>
                     </div>
                 </a>
