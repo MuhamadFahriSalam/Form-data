@@ -1,4 +1,4 @@
-@section('title','employees')
+@section('title','Data Karyawan')
 
 {{-- content --}}
 <div class="max-w-7xl mx-auto p-6 space-y-6">

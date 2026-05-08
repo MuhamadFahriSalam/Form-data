@@ -1,3 +1,5 @@
+@section('title','Quiz Ditutup')
+
 @component('layouts.app', ['title' => 'Quiz Ditutup'])
 
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-violet-50">

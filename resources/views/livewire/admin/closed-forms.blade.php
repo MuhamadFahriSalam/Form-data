@@ -1,3 +1,5 @@
+@section('title','Form Ditutup')
+
 @component('layouts.app', ['title' => 'Form Ditutup'])
 
     {{-- Halaman ini menampilkan daftar form yang sudah melewati batas waktu pengisian (closes_at) dan tidak lagi dapat diisi oleh user. Admin dapat melihat detail form, jumlah pengisi, serta daftar responden yang sudah mengisi form tersebut. --}}

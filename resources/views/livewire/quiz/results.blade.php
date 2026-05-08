@@ -1,3 +1,6 @@
+
+@section('title', 'Hasil Quiz')
+
 <div 
     x-data="{
         search: '',

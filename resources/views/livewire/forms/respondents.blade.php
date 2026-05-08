@@ -1,4 +1,4 @@
-@section('title','pengisi-form')
+@section('title', 'Daftar Pengisi Form')
 
 <div class="max-w-7xl mx-auto p-6 space-y-6">
 
