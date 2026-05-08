@@ -6,8 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>
-            {{-- {{ config(in'app.name', 'Laravel') }} --}}
-            {{ config('app.name') }} - @yield('title')
+            {{ config('app.name') }}
         </title>
 
         <!-- Fonts -->
