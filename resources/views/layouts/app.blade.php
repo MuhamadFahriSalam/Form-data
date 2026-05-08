@@ -6,9 +6,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>
-            {{-- {{ config(in'app.name', 'Laravel') }} --}}
-            {{ config('app.name') }} - @yield('title')
+            {{ config('app.name') }}
         </title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/AIIA LOGO.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
