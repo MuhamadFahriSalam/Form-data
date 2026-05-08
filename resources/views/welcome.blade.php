@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoQuz - Smart Quiz Platform</title>
+    <title>FoQuz - Smart Form & Quiz Platform</title>
 
     @vite('resources/css/app.css')
 
