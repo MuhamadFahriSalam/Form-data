@@ -1,3 +1,5 @@
+@section('title', 'Dashboard Admin')
+
 <div
     x-data="{
         openUsersModal: false,
