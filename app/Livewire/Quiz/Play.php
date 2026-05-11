@@ -63,13 +63,6 @@ class Play extends Component
         }
     }
 
-    // 🔥 Checkbox hanya 1 pilihan
-    // public function selectSingleCheckbox($questionId, $optionId)
-    // {
-    //     $this->answers[$questionId] = [];
-    //     $this->answers[$questionId][$optionId] = 1;
-    // }
-
     // SUBMIT
     public function submit()
     {
