@@ -70,10 +70,8 @@
                                             stroke="currentColor" 
                                             stroke-width="2">
                                             
-                                            <path stroke-linecap="round" stroke-linejoin="round" 
-                                                d="M5 13l4 4L19 7" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                         </svg>
-
                                     </div>
                                 </div>
                                 
@@ -81,11 +79,6 @@
                                 <h2 class="text-lg font-semibold text-slate-900">
                                     Anda sudah mengisi quiz ini
                                 </h2>
-
-                                <!-- DESC -->
-                                {{-- <p class="text-sm text-slate-500 mt-2">
-                                    Apakah Anda ingin mengisi quiz lagi?
-                                </p> --}}
 
                                 <!-- SCORE CARD -->
                                 @if($hasAttempt)
@@ -98,43 +91,11 @@
                                         <p class="text-3xl font-bold text-blue-600 mt-1">
                                             {{ $totalScore }}
                                         </p>
-
-                                        {{-- <p class="text-xs text-slate-500 mt-1">
-                                            Dari {{ $attemptCount }} percobaan
-                                        </p> --}}
-
                                     </div>
                                 @endif
 
-                                <!-- ATTEMPT INFO -->
-                                {{-- <div class="flex flex-wrap justify-center gap-2 mt-4">
-
-                                    <span class="px-3 py-1 text-xs rounded-full 
-                                        bg-blue-50 text-blue-600 border border-blue-200">
-                                        Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                                    </span>
-
-                                    <span class="px-3 py-1 text-xs rounded-full 
-                                        bg-slate-100 text-slate-600 border border-slate-200">
-                                        Total attempt: {{ $attemptCount }}x
-                                    </span>
-
-                                </div> --}}
-
                                 <!-- ACTION -->
                                 <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
-
-                                    <!-- 🔁 ISI ULANG -->
-                                    {{-- <button
-                                        wire:click="startAgain"
-                                        @if($attemptCount >= $maxAttempt) disabled @endif
-                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
-                                        bg-blue-600 text-white font-semibold 
-                                        hover:bg-blue-700 transition shadow-sm
-                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                    >
-                                        🔁 Isi Lagi
-                                    </button> --}}
 
                                     <!-- ⬅️ KEMBALI -->
                                     <a
@@ -207,7 +168,6 @@
                                                 <span>{{ $option->text }}</span>
                                             </label>
                                         @endforeach
-
                                     </div>
                                 </div>
 
@@ -238,7 +198,8 @@
                                         </button>
                                     @else
                                         <button
-                                            type="submit"
+                                            type="button"
+                                            wire:click="openSubmitModal"
                                             class="w-full sm:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold shadow-md transition"
                                         >
                                             Submit Jawaban
@@ -246,6 +207,142 @@
                                     @endif
                                 </div>
                             </form>
+
+                            {{-- MODAL KONFIRMASI QUIZ --}}
+                            @if($showSubmitModal)
+                                <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+
+                                    <div class="
+                                        w-full max-w-md
+                                        mx-4
+                                        bg-white
+                                        rounded-2xl
+                                        shadow-2xl border border-slate-200
+                                        p-5 sm:p-6
+                                        animate-scale-in
+                                    ">
+
+                                        <!-- HEADER -->
+                                        <div class="flex items-start gap-3 mb-4">
+
+                                            <!-- ICON -->
+                                            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600 shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+
+                                                    <path stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                                                </svg>
+                                            </div>
+
+                                            <!-- TITLE -->
+                                            <div>
+                                                <h2 class="text-sm sm:text-base font-semibold text-slate-800">
+                                                    Konfirmasi Submit Quiz
+                                                </h2>
+
+                                                <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
+                                                    Pastikan jawaban quiz sudah diperiksa sebelum dikirim.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <!-- INFO STATUS -->
+                                        <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 mb-4 space-y-3">
+
+                                            <!-- TOTAL -->
+                                            <div class="flex items-center justify-between text-sm">
+                                                <span class="text-slate-600">
+                                                    Total Soal
+                                                </span>
+
+                                                <span class="font-semibold text-slate-800">
+                                                    {{ count($quiz->questions) }}
+                                                </span>
+                                            </div>
+
+                                            <!-- SUDAH DIJAWAB -->
+                                            <div class="flex items-center justify-between text-sm">
+                                                <span class="text-green-600">
+                                                    Sudah Dijawab
+                                                </span>
+
+                                                <span class="font-semibold text-green-600">
+                                                    {{ $this->answeredCount }}
+                                                </span>
+                                            </div>
+
+                                            <!-- BELUM -->
+                                            <div class="flex items-center justify-between text-sm">
+                                                <span class="text-red-500">
+                                                    Belum Dijawab
+                                                </span>
+
+                                                <span class="font-semibold text-red-500">
+                                                    {{ $this->unansweredCount }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- WARNING -->
+                                        @if($this->unansweredCount > 0)
+                                            <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 mb-5">
+                                                <p class="text-xs text-amber-700 leading-relaxed">
+                                                    ⚠️ Masih ada {{ $this->unansweredCount }} soal yang belum dijawab.
+                                                </p>
+                                            </div>
+                                        @else
+                                            <div class="rounded-xl bg-green-50 border border-green-200 p-3 mb-5">
+                                                <p class="text-xs text-green-700 leading-relaxed">
+                                                    ✅ Semua soal sudah dijawab.
+                                                </p>
+                                            </div>
+                                        @endif
+
+                                        <!-- ACTION -->
+                                        <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+
+                                            <!-- BATAL -->
+                                            <button
+                                                wire:click="closeSubmitModal"
+                                                class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-medium
+                                                    bg-slate-100 text-slate-700
+                                                    hover:bg-slate-200 transition"
+                                            >
+                                                Periksa Lagi
+                                            </button>
+
+                                            <!-- SUBMIT -->
+                                            <button
+                                                wire:click="submit"
+                                                wire:loading.attr="disabled"
+                                                class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-sm font-medium
+                                                    bg-blue-600 text-white
+                                                    hover:bg-blue-700
+                                                    transition shadow-sm ml-auto"
+                                            >
+
+                                                <!-- NORMAL -->
+                                                <span wire:loading.remove wire:target="submit">
+                                                    Ya, Submit
+                                                </span>
+
+                                                <!-- LOADING -->
+                                                <span wire:loading wire:target="submit">
+                                                    Mengirim...
+                                                </span>
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            
                         @else
                             <div class="text-center text-red-500 font-semibold">
                                 ❌ Soal tidak ditemukan

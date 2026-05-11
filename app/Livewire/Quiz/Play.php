@@ -20,6 +20,7 @@ class Play extends Component
     public int $attemptCount = 0;
     public int $maxAttempt = 1;
     public $totalScore = 0;
+    public $showSubmitModal = false;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
@@ -62,13 +63,6 @@ class Play extends Component
             $this->currentQuestion--;
         }
     }
-
-    // 🔥 Checkbox hanya 1 pilihan
-    // public function selectSingleCheckbox($questionId, $optionId)
-    // {
-    //     $this->answers[$questionId] = [];
-    //     $this->answers[$questionId][$optionId] = 1;
-    // }
 
     // SUBMIT
     public function submit()
@@ -157,6 +151,50 @@ class Play extends Component
             ->with('success', "Quiz selesai! Score: {$score} ({$correctCount}/{$totalQuestions})");
     }
 
+    // 🔥 konfirmasi submit
+    public function openSubmitModal()
+    {
+        $this->showSubmitModal = true;
+    }
+
+    // 🔥 tutup modal
+    public function closeSubmitModal()
+    {
+        $this->showSubmitModal = false;
+    }
+
+    // 🔥 hitung jumlah pertanyaan yang sudah dijawab
+    public function getAnsweredCountProperty()
+    {
+        $count = 0;
+
+        foreach ($this->quiz->questions as $question) {
+
+            $answer = $this->answers[$question->id] ?? null;
+
+            if (is_array($answer)) {
+
+                if (count(array_filter($answer)) > 0) {
+                    $count++;
+                }
+
+            } else {
+
+                if (!is_null($answer)) {
+                    $count++;
+                }
+            }
+        }
+
+        return $count;
+    }
+
+    // 🔥 hitung jumlah pertanyaan yang belum dijawab
+    public function getUnansweredCountProperty()
+    {
+        return count($this->quiz->questions) - $this->answeredCount;
+    }
+    
     // 🔥 mulai ulang quiz
     public function startAgain()
     {

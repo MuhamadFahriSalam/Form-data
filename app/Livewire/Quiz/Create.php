@@ -14,20 +14,62 @@ class Create extends Component
     public $description;
     public $start_at;
     public $end_at;
+    public $quizId = null;
 
     // Inisialisasi dengan 1 question dan 2 options
-    public function mount()
+    public function mount($quiz = null)
     {
-        $this->questions = [
-            [
-                'question' => '',
-                'is_multiple' => false,
-                'options' => [
-                    ['text' => '', 'is_correct' => false],
-                    ['text' => '', 'is_correct' => false],
+        // MODE EDIT
+        if ($quiz) {
+
+            $quizData = Quiz::with('questions.options')->findOrFail($quiz);
+
+            $this->quizId = $quizData->id;
+            $this->title = $quizData->title;
+            $this->description = $quizData->description;
+            $this->start_at = \Carbon\Carbon::parse($quizData->start_at)
+                ->format('Y-m-d\TH:i');
+
+            $this->end_at = \Carbon\Carbon::parse($quizData->end_at)
+                ->format('Y-m-d\TH:i');
+
+            $this->questions = [];
+
+            foreach ($quizData->questions as $question) {
+
+                $options = [];
+
+                foreach ($question->options as $option) {
+
+                    $options[] = [
+                        'id' => $option->id,
+                        'text' => $option->text,
+                        'is_correct' => $option->is_correct,
+                    ];
+                }
+
+                $this->questions[] = [
+                    'id' => $question->id,
+                    'question' => $question->question,
+                    'is_multiple' => $question->is_multiple,
+                    'options' => $options,
+                ];
+            }
+
+        } else {
+
+            // MODE CREATE
+            $this->questions = [
+                [
+                    'question' => '',
+                    'is_multiple' => false,
+                    'options' => [
+                        ['text' => '', 'is_correct' => false],
+                        ['text' => '', 'is_correct' => false],
+                    ]
                 ]
-            ]
-        ];
+            ];
+        }
     }
 
     // Tambah question baru
@@ -196,6 +238,60 @@ class Create extends Component
 
         // 🔥 DISPATCH EVENT untuk menangkap di frontend
         $this->dispatch('quiz-saved');
+    }
+
+    // Update quiz beserta questions dan optionsnya
+    public function update()
+    {
+        $this->validate([
+            'title' => 'required|string|min:3',
+            'description' => 'required|string|min:5',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after:start_at',
+        ]);
+
+        $quiz = Quiz::findOrFail($this->quizId);
+
+        // UPDATE QUIZ
+        $quiz->update([
+            'title' => $this->title,
+            'description' => $this->description,
+            'start_at' => $this->start_at,
+            'end_at' => $this->end_at,
+        ]);
+
+        // HAPUS QUESTION LAMA
+        foreach ($quiz->questions as $oldQuestion) {
+
+            // hapus option
+            $oldQuestion->options()->delete();
+
+            // hapus question
+            $oldQuestion->delete();
+        }
+
+        // SIMPAN QUESTION BARU
+        foreach ($this->questions as $q) {
+
+            $question = QuizQuestion::create([
+                'quiz_id' => $quiz->id,
+                'question' => $q['question'],
+                'is_multiple' => $q['is_multiple'] ?? false,
+            ]);
+
+            foreach ($q['options'] as $opt) {
+
+                QuizOption::create([
+                    'question_id' => $question->id,
+                    'text' => $opt['text'],
+                    'is_correct' => $opt['is_correct'],
+                ]);
+            }
+        }
+
+        session()->flash('quiz_success', true);
+
+        return redirect()->route('admin.dashboard');
     }
 
     // Render method untuk menampilkan form create quiz

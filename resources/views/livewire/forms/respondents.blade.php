@@ -125,11 +125,42 @@
                             {{ $submission->created_at?->format('d M Y H:i') ?? '-' }}
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="5">
-                    </tr>
-                @endforelse
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+
+                                {{-- EMPTY STATE --}}
+                                <div class="flex flex-col items-center justify-center text-center space-y-4">
+
+                                    {{-- ICON --}}
+                                    <div class="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="w-8 h-8 text-blue-600"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor">
+
+                                            <path stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.8"
+                                                d="M9 12h6m-6 4h6M9 8h6M5 6h.01M5 10h.01M5 14h.01M5 18h.01" />
+                                        </svg>
+                                    </div>
+
+                                    {{-- TITLE --}}
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-slate-700">
+                                            Belum ada yang mengisi form
+                                        </h3>
+
+                                        <p class="mt-1 text-sm text-slate-500 max-w-sm">
+                                            Data responden akan muncul setelah user mengisi form yang telah dibuat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
             </tbody>
         </table>
 

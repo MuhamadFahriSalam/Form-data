@@ -135,6 +135,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Edit Form
     Route::get('/forms/{form}/edit', Create::class)
         ->name('forms.edit');
+    
+    // Edit Quiz
+    Route::get('/quiz/{quiz}/edit', QuizCreate::class)
+        ->name('quiz.edit');
 
     // Quiz Results
     Route::get('/quiz/{quiz}/results', Results::class)
