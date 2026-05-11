@@ -70,10 +70,8 @@
                                             stroke="currentColor" 
                                             stroke-width="2">
                                             
-                                            <path stroke-linecap="round" stroke-linejoin="round" 
-                                                d="M5 13l4 4L19 7" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                         </svg>
-
                                     </div>
                                 </div>
                                 
@@ -81,11 +79,6 @@
                                 <h2 class="text-lg font-semibold text-slate-900">
                                     Anda sudah mengisi quiz ini
                                 </h2>
-
-                                <!-- DESC -->
-                                {{-- <p class="text-sm text-slate-500 mt-2">
-                                    Apakah Anda ingin mengisi quiz lagi?
-                                </p> --}}
 
                                 <!-- SCORE CARD -->
                                 @if($hasAttempt)
@@ -98,43 +91,11 @@
                                         <p class="text-3xl font-bold text-blue-600 mt-1">
                                             {{ $totalScore }}
                                         </p>
-
-                                        {{-- <p class="text-xs text-slate-500 mt-1">
-                                            Dari {{ $attemptCount }} percobaan
-                                        </p> --}}
-
                                     </div>
                                 @endif
 
-                                <!-- ATTEMPT INFO -->
-                                {{-- <div class="flex flex-wrap justify-center gap-2 mt-4">
-
-                                    <span class="px-3 py-1 text-xs rounded-full 
-                                        bg-blue-50 text-blue-600 border border-blue-200">
-                                        Percobaan: {{ $attemptCount }} / {{ $maxAttempt }}
-                                    </span>
-
-                                    <span class="px-3 py-1 text-xs rounded-full 
-                                        bg-slate-100 text-slate-600 border border-slate-200">
-                                        Total attempt: {{ $attemptCount }}x
-                                    </span>
-
-                                </div> --}}
-
                                 <!-- ACTION -->
                                 <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
-
-                                    <!-- 🔁 ISI ULANG -->
-                                    {{-- <button
-                                        wire:click="startAgain"
-                                        @if($attemptCount >= $maxAttempt) disabled @endif
-                                        class="flex items-center justify-center gap-2 px-5 py-2 rounded-2xl 
-                                        bg-blue-600 text-white font-semibold 
-                                        hover:bg-blue-700 transition shadow-sm
-                                        disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-                                    >
-                                        🔁 Isi Lagi
-                                    </button> --}}
 
                                     <!-- ⬅️ KEMBALI -->
                                     <a
@@ -207,7 +168,6 @@
                                                 <span>{{ $option->text }}</span>
                                             </label>
                                         @endforeach
-
                                     </div>
                                 </div>
 
