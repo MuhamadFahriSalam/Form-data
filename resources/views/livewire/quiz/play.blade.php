@@ -286,7 +286,7 @@
                                     @endif
 
                                     {{-- ACTION --}}
-                                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                                    <div class="mt-6 flex flex-col sm:flex-row gap-3 sm:items-center">
 
                                         {{-- BATAL --}}
                                         <button
@@ -302,7 +302,7 @@
                                             type="button"
                                             wire:click="submit"
                                             wire:loading.attr="disabled"
-                                            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition shadow-sm"
+                                            class="w-full sm:w-auto sm:ml-auto px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition shadow-sm"
                                         >
 
                                             {{-- NORMAL --}}
