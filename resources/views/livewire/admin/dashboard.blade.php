@@ -457,7 +457,7 @@
                             <div class="rounded-2xl bg-emerald-50 px-4 py-3">
                                 <p class="text-xs text-emerald-600">Status</p>
                                 <p class="mt-1 text-sm font-semibold text-emerald-700">
-                                    {{ ($form->submissions_count ?? 0) > 0 ? 'Ada Respon' : 'Belum Ada' }}
+                                    Aktif
                                 </p>
                             </div>
                         </div>
@@ -468,7 +468,7 @@
                             <a href="{{ route('forms.edit', $form->uuid) }}"
                             class="flex-1 text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
                                     hover:bg-slate-100 transition">
-                                Edit
+                                Edit Form
                             </a>
 
                             <a href="{{ route('forms.respondents', ['form' => $form->uuid]) }}"
@@ -574,7 +574,16 @@
                         </div>
 
                         {{-- ACTION --}}
-                        <div class="mt-5">
+                        <div class="mt-5 flex gap-2">
+
+                            {{-- Edit --}}
+                            <a href="{{ route('quiz.edit', $quiz->id) }}"
+                            class="block w-full text-center text-sm font-medium px-3 py-2 rounded-xl border border-violet-200 
+                                    bg-violet-50 text-violet-700 hover:bg-violet-100 transition">
+                                Edit Quiz
+                            </a>
+
+                            {{-- Hasil --}}
                             <a href="{{ route('quiz.results', $quiz->uuid) }}"
                             class="block w-full text-center text-sm font-medium px-3 py-2 rounded-xl border border-slate-200 
                                     hover:bg-slate-100 transition">

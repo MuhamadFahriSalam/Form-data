@@ -3,7 +3,7 @@
 <div class="min-h-screen bg-slate-50">
     <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
 
-        <form wire:submit.prevent="save">
+        <form wire:submit.prevent="{{ $quizId ? 'update' : 'save' }}">
 
             {{-- HEADER --}}
             <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-violet-900 to-indigo-800 shadow-lg">
@@ -271,10 +271,9 @@
 
                     <button
                         type="submit"
-                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-100"
-                        wire:loading.attr="disabled"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700"
                     >
-                        Simpan Quiz
+                        {{ $quizId ? 'Update Quiz' : 'Simpan Quiz' }}
                     </button>
                 </div>
             </div>
