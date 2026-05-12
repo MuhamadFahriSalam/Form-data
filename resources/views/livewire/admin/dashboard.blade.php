@@ -547,9 +547,15 @@
                             </div>
 
                             {{-- BADGE --}}
-                            <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
-                                Quiz
-                            </span>
+                            @if($quiz->status === 'draft')
+                                <span class="text-[11px] font-medium bg-gray-100 text-gray-600 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Draft
+                                </span>
+                            @else
+                                <span class="text-[11px] font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full whitespace-nowrap">
+                                    Published
+                                </span>
+                            @endif
                         </div>
 
                         {{-- INFO --}}

@@ -13,8 +13,15 @@ class Quiz extends Model
         'uuid',
         'description',
         'start_at',
-        'end_at'
+        'end_at',
+        'status',
     ];
+
+    // Aksesor untuk status quiz
+    public function getIsPublishedAttribute()
+    {
+        return $this->status === 'published';
+    }
 
     // Auto-generate UUID saat membuat quiz baru
     protected static function boot()

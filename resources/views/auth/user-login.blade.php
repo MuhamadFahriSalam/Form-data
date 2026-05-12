@@ -119,27 +119,10 @@
 
                     <div class="relative flex flex-col items-center gap-3">
 
-                        <!-- 🔥 LOGO -->
-                        {{-- 
-                        <div class="flex items-center gap-2">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-xl 
-                                bg-white/20 backdrop-blur-md border border-white/30 
-                                text-white font-bold shadow-md">
-                                FQ
-                            </div>
-
-                            <div class="leading-tight text-left">
-                                <h1 class="text-base sm:text-lg font-bold text-white">
-                                    FoQuz
-                                </h1>
-                            </div>
-                        </div>
-                        --}}
-
                         <!-- TEXT -->
                         <div class="text-center">
                             <h2 class="text-xl sm:text-2xl font-semibold tracking-wide">
-                                Welcome Back 👋
+                                Welcome Back
                             </h2>
 
                             <p class="text-xs sm:text-sm opacity-90 mt-1">

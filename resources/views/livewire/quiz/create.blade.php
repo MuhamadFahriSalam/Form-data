@@ -269,11 +269,22 @@
                         + Tambah Pertanyaan
                     </button>
 
+                    {{-- Draft --}}
                     <button
-                        type="submit"
-                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700"
+                        type="button"
+                        wire:click="saveAs('draft')"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-slate-500 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-slate-600"
                     >
-                        {{ $quizId ? 'Update Quiz' : 'Simpan Quiz' }}
+                        Simpan Draft
+                    </button>
+
+                    {{-- Publish --}}
+                    <button
+                        type="button"
+                        wire:click="saveAs('published')"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-violet-700"
+                    >
+                        {{ $quizId ? 'Update & Publish' : 'Publish Quiz' }}
                     </button>
                 </div>
             </div>

@@ -15,6 +15,7 @@ class Create extends Component
     public $start_at;
     public $end_at;
     public $quizId = null;
+    public string $status = 'draft';
 
     // Inisialisasi dengan 1 question dan 2 options
     public function mount($quiz = null)
@@ -27,6 +28,7 @@ class Create extends Component
             $this->quizId = $quizData->id;
             $this->title = $quizData->title;
             $this->description = $quizData->description;
+            $this->status = $quizData->status;
             $this->start_at = \Carbon\Carbon::parse($quizData->start_at)
                 ->format('Y-m-d\TH:i');
 
@@ -206,6 +208,7 @@ class Create extends Component
             'description' => $this->description,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
+            'status' => $this->status,
         ]);
 
         // 🔥 SIMPAN QUESTIONS & OPTIONS
@@ -240,6 +243,18 @@ class Create extends Component
         $this->dispatch('quiz-saved');
     }
 
+    // Simpan atau update berdasarkan status (draft/published)
+    public function saveAs(string $status)
+    {
+        $this->status = $status;
+
+        if ($this->quizId) {
+            $this->update();
+        } else {
+            $this->save();
+        }
+    }
+
     // Update quiz beserta questions dan optionsnya
     public function update()
     {
@@ -258,6 +273,7 @@ class Create extends Component
             'description' => $this->description,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
+            'status' => $this->status,
         ]);
 
         // HAPUS QUESTION LAMA
