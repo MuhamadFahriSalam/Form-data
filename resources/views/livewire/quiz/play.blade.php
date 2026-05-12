@@ -74,16 +74,27 @@
                                     </div>
 
                                     {{-- PROGRESS BAR --}}
+                                    @php
+                                        $progress = count($quiz->questions) > 0
+                                            ? ($this->answeredCount / count($quiz->questions)) * 100
+                                            : 0;
+
+                                        $progressColor = 'from-red-500 to-red-600';
+
+                                        if ($progress >= 40 && $progress < 80) {
+                                            $progressColor = 'from-yellow-400 to-yellow-500';
+                                        }
+
+                                        if ($progress >= 80) {
+                                            $progressColor = 'from-green-500 to-emerald-600';
+                                        }
+                                    @endphp
+
                                     <div class="w-full h-3 rounded-full bg-slate-200 overflow-hidden">
 
                                         <div
-                                            class="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-500"
-                                            style="
-                                                width: {{ count($quiz->questions) > 0 
-                                                    ? ($this->answeredCount / count($quiz->questions)) * 100 
-                                                    : 0 
-                                                }}%;
-                                            "
+                                            class="h-full rounded-full bg-gradient-to-r {{ $progressColor }} transition-all duration-500"
+                                            style="width: {{ $progress }}%;"
                                         ></div>
                                     </div>
 
