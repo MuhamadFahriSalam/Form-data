@@ -214,6 +214,11 @@ class Play extends Component
         $this->currentQuestion = 0;
     }
 
+    // pindah ke soal tertentu
+    public function goToQuestion($index)
+    {
+        $this->currentQuestion = $index;
+    }
     // Render
     public function render()
     {
