@@ -21,6 +21,7 @@ class Play extends Component
     public int $maxAttempt = 1;
     public $totalScore = 0;
     public $showSubmitModal = false;
+    public $sessionKey;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
@@ -43,8 +44,22 @@ class Play extends Component
             $this->showConfirm = true;
         }
 
-        foreach ($this->quiz->questions as $q) {
-            $this->answers[$q->id] = $q->is_multiple ? [] : null;
+        $this->sessionKey = 'quiz_progress_' . auth()->id() . '_' . $quiz->id;
+
+        // ambil session jika ada
+        $saved = session()->get($this->sessionKey);
+
+        if ($saved) {
+
+            $this->answers = $saved['answers'] ?? [];
+            $this->currentQuestion = $saved['currentQuestion'] ?? 0;
+
+        } else {
+
+            foreach ($this->quiz->questions as $q) {
+
+                $this->answers[$q->id] = $q->is_multiple ? [] : null;
+            }
         }
     }
     
@@ -52,7 +67,10 @@ class Play extends Component
     public function next()
     {
         if ($this->currentQuestion < count($this->quiz->questions) - 1) {
+
             $this->currentQuestion++;
+
+            $this->saveProgress();
         }
     }
 
@@ -60,8 +78,20 @@ class Play extends Component
     public function prev()
     {
         if ($this->currentQuestion > 0) {
+
             $this->currentQuestion--;
+
+            $this->saveProgress();
         }
+    }
+
+    // simpan progress sementara
+    public function saveProgress()
+    {
+        session()->put($this->sessionKey, [
+            'answers' => $this->answers,
+            'currentQuestion' => $this->currentQuestion,
+        ]);
     }
 
     // SUBMIT
@@ -147,6 +177,8 @@ class Play extends Component
         // 🔥 reset state
         $this->reset(['answers', 'currentQuestion']);
 
+        session()->forget($this->sessionKey);
+        
         return redirect()->route('user.dashboard')
             ->with('success', "Quiz selesai! Score: {$score} ({$correctCount}/{$totalQuestions})");
     }
@@ -214,12 +246,20 @@ class Play extends Component
         $this->currentQuestion = 0;
     }
 
+    // auto save saat jawaban berubah
+    public function updatedAnswers()
+    {
+        $this->saveProgress();
+    }
+
     // pindah ke soal tertentu
     public function goToQuestion($index)
     {
         $this->currentQuestion = $index;
+
+        $this->saveProgress();
     }
-    
+
     // Render
     public function render()
     {
