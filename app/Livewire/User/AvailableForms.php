@@ -43,7 +43,8 @@ class AvailableForms extends Component
 
 
         // ================= QUIZ =================
-        $quizzes = Quiz::with([
+        $quizzes = Quiz::where('status', 'published')
+            ->with([
                 'questions',
                 'attempts' => function ($q) use ($userId) {
                     $q->where('user_id', $userId);
