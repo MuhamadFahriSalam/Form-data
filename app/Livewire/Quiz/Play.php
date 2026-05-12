@@ -219,6 +219,7 @@ class Play extends Component
     {
         $this->currentQuestion = $index;
     }
+    
     // Render
     public function render()
     {

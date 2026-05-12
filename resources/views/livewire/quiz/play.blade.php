@@ -39,7 +39,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
                                     d="M15 19l-7-7 7-7" />
                             </svg>
-
                             Kembali
                         </a>
                     </div>
@@ -95,7 +94,6 @@
                                             ? round(($this->answeredCount / count($quiz->questions)) * 100)
                                             : 0
                                         }}% selesai
-
                                     </p>
                                 </div>
 
@@ -138,9 +136,7 @@
                                             >
                                                 {{ $index + 1 }}
                                             </button>
-
                                         @endforeach
-
                                     </div>
                                 </div>
 
