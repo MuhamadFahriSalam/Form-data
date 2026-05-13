@@ -133,7 +133,7 @@ class Play extends Component
         if ($this->hasAttempt) {
             return;
         }
-        
+
         $userId = auth()->id();
 
         // ❌ kalau sudah mencapai batas
@@ -214,7 +214,11 @@ class Play extends Component
         // 🔥 reset state
         $this->reset(['answers', 'currentQuestion']);
 
+        $this->hasAttempt = true;
+
         session()->forget($this->sessionKey);
+
+        session()->forget('quiz_timer_' . auth()->id() . '_' . $this->quiz->id);
         
         return redirect()->route('user.dashboard')
             ->with('success', "Quiz selesai! Score: {$score} ({$correctCount}/{$totalQuestions})");

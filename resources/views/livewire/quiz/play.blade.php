@@ -94,7 +94,11 @@
 
                                                                 this.submitted = true;
 
-                                                                $wire.submit();
+                                                                setTimeout(() => {
+
+                                                                    @this.call('submit');
+
+                                                                }, 500);
                                                             }
                                                         }
 
@@ -410,7 +414,7 @@
 
                                                             <input
                                                                 type="checkbox"
-                                                                wire:model="answers.{{ $question->id }}"
+                                                                wire:model.live="answers.{{ $question->id }}"
                                                                 value="{{ $option->id }}"
                                                                 class="accent-blue-600"
                                                             >
@@ -420,7 +424,7 @@
                                                             <input
                                                                 type="radio"
                                                                 name="question_{{ $question->id }}"
-                                                                wire:model="answers.{{ $question->id }}"
+                                                                wire:model.live="answers.{{ $question->id }}"
                                                                 value="{{ $option->id }}"
                                                                 class="accent-blue-600"
                                                             >
