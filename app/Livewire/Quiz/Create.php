@@ -289,6 +289,20 @@ class Create extends Component
             'duration_minutes' => 'nullable|integer|min:1',
         ]);
 
+        // VALIDASI IMAGE KHUSUS FILE BARU
+        foreach ($this->questions as $index => $question) {
+
+            if (
+                isset($question['image']) &&
+                is_object($question['image'])
+            ) {
+
+                $this->validate([
+                    "questions.$index.image" => 'image|max:2048'
+                ]);
+            }
+        }
+
         $quiz = Quiz::findOrFail($this->quizId);
 
         // UPDATE QUIZ
@@ -304,23 +318,40 @@ class Create extends Component
         // HAPUS QUESTION LAMA
         foreach ($quiz->questions as $oldQuestion) {
 
-            // hapus option
             $oldQuestion->options()->delete();
-
-            // hapus question
             $oldQuestion->delete();
         }
 
         // SIMPAN QUESTION BARU
         foreach ($this->questions as $q) {
 
-            $imagePath = null;
-
-            if (!empty($q['image']) && is_object($q['image'])) {
-
-                $imagePath = $q['image']->store('quiz-images', 'public');
+            if (trim($q['question']) === '') {
+                continue;
             }
 
+            // FIX IMAGE
+            $imagePath = null;
+
+            // upload baru
+            if (
+                !empty($q['image']) &&
+                is_object($q['image'])
+            ) {
+
+                $imagePath = $q['image']
+                    ->store('quiz-images', 'public');
+
+            }
+            // gambar lama
+            elseif (
+                !empty($q['image']) &&
+                is_string($q['image'])
+            ) {
+
+                $imagePath = $q['image'];
+            }
+
+            // CREATE QUESTION
             $question = QuizQuestion::create([
                 'quiz_id' => $quiz->id,
                 'question' => $q['question'],
@@ -328,7 +359,12 @@ class Create extends Component
                 'is_multiple' => $q['is_multiple'] ?? false,
             ]);
 
+            // CREATE OPTION
             foreach ($q['options'] as $opt) {
+
+                if (trim($opt['text']) === '') {
+                    continue;
+                }
 
                 QuizOption::create([
                     'question_id' => $question->id,
