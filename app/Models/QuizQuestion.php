@@ -9,6 +9,7 @@ class QuizQuestion extends Model
     protected $fillable = [
         'quiz_id',
         'question',
+        'image',
         'is_multiple'
     ];
 

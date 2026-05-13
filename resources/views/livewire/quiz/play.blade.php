@@ -386,18 +386,34 @@
                                         >
 
                                             {{-- HEADER --}}
-                                            <div class="flex items-center justify-between mb-4">
+                                            <div class="mb-4">
 
+                                                {{-- QUESTION --}}
                                                 <p class="text-sm font-semibold text-slate-800">
 
                                                     {{ $currentQuestion + 1 }}.
                                                     {{ $question->question }}
                                                 </p>
+
+                                                {{-- IMAGE QUESTION --}}
+                                                @if($question->image)
+
+                                                    <div class="mt-4">
+
+                                                        <img
+                                                            src="{{ asset('storage/' . $question->image) }}"
+                                                            alt="Question Image"
+                                                            class="w-full max-w-2xl rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                                        >
+
+                                                    </div>
+
+                                                @endif
+
                                             </div>
 
                                             {{-- MULTIPLE --}}
                                             @if($question->is_multiple)
-
                                                 <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
                                                     Pilih lebih dari satu jawaban
                                                 </span>

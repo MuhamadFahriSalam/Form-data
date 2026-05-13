@@ -6,9 +6,12 @@ use Livewire\Component;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
 use App\Models\QuizOption;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $title;
     public $questions = [];
     public $description;
@@ -56,6 +59,7 @@ class Create extends Component
                 $this->questions[] = [
                     'id' => $question->id,
                     'question' => $question->question,
+                    'image' => $question->image,
                     'is_multiple' => $question->is_multiple,
                     'options' => $options,
                 ];
@@ -67,6 +71,7 @@ class Create extends Component
             $this->questions = [
                 [
                     'question' => '',
+                    'image' => null,
                     'is_multiple' => false,
                     'options' => [
                         ['text' => '', 'is_correct' => false],
@@ -82,6 +87,7 @@ class Create extends Component
     {
         $this->questions[] = [
             'question' => '',
+            'image' => null,
             'is_multiple' => false,
             'options' => [
                 ['text' => '', 'is_correct' => false],
@@ -142,12 +148,15 @@ class Create extends Component
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'duration_minutes' => 'nullable|integer|min:1',
+            'questions.*.image' => 'nullable|image|max:2048',
         ], [
             'title.required' => 'Judul wajib diisi',
             'description.required' => 'Deskripsi wajib diisi',
             'start_at.required' => 'Tanggal mulai wajib diisi',
             'end_at.required' => 'Tanggal berakhir wajib diisi',
             'end_at.after' => 'Tanggal berakhir harus setelah tanggal mulai',
+            'questions.*.image.image' => 'Gambar harus berupa file gambar',
+            'questions.*.image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB',
         ]);
 
         // 🔥 VALIDASI SETIAP PERTANYAAN & OPSI
@@ -221,11 +230,20 @@ class Create extends Component
 
             if (trim($q['question']) === '') continue;
 
+            // upload gambar jika ada
+            $imagePath = null;
+
+            if (!empty($q['image']) && is_object($q['image'])) {
+
+                $imagePath = $q['image']->store('quiz-images', 'public');
+            }
+
             // 🔥 SIMPAN QUESTION
             $question = QuizQuestion::create([
                 'quiz_id' => $quiz->id,
                 'question' => $q['question'],
                 'is_multiple' => $q['is_multiple'] ?? false,
+                'image' => $imagePath,
             ]);
 
             foreach ($q['options'] as $opt) {
@@ -296,9 +314,17 @@ class Create extends Component
         // SIMPAN QUESTION BARU
         foreach ($this->questions as $q) {
 
+            $imagePath = null;
+
+            if (!empty($q['image']) && is_object($q['image'])) {
+
+                $imagePath = $q['image']->store('quiz-images', 'public');
+            }
+
             $question = QuizQuestion::create([
                 'quiz_id' => $quiz->id,
                 'question' => $q['question'],
+                'image' => $imagePath,
                 'is_multiple' => $q['is_multiple'] ?? false,
             ]);
 
