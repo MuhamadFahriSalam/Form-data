@@ -72,10 +72,12 @@
                                             x-data="{
                                                 time: {{ (int) $remainingSeconds }},
                                                 maxTime: {{ (int) ($quiz->duration_minutes * 60) }},
+                                                timer: null,
+                                                submitted: false,
 
                                                 start() {
 
-                                                    setInterval(() => {
+                                                    this.timer = setInterval(() => {
 
                                                         if (this.time > 0) {
 
@@ -83,7 +85,17 @@
 
                                                         } else {
 
-                                                            $wire.submit();
+                                                            this.time = 0;
+
+                                                            clearInterval(this.timer);
+
+                                                            // submit hanya sekali
+                                                            if (!this.submitted) {
+
+                                                                this.submitted = true;
+
+                                                                $wire.submit();
+                                                            }
                                                         }
 
                                                     }, 1000);
@@ -103,7 +115,7 @@
 
                                                     let percentage = (this.time / this.maxTime) * 100;
 
-                                                    // 🔴 MERAH
+                                                    // 🔴 merah
                                                     if (percentage <= 30) {
                                                         return {
                                                             bg: 'bg-red-50',
@@ -113,7 +125,7 @@
                                                         };
                                                     }
 
-                                                    // 🟡 KUNING
+                                                    // 🟡 kuning
                                                     if (percentage <= 60) {
                                                         return {
                                                             bg: 'bg-yellow-50',
@@ -123,7 +135,7 @@
                                                         };
                                                     }
 
-                                                    // 🟢 HIJAU
+                                                    // 🟢 hijau
                                                     return {
                                                         bg: 'bg-green-50',
                                                         border: 'border-green-200',
@@ -137,6 +149,7 @@
                                             class="mb-5 rounded-2xl border p-4 transition-all duration-500"
                                         >
 
+                                            {{-- LABEL --}}
                                             <p
                                                 class="text-xs font-semibold"
                                                 :class="timerColor().label"
@@ -144,12 +157,25 @@
                                                 Sisa Waktu
                                             </p>
 
+                                            {{-- TIMER --}}
                                             <p
                                                 class="mt-1 text-3xl font-bold tracking-wide transition-all duration-500"
                                                 :class="timerColor().text"
                                                 x-text="formatTime()"
                                             ></p>
+
+                                            {{-- AUTO SUBMIT --}}
+                                            <div
+                                                x-show="submitted"
+                                                x-transition
+                                                class="mt-3 rounded-xl bg-red-100 border border-red-200 px-3 py-2"
+                                            >
+                                                <p class="text-xs font-medium text-red-700">
+                                                    Waktu habis, jawaban otomatis dikirim...
+                                                </p>
+                                            </div>
                                         </div>
+
                                     @endif
 
                                     {{-- PROGRESS BAR --}}

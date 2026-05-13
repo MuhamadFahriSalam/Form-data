@@ -129,6 +129,11 @@ class Play extends Component
     // SUBMIT
     public function submit()
     {
+        // cegah double submit
+        if ($this->hasAttempt) {
+            return;
+        }
+        
         $userId = auth()->id();
 
         // ❌ kalau sudah mencapai batas
