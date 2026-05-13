@@ -435,7 +435,7 @@
 
                                             <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
                                                 <li>Quiz hanya bisa dikerjakan sekali</li>
-                                                <li>Waktu dimulai saat Anda memulai quiz dan akan berjalan terus</li>
+                                                <li>Waktu dimulai saat Anda memulai quiz dan akan terus berjalan</li>
                                                 <li>Jawaban tidak bisa diubah setelah submit</li>
                                             </ul>
 
