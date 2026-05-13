@@ -90,11 +90,13 @@
 
                     {{-- Waktu --}}
                     <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-                        
+
+                        {{-- START AT --}}
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
                                 Tanggal Mulai
                             </label>
+
                             <input
                                 type="datetime-local"
                                 wire:model.defer="start_at"
@@ -105,10 +107,12 @@
                             @enderror
                         </div>
 
+                        {{-- END AT --}}
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
                                 Tanggal Berakhir
                             </label>
+                            
                             <input
                                 type="datetime-local"
                                 wire:model.defer="end_at"
@@ -119,8 +123,31 @@
                             @enderror
                         </div>
 
-                    </div>
+                        {{-- DURASI QUIZ --}}
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                Durasi Quiz (Menit)
+                            </label>
 
+                            <input
+                                type="number"
+                                min="1"
+                                wire:model.defer="duration_minutes"
+                                placeholder="Contoh: 30"
+                                class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-100 outline-none"
+                            >
+
+                            <p class="mt-2 text-xs text-slate-500">
+                                Kosongkan jika tanpa batas waktu
+                            </p>
+
+                            @error('duration_minutes')
+                                <div class="mt-2 text-sm font-medium text-red-600">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
 

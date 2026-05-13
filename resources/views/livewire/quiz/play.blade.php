@@ -65,7 +65,124 @@
                                 {{-- STATS --}}
                                 <div class="mt-5">
 
-                                    {{-- HEADER --}}
+                                    {{-- TIMER --}}
+                                    @if($quiz->duration_minutes)
+
+                                        <div
+                                            x-data="{
+                                                time: {{ (int) $remainingSeconds }},
+                                                maxTime: {{ (int) ($quiz->duration_minutes * 60) }},
+                                                timer: null,
+                                                submitted: false,
+
+                                                start() {
+
+                                                    this.timer = setInterval(() => {
+
+                                                        if (this.time > 0) {
+
+                                                            this.time--;
+
+                                                        } else {
+
+                                                            this.time = 0;
+
+                                                            clearInterval(this.timer);
+
+                                                            // submit hanya sekali
+                                                            if (!this.submitted) {
+
+                                                                this.submitted = true;
+
+                                                                setTimeout(() => {
+
+                                                                    @this.call('submit');
+
+                                                                }, 500);
+                                                            }
+                                                        }
+
+                                                    }, 1000);
+                                                },
+
+                                                formatTime() {
+
+                                                    let minutes = Math.floor(this.time / 60);
+                                                    let seconds = this.time % 60;
+
+                                                    return String(minutes).padStart(2, '0')
+                                                        + ':' +
+                                                        String(seconds).padStart(2, '0');
+                                                },
+
+                                                timerColor() {
+
+                                                    let percentage = (this.time / this.maxTime) * 100;
+
+                                                    // 🔴 merah
+                                                    if (percentage <= 30) {
+                                                        return {
+                                                            bg: 'bg-red-50',
+                                                            border: 'border-red-200',
+                                                            text: 'text-red-700',
+                                                            label: 'text-red-600'
+                                                        };
+                                                    }
+
+                                                    // 🟡 kuning
+                                                    if (percentage <= 60) {
+                                                        return {
+                                                            bg: 'bg-yellow-50',
+                                                            border: 'border-yellow-200',
+                                                            text: 'text-yellow-700',
+                                                            label: 'text-yellow-600'
+                                                        };
+                                                    }
+
+                                                    // 🟢 hijau
+                                                    return {
+                                                        bg: 'bg-green-50',
+                                                        border: 'border-green-200',
+                                                        text: 'text-green-700',
+                                                        label: 'text-green-600'
+                                                    };
+                                                }
+                                            }"
+                                            x-init="start()"
+                                            :class="`${timerColor().bg} ${timerColor().border}`"
+                                            class="mb-5 rounded-2xl border p-4 transition-all duration-500"
+                                        >
+
+                                            {{-- LABEL --}}
+                                            <p
+                                                class="text-xs font-semibold"
+                                                :class="timerColor().label"
+                                            >
+                                                Sisa Waktu
+                                            </p>
+
+                                            {{-- TIMER --}}
+                                            <p
+                                                class="mt-1 text-3xl font-bold tracking-wide transition-all duration-500"
+                                                :class="timerColor().text"
+                                                x-text="formatTime()"
+                                            ></p>
+
+                                            {{-- AUTO SUBMIT --}}
+                                            <div
+                                                x-show="submitted"
+                                                x-transition
+                                                class="mt-3 rounded-xl bg-red-100 border border-red-200 px-3 py-2"
+                                            >
+                                                <p class="text-xs font-medium text-red-700">
+                                                    Waktu habis, jawaban otomatis dikirim...
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    @endif
+
+                                    {{-- PROGRESS BAR --}}
                                     <div class="flex items-center justify-between mb-2">
 
                                         <p class="text-sm font-semibold text-slate-700">
@@ -297,7 +414,7 @@
 
                                                             <input
                                                                 type="checkbox"
-                                                                wire:model="answers.{{ $question->id }}"
+                                                                wire:model.live="answers.{{ $question->id }}"
                                                                 value="{{ $option->id }}"
                                                                 class="accent-blue-600"
                                                             >
@@ -307,7 +424,7 @@
                                                             <input
                                                                 type="radio"
                                                                 name="question_{{ $question->id }}"
-                                                                wire:model="answers.{{ $question->id }}"
+                                                                wire:model.live="answers.{{ $question->id }}"
                                                                 value="{{ $option->id }}"
                                                                 class="accent-blue-600"
                                                             >

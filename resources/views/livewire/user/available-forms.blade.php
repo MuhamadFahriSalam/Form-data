@@ -108,8 +108,7 @@
                         @endphp
 
                         {{--  WRAPPER --}}
-                        <div x-data="{ openModal: false }"
-                            class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px]sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                        <div x-data="{ openModal: false }" class="w-full sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                             <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -119,8 +118,9 @@
                                 {{-- HEADER --}}
                                 <div class="mb-4 flex items-start justify-between">
 
-                                    <div class="pr-2">
-                                        <h3 class="line-clamp-1 text-base font-semibold text-slate-900">
+                                    {{-- TITLE --}}
+                                    <div class="pr-14 sm:pr-16 max-w-full">
+                                        <h3 class="text-base sm:text-lg font-semibold text-slate-900 line-clamp-2 break-words">
                                             {{ $form->title }}
                                         </h3>
                                     </div>
@@ -139,11 +139,10 @@
                                             Aktif
                                         </span>
                                     @endif
-
                                 </div>
 
                                 {{-- DESKRIPSI --}}
-                                <p class="mb-4 line-clamp-2 text-sm text-slate-500">
+                                <p class="mb-4 max-w-full overflow-hidden break-words text-sm leading-5 text-slate-500 line-clamp-2 sm:line-clamp-3">
                                     {{ $form->description ?: 'Tidak ada deskripsi.' }}
                                 </p>
 
@@ -318,8 +317,7 @@
                                 @endphp
 
                                 {{-- WRAPPER --}}
-                                <div x-data="{ openModal: false }"
-                                    class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
+                                <div x-data="{ openModal: false }" class="w-full sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:max-w-[300px] flex-shrink-0 snap-center" class="min-w-[100%] min-w-[100%] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px] lg:max-w-[380px] sm:min-w-[260px] sm:max-w-[300px] flex-shrink-0 snap-center">
 
                                     <div class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
 
@@ -350,12 +348,12 @@
                                         <div class="p-6 flex flex-col flex-1">
 
                                             {{-- Title --}}
-                                            <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 pr-16">
+                                            <h3 class="pr-14 sm:pr-16 text-base sm:text-lg font-semibold text-slate-900 line-clamp-2 break-words">
                                                 {{ $quiz->title }}
                                             </h3>
 
                                             {{-- Description --}}
-                                            <p class="mt-2 text-sm text-slate-500 line-clamp-3">
+                                            <p class="mt-2 max-w-full overflow-hidden break-words text-sm leading-5 text-slate-500 line-clamp-2 sm:line-clamp-3">
                                                 {{ $quiz->description ?? 'Tidak ada deskripsi.' }}
                                             </p>
 
@@ -387,7 +385,6 @@
                                                             : '-' }}
                                                     </span>
                                                 </div>
-
                                             </div>
 
                                             {{-- Button --}}
@@ -438,6 +435,7 @@
 
                                             <ul class="text-sm list-disc pl-5 mb-4 space-y-1">
                                                 <li>Quiz hanya bisa dikerjakan sekali</li>
+                                                <li>Waktu dimulai saat Anda memulai quiz dan akan terus berjalan</li>
                                                 <li>Jawaban tidak bisa diubah setelah submit</li>
                                             </ul>
 

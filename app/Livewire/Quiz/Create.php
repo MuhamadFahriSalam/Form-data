@@ -14,6 +14,7 @@ class Create extends Component
     public $description;
     public $start_at;
     public $end_at;
+    public $duration_minutes;
     public $quizId = null;
     public string $status = 'draft';
 
@@ -34,6 +35,8 @@ class Create extends Component
 
             $this->end_at = \Carbon\Carbon::parse($quizData->end_at)
                 ->format('Y-m-d\TH:i');
+
+            $this->duration_minutes = $quizData->duration_minutes;
 
             $this->questions = [];
 
@@ -138,6 +141,7 @@ class Create extends Component
             'description' => 'required|string|min:5',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
+            'duration_minutes' => 'nullable|integer|min:1',
         ], [
             'title.required' => 'Judul wajib diisi',
             'description.required' => 'Deskripsi wajib diisi',
@@ -209,6 +213,7 @@ class Create extends Component
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
             'status' => $this->status,
+            'duration_minutes' => $this->duration_minutes,
         ]);
 
         // 🔥 SIMPAN QUESTIONS & OPTIONS
@@ -263,6 +268,7 @@ class Create extends Component
             'description' => 'required|string|min:5',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
+            'duration_minutes' => 'nullable|integer|min:1',
         ]);
 
         $quiz = Quiz::findOrFail($this->quizId);
@@ -274,6 +280,7 @@ class Create extends Component
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
             'status' => $this->status,
+            'duration_minutes' => $this->duration_minutes,
         ]);
 
         // HAPUS QUESTION LAMA
