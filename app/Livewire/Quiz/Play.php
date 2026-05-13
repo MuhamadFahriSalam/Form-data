@@ -22,6 +22,8 @@ class Play extends Component
     public $totalScore = 0;
     public $showSubmitModal = false;
     public $sessionKey;
+    public $startedAt;
+    public $remainingSeconds = 0;
 
     // Load quiz dan inisialisasi jawaban
     public function mount(Quiz $quiz)
@@ -33,6 +35,36 @@ class Play extends Component
             ->count();
 
         $this->hasAttempt = $this->attemptCount > 0;
+
+        $timerKey = 'quiz_timer_' . auth()->id() . '_' . $quiz->id;
+
+        if (session()->has($timerKey)) {
+
+            $this->startedAt = session($timerKey);
+
+        } else {
+
+            $this->startedAt = now();
+
+            session()->put($timerKey, $this->startedAt);
+        }
+
+        if ($quiz->duration_minutes) {
+
+            $endTime = \Carbon\Carbon::parse($this->startedAt)
+                ->addMinutes($quiz->duration_minutes);
+
+            $this->remainingSeconds = (int) max(
+                now()->diffInSeconds($endTime, false),
+                0
+            );
+
+            // otomatis submit kalau habis
+            if ($this->remainingSeconds <= 0) {
+
+                $this->submit();
+            }
+        }
 
         // 🔥 ambil TOTAL score semua percobaan
         if ($this->hasAttempt) {
@@ -258,6 +290,16 @@ class Play extends Component
         $this->currentQuestion = $index;
 
         $this->saveProgress();
+    }
+
+    // Format timer
+    public function getFormattedTimeProperty()
+    {
+        $minutes = floor($this->remainingSeconds / 60);
+
+        $seconds = $this->remainingSeconds % 60;
+
+        return sprintf('%02d:%02d', $minutes, $seconds);
     }
 
     // Render

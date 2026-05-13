@@ -14,6 +14,7 @@ class Quiz extends Model
         'description',
         'start_at',
         'end_at',
+        'duration_minutes',
         'status',
     ];
 

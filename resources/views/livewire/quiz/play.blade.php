@@ -65,7 +65,94 @@
                                 {{-- STATS --}}
                                 <div class="mt-5">
 
-                                    {{-- HEADER --}}
+                                    {{-- TIMER --}}
+                                    @if($quiz->duration_minutes)
+
+                                        <div
+                                            x-data="{
+                                                time: {{ (int) $remainingSeconds }},
+                                                maxTime: {{ (int) ($quiz->duration_minutes * 60) }},
+
+                                                start() {
+
+                                                    setInterval(() => {
+
+                                                        if (this.time > 0) {
+
+                                                            this.time--;
+
+                                                        } else {
+
+                                                            $wire.submit();
+                                                        }
+
+                                                    }, 1000);
+                                                },
+
+                                                formatTime() {
+
+                                                    let minutes = Math.floor(this.time / 60);
+                                                    let seconds = this.time % 60;
+
+                                                    return String(minutes).padStart(2, '0')
+                                                        + ':' +
+                                                        String(seconds).padStart(2, '0');
+                                                },
+
+                                                timerColor() {
+
+                                                    let percentage = (this.time / this.maxTime) * 100;
+
+                                                    // 🔴 MERAH
+                                                    if (percentage <= 30) {
+                                                        return {
+                                                            bg: 'bg-red-50',
+                                                            border: 'border-red-200',
+                                                            text: 'text-red-700',
+                                                            label: 'text-red-600'
+                                                        };
+                                                    }
+
+                                                    // 🟡 KUNING
+                                                    if (percentage <= 60) {
+                                                        return {
+                                                            bg: 'bg-yellow-50',
+                                                            border: 'border-yellow-200',
+                                                            text: 'text-yellow-700',
+                                                            label: 'text-yellow-600'
+                                                        };
+                                                    }
+
+                                                    // 🟢 HIJAU
+                                                    return {
+                                                        bg: 'bg-green-50',
+                                                        border: 'border-green-200',
+                                                        text: 'text-green-700',
+                                                        label: 'text-green-600'
+                                                    };
+                                                }
+                                            }"
+                                            x-init="start()"
+                                            :class="`${timerColor().bg} ${timerColor().border}`"
+                                            class="mb-5 rounded-2xl border p-4 transition-all duration-500"
+                                        >
+
+                                            <p
+                                                class="text-xs font-semibold"
+                                                :class="timerColor().label"
+                                            >
+                                                Sisa Waktu
+                                            </p>
+
+                                            <p
+                                                class="mt-1 text-3xl font-bold tracking-wide transition-all duration-500"
+                                                :class="timerColor().text"
+                                                x-text="formatTime()"
+                                            ></p>
+                                        </div>
+                                    @endif
+
+                                    {{-- PROGRESS BAR --}}
                                     <div class="flex items-center justify-between mb-2">
 
                                         <p class="text-sm font-semibold text-slate-700">
