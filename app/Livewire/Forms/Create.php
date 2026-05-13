@@ -76,7 +76,7 @@ class Create extends Component
 
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
-            'questions.*.image' => ['nullable', 'image', 'max:2048'],
+            'questions.*.image' => ['nullable'],
             'questions.*.type' => ['required', Rule::in(['text', 'textarea', 'radio', 'checkbox', 'select', 'date', 'number','file'])],
             'questions.*.is_required' => ['boolean'],
             'questions.*.options' => ['nullable', 'array'],
@@ -107,7 +107,16 @@ class Create extends Component
     public function saveAs(string $status): void
     {
         $this->status = $status;
-        $this->save();
+
+        // 🔥 jika edit form
+        if ($this->formId) {
+
+            $this->update();
+
+        } else {
+
+            $this->save();
+        }
     }
 
 
@@ -142,6 +151,19 @@ class Create extends Component
     public function save()
     {
         $this->validate();
+
+        foreach ($this->questions as $index => $question) {
+
+            if (
+                isset($question['image']) &&
+                is_object($question['image'])
+            ) {
+
+                $this->validate([
+                    "questions.$index.image" => 'image|max:2048'
+                ]);
+            }
+        }
 
         DB::transaction(function () {
 
@@ -197,6 +219,79 @@ class Create extends Component
         session()->flash('form_success', true);
 
         // 🔥 DISPATCH EVENT untuk menangkap di frontend
+        $this->dispatch('form-saved');
+    }
+
+    // Method untuk update form yang sudah ada
+    public function update()
+    {
+        $this->validate();
+
+        foreach ($this->questions as $index => $question) {
+
+            if (
+                isset($question['image']) &&
+                is_object($question['image'])
+            ) {
+
+                $this->validate([
+                    "questions.$index.image" => 'image|max:2048'
+                ]);
+            }
+        }
+
+        DB::transaction(function () {
+
+            $form = Form::findOrFail($this->formId);
+
+            // UPDATE FORM
+            $form->update([
+                'title' => $this->title,
+                'description' => $this->description,
+                'is_active' => $this->status === 'published',
+                'opens_at' => $this->start_at,
+                'closes_at' => $this->end_at,
+            ]);
+
+            // HAPUS QUESTION LAMA
+            $form->questions()->delete();
+
+            // SIMPAN QUESTION BARU
+            foreach ($this->questions as $index => $q) {
+
+                $options = in_array($q['type'], ['radio', 'checkbox', 'select'])
+                    ? array_values(array_filter(
+                        $q['options'],
+                        fn ($item) => trim((string) $item) !== ''
+                    ))
+                    : null;
+
+                $imagePath = null;
+
+                // 🔥 upload gambar baru
+                if (!empty($q['image']) && is_object($q['image'])) {
+
+                    $imagePath = $q['image']->store('form-questions', 'public');
+
+                } else {
+
+                    // 🔥 pakai gambar lama
+                    $imagePath = $q['image'] ?? null;
+                }
+
+                $form->questions()->create([
+                    'question' => $q['question'],
+                    'image' => $imagePath,
+                    'type' => $q['type'],
+                    'is_required' => $q['is_required'],
+                    'options' => $options,
+                    'sort_order' => $index + 1,
+                ]);
+            }
+        });
+
+        session()->flash('form_success', true);
+
         $this->dispatch('form-saved');
     }
 
