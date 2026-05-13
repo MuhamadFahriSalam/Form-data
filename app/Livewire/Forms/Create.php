@@ -7,9 +7,12 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public string $title = '';
     public string $description = '';
     public ?string $start_at = null;
@@ -33,6 +36,7 @@ class Create extends Component
     {
         $this->questions[] = [
             'question' => '',
+            'image' => null,
             'type' => 'text',
             'is_required' => false,
             'options' => [''],
@@ -72,6 +76,7 @@ class Create extends Component
 
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.question' => ['required', 'string', 'max:255'],
+            'questions.*.image' => ['nullable', 'image', 'max:2048'],
             'questions.*.type' => ['required', Rule::in(['text', 'textarea', 'radio', 'checkbox', 'select', 'date', 'number','file'])],
             'questions.*.is_required' => ['boolean'],
             'questions.*.options' => ['nullable', 'array'],
@@ -125,6 +130,7 @@ class Create extends Component
         foreach ($form->questions as $q) {
             $this->questions[] = [
                 'question' => $q->question,
+                'image' => $q->image,
                 'type' => $q->type,
                 'is_required' => $q->is_required,
                 'options' => $q->options ?? [''],
@@ -169,8 +175,16 @@ class Create extends Component
                     ? array_values(array_filter($q['options'], fn ($item) => trim((string) $item) !== ''))
                     : null;
 
+                $imagePath = null;
+
+                if (!empty($q['image']) && is_object($q['image'])) {
+
+                    $imagePath = $q['image']->store('form-questions', 'public');
+                }
+
                 $form->questions()->create([
                     'question' => $q['question'],
+                    'image' => $imagePath,
                     'type' => $q['type'],
                     'is_required' => $q['is_required'],
                     'options' => $options,

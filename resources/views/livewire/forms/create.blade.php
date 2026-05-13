@@ -149,6 +149,7 @@
                         </button>
                     </div>
 
+                    {{-- Konten Pertanyaan --}}
                     <div class="space-y-6 p-6">
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -165,6 +166,52 @@
                             @enderror
                         </div>
 
+                        {{-- IMAGE --}}
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                Gambar Pertanyaan
+                            </label>
+
+                            <input
+                                type="file"
+                                wire:model="questions.{{ $index }}.image"
+                                accept="image/*"
+                                class="block w-full text-sm text-slate-500
+                                file:mr-4 file:rounded-xl file:border-0
+                                file:bg-violet-50 file:px-4 file:py-2
+                                file:text-sm file:font-semibold
+                                file:text-violet-700 hover:file:bg-violet-100"
+                            >
+
+                            {{-- PREVIEW --}}
+                            @if(isset($questions[$index]['image']))
+
+                                @if(is_object($questions[$index]['image']))
+
+                                    <img
+                                        src="{{ $questions[$index]['image']->temporaryUrl() }}"
+                                        class="mt-4 w-full max-w-md rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                    >
+
+                                @elseif($questions[$index]['image'])
+
+                                    <img
+                                        src="{{ asset('storage/' . $questions[$index]['image']) }}"
+                                        class="mt-4 w-full max-w-md rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                    >
+
+                                @endif
+
+                            @endif
+
+                            @error('questions.' . $index . '.image')
+                                <div class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        {{-- Tipe Jawaban & Wajib --}}
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
                             <div class="lg:col-span-2">
                                 <label class="mb-2 block text-sm font-semibold text-slate-700">

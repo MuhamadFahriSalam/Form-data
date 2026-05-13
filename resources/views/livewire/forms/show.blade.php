@@ -150,6 +150,7 @@
                                     : json_decode($question->options ?? '[]', true);
                             @endphp
 
+                            {{-- QUESTION CARD --}}
                             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
 
                                 <label class="mb-3 block text-sm font-semibold text-slate-800">
@@ -158,6 +159,19 @@
                                         <span class="text-red-500">*</span>
                                     @endif
                                 </label>
+
+                                {{-- IMAGE --}}
+                                @if($question->image)
+
+                                    <div class="mb-4">
+
+                                        <img
+                                            src="{{ asset('storage/' . $question->image) }}"
+                                            alt="Question Image"
+                                            class="w-full max-w-2xl rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                        >
+                                    </div>
+                                @endif
 
                                 {{-- TEXT --}}
                                 @if ($question->type === 'text')

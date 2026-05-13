@@ -12,6 +12,7 @@ class FormQuestion extends Model
     protected $fillable = [
         'form_id',
         'question',
+        'image',
         'type',
         'is_required',
         'options',
