@@ -6,9 +6,12 @@ use Livewire\Component;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
 use App\Models\QuizOption;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $title;
     public $questions = [];
     public $description;
@@ -56,6 +59,7 @@ class Create extends Component
                 $this->questions[] = [
                     'id' => $question->id,
                     'question' => $question->question,
+                    'image' => $question->image,
                     'is_multiple' => $question->is_multiple,
                     'options' => $options,
                 ];
@@ -67,6 +71,7 @@ class Create extends Component
             $this->questions = [
                 [
                     'question' => '',
+                    'image' => null,
                     'is_multiple' => false,
                     'options' => [
                         ['text' => '', 'is_correct' => false],
@@ -82,6 +87,7 @@ class Create extends Component
     {
         $this->questions[] = [
             'question' => '',
+            'image' => null,
             'is_multiple' => false,
             'options' => [
                 ['text' => '', 'is_correct' => false],
@@ -142,12 +148,15 @@ class Create extends Component
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'duration_minutes' => 'nullable|integer|min:1',
+            'questions.*.image' => 'nullable|image|max:2048',
         ], [
             'title.required' => 'Judul wajib diisi',
             'description.required' => 'Deskripsi wajib diisi',
             'start_at.required' => 'Tanggal mulai wajib diisi',
             'end_at.required' => 'Tanggal berakhir wajib diisi',
             'end_at.after' => 'Tanggal berakhir harus setelah tanggal mulai',
+            'questions.*.image.image' => 'Gambar harus berupa file gambar',
+            'questions.*.image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB',
         ]);
 
         // 🔥 VALIDASI SETIAP PERTANYAAN & OPSI
@@ -221,11 +230,20 @@ class Create extends Component
 
             if (trim($q['question']) === '') continue;
 
+            // upload gambar jika ada
+            $imagePath = null;
+
+            if (!empty($q['image']) && is_object($q['image'])) {
+
+                $imagePath = $q['image']->store('quiz-images', 'public');
+            }
+
             // 🔥 SIMPAN QUESTION
             $question = QuizQuestion::create([
                 'quiz_id' => $quiz->id,
                 'question' => $q['question'],
                 'is_multiple' => $q['is_multiple'] ?? false,
+                'image' => $imagePath,
             ]);
 
             foreach ($q['options'] as $opt) {
@@ -271,6 +289,20 @@ class Create extends Component
             'duration_minutes' => 'nullable|integer|min:1',
         ]);
 
+        // VALIDASI IMAGE KHUSUS FILE BARU
+        foreach ($this->questions as $index => $question) {
+
+            if (
+                isset($question['image']) &&
+                is_object($question['image'])
+            ) {
+
+                $this->validate([
+                    "questions.$index.image" => 'image|max:2048'
+                ]);
+            }
+        }
+
         $quiz = Quiz::findOrFail($this->quizId);
 
         // UPDATE QUIZ
@@ -286,23 +318,53 @@ class Create extends Component
         // HAPUS QUESTION LAMA
         foreach ($quiz->questions as $oldQuestion) {
 
-            // hapus option
             $oldQuestion->options()->delete();
-
-            // hapus question
             $oldQuestion->delete();
         }
 
         // SIMPAN QUESTION BARU
         foreach ($this->questions as $q) {
 
+            if (trim($q['question']) === '') {
+                continue;
+            }
+
+            // FIX IMAGE
+            $imagePath = null;
+
+            // upload baru
+            if (
+                !empty($q['image']) &&
+                is_object($q['image'])
+            ) {
+
+                $imagePath = $q['image']
+                    ->store('quiz-images', 'public');
+
+            }
+            // gambar lama
+            elseif (
+                !empty($q['image']) &&
+                is_string($q['image'])
+            ) {
+
+                $imagePath = $q['image'];
+            }
+
+            // CREATE QUESTION
             $question = QuizQuestion::create([
                 'quiz_id' => $quiz->id,
                 'question' => $q['question'],
+                'image' => $imagePath,
                 'is_multiple' => $q['is_multiple'] ?? false,
             ]);
 
+            // CREATE OPTION
             foreach ($q['options'] as $opt) {
+
+                if (trim($opt['text']) === '') {
+                    continue;
+                }
 
                 QuizOption::create([
                     'question_id' => $question->id,

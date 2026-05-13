@@ -188,6 +188,53 @@
                                 placeholder="Tulis pertanyaan..."
                             ></textarea>
 
+                            {{-- IMAGE --}}
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                    Gambar Soal
+                                </label>
+
+                                <input
+                                    type="file"
+                                    wire:model="questions.{{ $qIndex }}.image"
+                                    accept="image/*"
+                                    class="block w-full text-sm text-slate-500
+                                    file:mr-4 file:rounded-xl file:border-0
+                                    file:bg-violet-50 file:px-4 file:py-2
+                                    file:text-sm file:font-semibold
+                                    file:text-violet-700 hover:file:bg-violet-100"
+                                >
+
+                                {{-- PREVIEW --}}
+                                @if(isset($questions[$qIndex]['image']))
+
+                                    @if(is_object($questions[$qIndex]['image']))
+
+                                        <img
+                                            src="{{ $questions[$qIndex]['image']->temporaryUrl() }}"
+                                            class="mt-4 w-full max-w-md rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                        >
+
+                                    @elseif($questions[$qIndex]['image'])
+
+                                        <img
+                                            src="{{ asset('storage/' . $questions[$qIndex]['image']) }}"
+                                            class="mt-4 w-full max-w-md rounded-2xl border border-slate-200 object-cover shadow-sm"
+                                        >
+
+                                    @endif
+
+                                @endif
+
+                                @error('questions.' . $qIndex . '.image')
+                                    <div class="mt-2 text-sm text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+
+                            </div>
+
                             {{-- VALIDASI PERTANYAAN KOSONG --}}
                             @error('questions.' . $qIndex . '.question')
                                 <div class="text-sm text-red-500 font-semibold mt-2">
