@@ -227,6 +227,7 @@ class Create extends Component
     {
         $this->validate();
 
+        // VALIDASI IMAGE KHUSUS FILE BARU
         foreach ($this->questions as $index => $question) {
 
             if (
@@ -266,19 +267,29 @@ class Create extends Component
                     ))
                     : null;
 
+                // FIX IMAGE
                 $imagePath = null;
 
-                // 🔥 upload gambar baru
-                if (!empty($q['image']) && is_object($q['image'])) {
+                // upload image baru
+                if (
+                    !empty($q['image']) &&
+                    is_object($q['image'])
+                ) {
 
-                    $imagePath = $q['image']->store('form-questions', 'public');
+                    $imagePath = $q['image']
+                        ->store('form-questions', 'public');
 
-                } else {
+                }
+                // gunakan image lama
+                elseif (
+                    !empty($q['image']) &&
+                    is_string($q['image'])
+                ) {
 
-                    // 🔥 pakai gambar lama
-                    $imagePath = $q['image'] ?? null;
+                    $imagePath = $q['image'];
                 }
 
+                // CREATE QUESTION
                 $form->questions()->create([
                     'question' => $q['question'],
                     'image' => $imagePath,
